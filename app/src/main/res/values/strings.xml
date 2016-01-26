@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TestEZ</string>
     <string name="action_settings">Settings</string>
+    <string name="parse_app_id">imOTprWVlxMbKhJnp6PC1Y91YSVRDKSwbarzOqri</string>
+    <string name="parse_client_key">KMmVudM2zeQ30P4wcMYhBVSTqMhJeL13DobIGhk7</string>
+    <string name="facebook_app_id">1072209529498691</string>
 </resources>
