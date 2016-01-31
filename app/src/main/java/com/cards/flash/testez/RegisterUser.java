@@ -36,7 +36,6 @@ public class RegisterUser extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -51,9 +50,13 @@ public class RegisterUser extends Activity{
         List<String> permissions = Arrays.asList("email","public_profile");
         loginButton.setReadPermissions(permissions);
         callBackManager = CallbackManager.Factory.create();
+        Intent intent = new Intent(RegisterUser.this, MainActivity.class);
+        startActivity(intent);
         loginButton.registerCallback(callBackManager, new FacebookCallback<LoginResult>(){
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Intent intent = new Intent(RegisterUser.this, MainActivity.class);
+                startActivity(intent);
                 /*GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONArrayCallback(){
 
