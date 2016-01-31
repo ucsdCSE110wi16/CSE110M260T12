@@ -8,14 +8,23 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.cards.flash.testez.MainActivity;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +54,25 @@ public class RegisterUser extends Activity{
         loginButton.registerCallback(callBackManager, new FacebookCallback<LoginResult>(){
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
+                /*GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONArrayCallback(){
+
+                            @Override
+                            public void onCompleted(JSONArray objects, GraphResponse response) {
+                                try{
+                                    JSONObject jsonObject = response.getJSONObject();
+                                    MainActivity.userEmail = jsonObject.getString("email");
+                                    MainActivity.userName = jsonObject.getString("name");
+                                    MainActivity.userPicLink = jsonObject.getString("link");
+
+                                    //Intent
+                                }catch (Exception e){
+                                    Toast.makeText(RegisterUser.this, "Unable to fetch all data from Facebook",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });*/
+
             }
 
             @Override
@@ -55,16 +82,9 @@ public class RegisterUser extends Activity{
 
             @Override
             public void onError(FacebookException exception) {
-                new AlertDialog.Builder(RegisterUser.this)
-                        .setTitle("Failure")
-                        .setMessage("Unable to login. Please try again.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //hide it
-                            }
-                        }).create().show();
+                Toast.makeText(RegisterUser.this, "Unable to login. Please try again.",
+                        Toast.LENGTH_LONG).show();
+
             }
         });
     }
