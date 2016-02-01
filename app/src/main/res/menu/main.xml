@@ -2,13 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cards.flash.testez.MainActivity">
+    <group
+        android:id="@+id/main_group" >
     <item
-        android:id="@+id/action_example"
-        android:title="@string/action_example"
-        app:showAsAction="withText|ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/add_flashcards"
+        android:title="Add Flash Card"
+        android:icon="@mipmap/add_flashcard_icon"
+        app:showAsAction="always"
+        />
+    </group>
 </menu>
