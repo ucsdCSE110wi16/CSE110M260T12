@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,9 +20,13 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsoluteLayout;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
+import android.widget.RelativeLayout;
+import android.widget.AbsoluteLayout.LayoutParams;
 /**
  * Created by gurkiratsingh on 2/1/16.
  */
@@ -55,10 +60,27 @@ public class FlashCardFlip extends FrameLayout{
 
         this.addView(backSide);
         this.addView(frontSide);
+
         backSide.setVisibility(INVISIBLE);
 
-        setParams(MainActivity.screenWidth,(int)(MainActivity.screenWidth - (MainActivity.screenWidth * 0.2)));
+        setParams(MainActivity.screenWidth, (int) (MainActivity.screenWidth - (MainActivity.screenWidth * 0.2)));
+        configureLayoutButtons();
+    }
+    private void configureLayoutButtons(){
+        Button mc_button = (Button) backSide.findViewById(R.id.mult_choice_button);
+        Button tf_button = (Button) backSide.findViewById(R.id.true_false_button);
+        mc_button.getBackground().setAlpha(150);
+        tf_button.getBackground().setAlpha(150);
+        System.out.println(this.getHeight());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(MainActivity.screenWidth/2,
+                (int)(MainActivity.screenWidth * 0.09));
+        mc_button.setLayoutParams(lp);
+        tf_button.setLayoutParams(lp);
+        tf_button.setX(MainActivity.screenWidth / 2);
 
+        EditText editText = (EditText)frontSide.findViewById(R.id.question_text_field);
+        editText.setMaxHeight(this.getLayoutParams().height - 320);
+        editText.getBackground().setColorFilter(Color.parseColor("#FF1561CA"), PorterDuff.Mode.SRC_ATOP);
     }
     public void setParams(int width, int height){
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,height);
