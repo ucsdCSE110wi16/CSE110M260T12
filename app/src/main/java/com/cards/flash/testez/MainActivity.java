@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
     static String userName;
     static String userEmail;
-    static String userPicLink;
+    static String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
