@@ -39,7 +39,7 @@
         android:layout_below="@+id/title"
         android:textStyle="bold" />
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:id="@+id/login_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -48,5 +48,7 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:text="Facebook Login"
+        android:background="#071e6b" />
 </RelativeLayout>
