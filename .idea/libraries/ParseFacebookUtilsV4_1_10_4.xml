@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ParseFacebookUtilsV4-1.10.4">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/ParseFacebookUtilsV4-1.10.4.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
