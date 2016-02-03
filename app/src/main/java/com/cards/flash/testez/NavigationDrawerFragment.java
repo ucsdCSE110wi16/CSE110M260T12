@@ -1,5 +1,8 @@
 package com.cards.flash.testez;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +33,12 @@ import android.widget.Toast;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+    /*
+    Text that will appear on the top of the main activity once the category
+    is changed.
+     */
+    private static String m_Text = "";
 
     /**
      * Remember the position of the selected item.
@@ -104,8 +115,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        "hi",
+                        getString(R.string.title_section3)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -190,7 +200,41 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
+
+
+
         mCurrentSelectedPosition = position;
+
+        if(mCurrentSelectedPosition == 0)
+        {
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Add New Category");
+
+            // Set up the input
+            final EditText input = new EditText(getActivity());
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    m_Text = input.getText().toString();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+
+        }
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
@@ -200,6 +244,7 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
+
     }
 
     @Override
