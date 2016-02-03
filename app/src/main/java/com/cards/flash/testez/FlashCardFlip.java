@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -32,56 +34,41 @@ import android.widget.AbsoluteLayout.LayoutParams;
  */
 public class FlashCardFlip extends FrameLayout{
 
-    private View frontSide;
-    private View backSide;
     private Context context;
+    protected RelativeLayout frontSide;
+    protected RelativeLayout backSide;
 
     public FlashCardFlip(Context context){
         super(context);
-        init(context);
+        initializeCard(context);
     }
 
     public FlashCardFlip(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        initializeCard(context);
     }
 
     public FlashCardFlip(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        initializeCard(context);
     }
 
-    public void init(final Context context){
+    private void initializeCard(Context context){
 
         this.context = context;
-        frontSide = View.inflate(context,R.layout.card_question_side,null);
-        backSide = View.inflate(context, R.layout.card_answer_side, null);
-        setAnimations();
+        frontSide = (RelativeLayout) View.inflate(context,R.layout.card_question_side,null);
+        backSide = (RelativeLayout) View.inflate(context, R.layout.card_answer_side, null);
 
-        this.addView(backSide);
+        setParams(MainActivity.screenWidth, (int) (MainActivity.screenWidth - (MainActivity.screenWidth * 0.2)));
+
         this.addView(frontSide);
+        this.addView(backSide);
 
         backSide.setVisibility(INVISIBLE);
 
-        setParams(MainActivity.screenWidth, (int) (MainActivity.screenWidth - (MainActivity.screenWidth * 0.2)));
-        configureLayoutButtons();
+        setAnimations();
     }
-    private void configureLayoutButtons(){
-        Button mc_button = (Button) backSide.findViewById(R.id.mult_choice_button);
-        Button tf_button = (Button) backSide.findViewById(R.id.true_false_button);
-        mc_button.getBackground().setAlpha(150);
-        tf_button.getBackground().setAlpha(150);
-        System.out.println(this.getHeight());
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(MainActivity.screenWidth/2,
-                (int)(MainActivity.screenWidth * 0.09));
-        mc_button.setLayoutParams(lp);
-        tf_button.setLayoutParams(lp);
-        tf_button.setX(MainActivity.screenWidth / 2);
 
-        EditText editText = (EditText)frontSide.findViewById(R.id.question_text_field);
-        editText.setMaxHeight(this.getLayoutParams().height - 320);
-        editText.getBackground().setColorFilter(Color.parseColor("#FF1561CA"), PorterDuff.Mode.SRC_ATOP);
-    }
     public void setParams(int width, int height){
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,height);
         lp.gravity = Gravity.CENTER;
