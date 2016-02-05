@@ -41,7 +41,14 @@
             android:label="@string/title_activity_main" />
         <activity
             android:name=".AddFlashCard"
-            android:label="@string/title_activity_add_flash_card"></activity>
+            android:label="@string/title_activity_add_flash_card"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cards.flash.testez.MainActivity" />
+
+
+        </activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

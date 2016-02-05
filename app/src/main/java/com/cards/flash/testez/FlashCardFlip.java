@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,7 +93,9 @@ public class FlashCardFlip extends FrameLayout{
         frontSide.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                animateTheCard(R.animator.flash_card_in_right, frontSide,backSide);
+                InputMethodManager im = (InputMethodManager)v.getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(v.getWindowToken(),0);
+                animateTheCard(R.animator.flash_card_in_right, frontSide, backSide);
             }
         });
         backSide.setOnClickListener(new OnClickListener() {

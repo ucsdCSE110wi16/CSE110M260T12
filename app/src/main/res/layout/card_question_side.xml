@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/question_text_field"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:capitalize="characters"
@@ -21,5 +19,8 @@
         android:textAlignment="center"
         android:textStyle="bold"
         android:hint="Add Question"
-        android:maxLines="9" />
+        android:inputType="textMultiLine"
+        android:maxLines="9"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
