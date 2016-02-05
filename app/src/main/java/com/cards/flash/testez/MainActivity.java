@@ -20,6 +20,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -37,6 +39,11 @@ public class MainActivity extends ActionBarActivity
     static String userId;
     static int screenWidth;
     static int screenHeight;
+    /**
+     * Used to store the added categories from the "Add Category" button
+     */
+    public static ArrayList<String> categories;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

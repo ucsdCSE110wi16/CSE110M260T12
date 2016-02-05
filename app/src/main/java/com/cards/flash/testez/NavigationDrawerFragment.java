@@ -27,6 +27,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -34,12 +38,8 @@ import android.widget.Toast;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    /*
-    Text that will appear on the top of the main activity once the category
-    is changed.
-     */
-    private static String m_Text = "";
 
+    private static ArrayAdapter<String> arrayAdapter;
     /**
      * Remember the position of the selected item.
      */
@@ -76,6 +76,9 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MainActivity.categories = new ArrayList<String>();
+        MainActivity.categories.add("Add Category");
+
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -108,15 +111,13 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        mDrawerListView.setAdapter(arrayAdapter = new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3)
-                }));
+                MainActivity.categories
+
+                ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -201,40 +202,97 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
 
-
-
         mCurrentSelectedPosition = position;
-
+        final ActionBar actionBar = getActionBar();
+        final String theAddedCategory;
+        //Add Category Button
         if(mCurrentSelectedPosition == 0)
         {
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Add New Category");
 
             // Set up the input
             final EditText input = new EditText(getActivity());
             // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+            input.setInputType(InputType.TYPE_CLASS_TEXT );
             builder.setView(input);
 
             // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    m_Text = input.getText().toString();
+                    String categoryName = input.getText().toString();
+
+
+                    MainActivity.categories.add(categoryName);
+
+                    Toast.makeText(getActivity(), "Category Added!",
+                            Toast.LENGTH_LONG).show();
+
+                    actionBar.setTitle(categoryName);
+
                 }
             });
+
+
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
-
             builder.show();
 
+
+
         }
+
+        if(mCurrentSelectedPosition == 1)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(1));
+        }
+        if(mCurrentSelectedPosition == 2)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(2));
+        }
+        if(mCurrentSelectedPosition == 3)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(3));
+        }
+        if(mCurrentSelectedPosition == 4)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(4));
+        }
+        if(mCurrentSelectedPosition == 5)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(5));
+        }
+        if(mCurrentSelectedPosition == 6)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(6));
+        }
+        if(mCurrentSelectedPosition == 7)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(7));
+        }
+        if(mCurrentSelectedPosition == 8)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(8));
+        }
+        if(mCurrentSelectedPosition == 9)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(9));
+        }
+        if(mCurrentSelectedPosition == 10)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(10));
+        }
+
+
+
+
+
+
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
