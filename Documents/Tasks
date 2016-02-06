@@ -1,0 +1,7 @@
+Tasks:
+
+Gurkirat Singh: The login and registering a user through Facebook API where with the set permissions, their profile data is fetched and put into the parse database. Designed all the UI for these screens. Added a pseudo flashcard to the app that flips on touch, can take in input from the other and you also can answer with multiple answering options (like multiple choice, true/false) 
+Alex Louden: Implement the list view that will display note cards when a category is selected, which can scroll vertically up and down showing all note cards in that category. 
+Eric Tran: Implement add category functionality that allows user to add a category tab to the navigation drawer fragment. 
+Vicente Ocampo: Add flash card to a local and cloud database
+Faress Nemati/ Daniel Sung: Implement/ add the functionality for the users to invite their friend to the application. Complement the functionality with registration. 
