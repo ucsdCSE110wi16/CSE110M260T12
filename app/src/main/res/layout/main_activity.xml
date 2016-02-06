@@ -12,8 +12,14 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#a01313" />
+        android:background="#a01313">
 
+        <ListView
+            android:id="@+id/card_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+    </FrameLayout>
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->
     <fragment

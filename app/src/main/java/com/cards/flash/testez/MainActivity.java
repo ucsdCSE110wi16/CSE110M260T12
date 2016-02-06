@@ -2,7 +2,9 @@ package com.cards.flash.testez;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Point;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,8 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -39,6 +47,9 @@ public class MainActivity extends ActionBarActivity
     static String userId;
     static int screenWidth;
     static int screenHeight;
+    private ImageAdapter imAdapter;
+    private DrawerLayout mDrawlayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +59,27 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+        mDrawlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+                R.id.navigation_drawer,mDrawlayout);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawlayout,R.drawable.ic_drawer,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            public void onDrawerOpened(View view){                       //close keyboard when opening drawer
+                super.onDrawerOpened(view);
+                InputMethodManager im = (InputMethodManager)getCurrentFocus().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
+
+        };
+        mDrawlayout.setDrawerListener(mDrawerToggle);
+        ListView lView = (ListView) findViewById(R.id.card_list);
+        imAdapter = new ImageAdapter(this);
+        lView.setAdapter(imAdapter);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -68,20 +95,35 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+
         switch (item.getItemId()) {
             case R.id.add_flashcards:
-                Intent addFlashCardIntent = new Intent(this, AddFlashCard.class);
-                startActivity(addFlashCardIntent);
+                imAdapter.addCards("dd");
                 return true;
 
             default:
+                if(mDrawerToggle.onOptionsItemSelected(item)){
+                    return true;
+                }
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }
     }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -113,6 +155,44 @@ public class MainActivity extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
+    public class ImageAdapter extends BaseAdapter{
+        private ArrayList<String> qs = new ArrayList<String>();
+        private Context mContext;
+
+        public ImageAdapter(Context c){
+            mContext = c;
+        }
+        public void addCards(String q){
+            qs.add(q);
+            this.notifyDataSetChanged();
+
+        }
+        @Override
+        public int getCount() {
+            return qs.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            FlashCardFlip view;
+            if(convertView == null){
+                view = new FlashCardFlip(mContext);
+            }else{
+                view = (FlashCardFlip) convertView;
+            }
+            return view;
+        }
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
