@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="mudBlue" type="color">#3473c6</item>
-    <item name="brightBlue" type="color">#0056c7</item>
+    <item name="mudBlue" type="color">#359bfa</item>
+    <item name="brightBlue" type="color">#1e7dea</item>
 </resources>

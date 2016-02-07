@@ -1,0 +1,356 @@
+package com.cards.flash.testez;
+
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Layout;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TableRow;
+
+import java.util.HashMap;
+
+/**
+ * Created by gurkiratsingh on 2/1/16.
+ */
+public class AddFlashCard extends FlashCardFlip {
+
+    private String question;
+    private String tf_answer;
+    private String[] mult_choice_array;
+    private int mult_choice_answer;
+    private Context context;
+    private EditText editText;
+    private Button tf_button;
+    private Button mc_button;
+    private LinearLayout tf_layout;
+    private RadioGroup radioGroup;
+    private HashMap<Integer,EditText> editTextMap;
+    private RadioButton lastCheckRadioButton;
+
+    public AddFlashCard(Context context) {
+        super(context);
+        initialize(context);
+    }
+    public AddFlashCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initialize(context);
+    }
+
+    public AddFlashCard(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        initialize(context);
+    }
+    private void initialize(Context context){
+        this.context = context;
+        configureQuestionSide();
+        configureAnswerSide();
+
+    }
+
+    private void configureQuestionSide(){
+
+        editText = new EditText(context);
+        RelativeLayout.LayoutParams relParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        relParams.addRule(RelativeLayout.CENTER_HORIZONTAL | RelativeLayout.CENTER_VERTICAL);
+        editText.setLayoutParams(relParams);
+        editText.setBackgroundColor(Color.WHITE);
+        editText.setPadding(50, 0, 50, 0);
+        editText.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        editText.setTextSize(22);
+        editText.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        editText.setTypeface(null, Typeface.BOLD);
+        editText.setHint("Add Question");
+        editText.setMaxHeight(this.getLayoutParams().height - 340);
+        editText.setMovementMethod(null);
+        limitChars(editText);
+
+        frontSide.addView(editText, relParams);
+
+        Button doneButton = new Button(context);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) (super.getLayoutParams().height *0.1));
+        doneButton.setText("Done");
+        doneButton.setBackgroundColor(Color.parseColor("#AFB0FF"));
+        doneButton.setPadding(0, 0, 0, 0);
+        doneButton.setY((int) (super.getLayoutParams().height - (super.getLayoutParams().height * 0.12)));
+        frontSide.addView(doneButton, params);
+        doneButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO save info and change layout of flashcard
+            }
+        });
+
+    }
+    private void limitChars(EditText editT){
+        editT.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+                for (int i = s.length(); i > 0; i--) {
+                    if (s.subSequence(i - 1, i).toString().equals("\n"))
+                        s.replace(i - 1, i, "");
+
+                }
+            }
+        });
+    }
+    public String getQuestion(){
+        return editText.getText().toString();
+    }
+
+    private void configureAnswerSide() {
+
+        RelativeLayout.LayoutParams top_buttons_params = new RelativeLayout.LayoutParams(
+                MainActivity.screenWidth/2, (int) (MainActivity.screenWidth * 0.094));
+        mc_button = new Button(context);
+        mc_button.setText("Multiple Choice");
+        mc_button.setTextColor(Color.WHITE);
+        mc_button.setBackgroundColor(Color.parseColor("#063aa5"));
+        mc_button.setTextSize(13);
+        mc_button.getBackground().setAlpha(190);
+        mc_button.setLayoutParams(top_buttons_params);
+        mc_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTopButtonSettingsOnSelect(tf_button, mc_button);
+                createMultiChoiceLayout();
+            }
+        });
+        backSide.addView(mc_button);
+
+        tf_button = new Button(context);
+        tf_button.setText("True/False");
+        tf_button.setTextColor(Color.WHITE);
+        tf_button.setBackgroundColor(Color.parseColor("#063aa5"));
+        tf_button.setTextSize(13);
+        tf_button.getBackground().setAlpha(190);
+        tf_button.setLayoutParams(top_buttons_params);
+        tf_button.setX(MainActivity.screenWidth / 2);
+        tf_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTopButtonSettingsOnSelect(mc_button, tf_button);
+                createTFLayout();
+            }
+        });
+        backSide.addView(tf_button);
+
+    }
+    private void setTopButtonSettingsOnSelect(Button buttonOn, Button buttonOf){
+        buttonOn.setEnabled(true);
+        buttonOn.getBackground().setAlpha(190);
+        buttonOf.setEnabled(false);
+        buttonOf.getBackground().setAlpha(135);
+    }
+    private void createTFLayout(){
+
+        int height_avail = frontSide.getHeight() - (int) (MainActivity.screenWidth * 0.094);
+
+        tf_layout = new LinearLayout(context);
+        tf_layout.setOrientation(LinearLayout.VERTICAL);
+
+        RelativeLayout.LayoutParams tf_params = new RelativeLayout.LayoutParams(
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        tf_params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        Button trueButton = new Button(context);
+        LinearLayout.LayoutParams t_button_params = new LinearLayout.LayoutParams((int)(MainActivity.screenWidth * 0.5)
+                , (int)(MainActivity.screenWidth * 0.12));
+        t_button_params.setMargins(0, 0, 0, 80);
+        trueButton.setLayoutParams(t_button_params);
+        trueButton.setBackground(getResources().getDrawable(R.drawable.truebutton));
+        trueButton.setText("TRUE");
+        setButtonConfig(trueButton);
+        tf_layout.addView(trueButton);
+
+        Button falseButton = new Button(context);
+        LinearLayout.LayoutParams f_button_params = new LinearLayout.LayoutParams((int)(MainActivity.screenWidth * 0.5)
+                , (int)(MainActivity.screenWidth * 0.12));
+        falseButton.setLayoutParams(f_button_params);
+        falseButton.setBackground(getResources().getDrawable(R.drawable.falsebutton));
+        falseButton.setText("FALSE");
+        setButtonConfig(falseButton);
+
+        tf_layout.addView(falseButton);
+
+        tf_layout.setY((int)((height_avail - ((2*(MainActivity.screenWidth * 0.12)) + 80)) / 2) +
+                (int)(MainActivity.screenWidth * 0.094));
+
+        backSide.addView(tf_layout, tf_params);
+
+    }
+    private void setButtonConfig(final Button button){
+        button.setTextColor(Color.WHITE);
+        button.setTypeface(null, Typeface.BOLD);
+        button.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        button.setTextSize(20);
+        button.setPadding(10, 10, 10, 10);
+        tf_answer = "true";
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userAnswer = button.getText().toString().toLowerCase();
+                System.out.println(userAnswer);
+                System.out.println(tf_answer.toLowerCase());
+                if (userAnswer.equals(tf_answer.toLowerCase())) {
+                    //correct answer TODO
+                    System.out.println("Here");
+                    showCorrWrongIndicators(R.drawable.checkmark);
+                } else {
+                    //wrong answer
+                    showCorrWrongIndicators(R.drawable.wrong);
+
+                }
+            }
+        });
+    }
+
+
+
+    private void createMultiChoiceLayout(){
+
+        RelativeLayout relLayout = (RelativeLayout) View.inflate(context,R.layout.multi_choice_layout,null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MainActivity.screenWidth
+                , ViewGroup.LayoutParams.WRAP_CONTENT);
+        relLayout.setPadding(20, 20 + (int) (MainActivity.screenWidth * 0.094), 20, 20);
+        backSide.addView(relLayout, layoutParams);
+
+        radioGroup = (RadioGroup) relLayout.findViewById(R.id.radioGroup);
+        setEditTextParamsResRadioButton(relLayout);
+
+    }
+    private void setEditTextParamsResRadioButton(RelativeLayout layout){
+
+        editTextMap = new HashMap<>();
+        for (int i = 0; i < radioGroup.getChildCount(); i++){
+
+            final EditText localEditText = new EditText(context);
+            int padding = 10;
+            final RadioButton radioButton = (RadioButton)radioGroup.getChildAt(i);
+            RelativeLayout.LayoutParams editTextParams = new RelativeLayout.LayoutParams(MainActivity.screenWidth -
+                    radioButton.getTotalPaddingLeft() - 50, radioButton.getTotalPaddingLeft());
+            localEditText.setLayoutParams(editTextParams);
+            localEditText.setBackground(null);
+            localEditText.setPadding(0, padding, 0, padding);
+            localEditText.setTextSize(16);
+            localEditText.setTextAlignment(TEXT_ALIGNMENT_TEXT_START);
+            localEditText.setMovementMethod(null);
+            limitChars(localEditText);
+            localEditText.setTypeface(null, Typeface.BOLD);
+            localEditText.setX(radioButton.getTotalPaddingLeft());
+            localEditText.setY(padding + ((3 * padding) * i) + (i * radioButton.getTotalPaddingLeft()));
+            localEditText.setSingleLine(true);
+            localEditText.setVisibility(GONE);
+            layout.addView(localEditText);
+
+            editTextMap.put(radioButton.getId(), localEditText);
+
+            GestureListener listener = new GestureListener();
+            final GestureDetector gestureDetector = new GestureDetector(context,listener);
+            gestureDetector.setOnDoubleTapListener(listener);
+            radioButton.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    gestureDetector.onTouchEvent(event);
+                    radioButton.onTouchEvent(event);
+                    return true;
+                }
+            });
+
+        }
+    }
+    private void showCorrWrongIndicators(int imgID){
+        int layoutYPos = (int)tf_layout.getY() + tf_layout.getHeight();
+        final ImageView checkMark = new ImageView(context);
+        checkMark.setImageResource(imgID);
+        checkMark.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                (int)((backSide.getHeight()-layoutYPos)*0.8), (int)((backSide.getHeight()-layoutYPos)*0.8));
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        checkMark.setLayoutParams(params);
+        checkMark.setY(layoutYPos);
+        backSide.addView(checkMark);
+        Animation scale = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 1.0f);
+        scale.setDuration(400);
+        scale.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // delay of 0.5 seconds
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backSide.removeView(checkMark);
+                    }
+                }, 500);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        checkMark.startAnimation(scale);
+
+    }
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener{
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            float x = e.getX();
+            float y = e.getY();
+            Log.d("DD", "x: " + e.toString());
+
+            if (lastCheckRadioButton == null){
+
+            }else{
+
+            }
+            RadioButton radioButton = (RadioButton)radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+            lastCheckRadioButton = radioButton;
+            radioButton.setHint("");
+            EditText tempET = editTextMap.get(radioButton.getId());
+            tempET.setVisibility(VISIBLE);
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(tempET, InputMethodManager.SHOW_IMPLICIT);
+            return true;
+        }
+
+    }
+}
