@@ -16,7 +16,8 @@
             android:hint="Answer 1"
             android:textSize="16sp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
             android:typeface="sans"
             android:visibility="visible"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
             android:hint="Answer 3"
             android:textSize="16sp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -45,6 +48,7 @@
             android:hint="Answer 4"
             android:textSize="16sp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:textStyle="bold" />
     </RadioGroup>
 </RelativeLayout>
