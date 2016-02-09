@@ -14,8 +14,10 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.AbsoluteLayout.LayoutParams;
 /**
@@ -76,18 +79,44 @@ public class FlashCardFlip extends FrameLayout{
     }
 
     private void setAnimations(){
-        frontSide.setOnClickListener(new OnClickListener() {
+        GestureListener listener = new GestureListener();
+        final GestureDetector gestureDetector = new GestureDetector(context,listener);
+
+        frontSide.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                animateTheCard(R.animator.flash_card_in_right, frontSide,backSide);
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
             }
         });
-        backSide.setOnClickListener(new OnClickListener() {
+        backSide.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
+    }
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener{
+        static final int SWIPE_MIN_DISTANCE = 120;
+        static final int SWIPE_THRESHOLD_VELOCITY = 200;
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+            if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
+                return false;
+            }
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
+                //right to left
+                animateTheCard(R.animator.flash_card_in_right, frontSide,backSide);
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
+                //left to right
                 animateTheCard(R.animator.flash_card_in_left,backSide,frontSide);
             }
-        });
+            return super.onFling(e1, e2, velocityX, velocityY);
+
+        }
     }
     private void animateTheCard(int id, final View targetView,final View newView){
         Animator left_in = AnimatorInflater.loadAnimator(context, id);

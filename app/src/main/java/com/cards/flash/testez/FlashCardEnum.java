@@ -6,5 +6,8 @@ package com.cards.flash.testez;
 public enum FlashCardEnum {
     EDIT_MODE,
     QUIZ_MODE,
-    PRACTICE_MODE
+    PRACTICE_MODE,
+    MULTI_CHOICE,
+    TRUE_FALSE,
+    UNSET
 }
