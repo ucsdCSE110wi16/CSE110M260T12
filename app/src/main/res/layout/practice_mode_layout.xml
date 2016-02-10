@@ -5,11 +5,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="New Text"
         android:id="@+id/textView"
         android:layout_gravity="center"
         android:textStyle="bold"
-        android:textSize="22dp"
+        android:textSize="24dp"
         android:textAlignment="center"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="#000000"
+        android:padding="20dp" />
 </FrameLayout>

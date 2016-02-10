@@ -22,11 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.parse.ParseObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -127,7 +131,21 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
+
+            ParseObject object = new ParseObject("FlashCards");
+            object.put("question", "This is question?");
+            object.put("isTF", true);
+            ArrayList<String> array = new ArrayList<>();
+            array.add("baby");
+            array.add("dad");
+            array.add("uncle");
+            array.add("true");
+            object.addAll("multi_choice", array);
+            object.put("answer", "true");
+            //FlashCard.Quiz flashCard = new FlashCard.Quiz(getContext(), object);
+            FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext());
+            rootView.addView(flashCard);
             return rootView;
         }
 

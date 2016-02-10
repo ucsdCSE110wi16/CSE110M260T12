@@ -1,8 +1,10 @@
 package com.cards.flash.testez;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,7 +13,7 @@ import android.widget.TextView;
  * Created by gurkiratsingh on 2/8/16.
  */
 public class PracticeFlashCard extends FlashCardFlip{
-    Context context;
+
     private TextView questionTxtView;
     private TextView answerAnswerView;
 
@@ -30,15 +32,20 @@ public class PracticeFlashCard extends FlashCardFlip{
     }
 
     private void initialize(Context context){
-        this.context = context;
         FrameLayout frameQuestionSide = (FrameLayout) View.inflate(context, R.layout.practice_mode_layout, null);
         FrameLayout frameAnswerSide = (FrameLayout) View.inflate(context, R.layout.practice_mode_layout, null);
 
-        frontSide.addView(frameQuestionSide);
-        backSide.addView(frameAnswerSide);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+
+        frontSide.addView(frameQuestionSide,params);
+        backSide.addView(frameAnswerSide,params);
 
         questionTxtView = (TextView)frameQuestionSide.findViewById(R.id.textView);
+        questionTxtView.setAllCaps(true);
+
         answerAnswerView = (TextView)frameAnswerSide.findViewById(R.id.textView);
+        answerAnswerView.setTextColor(getResources().getColor(R.color.brightBlue));
 
     }
     public void setQuestion(String text){

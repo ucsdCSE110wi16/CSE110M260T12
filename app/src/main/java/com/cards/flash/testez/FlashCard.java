@@ -4,66 +4,87 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.parse.ParseObject;
+
+import java.util.HashMap;
+
 /**
  * Created by gurkiratsingh on 2/5/16.
  */
-public class FlashCard extends FrameLayout {
+public class FlashCard{
 
-    private PracticeFlashCard practiceFC;
-    private AddFlashCard addEditFlashCard;
-    private FlashCardEnum currMode;
-    private Context context;
+    //only one of these classes can be instantiated; everything else will be null
 
-    public FlashCard(Context context, FlashCardEnum mode) {
-        super(context);
-        currMode = mode;
-        this.context = context;
-        setupAppropriateCard();
-    }
+    protected static class AddOrEdit extends FrameLayout{
+        private AddFlashCard addEditFlashCard;
 
-    public FlashCard(Context context, AttributeSet attrs, FlashCardEnum mode) {
-        super(context, attrs);
-        currMode = mode;
-        this.context = context;
-        setupAppropriateCard();
-    }
-
-    public FlashCard(Context context, AttributeSet attrs, int defStyleAttr, FlashCardEnum mode) {
-        super(context, attrs, defStyleAttr);
-        currMode = mode;
-        this.context = context;
-        setupAppropriateCard();
-    }
-
-    private void setupAppropriateCard(){
-
-        if (currMode == FlashCardEnum.EDIT_MODE){
-            this.addEditFlashCard = new AddFlashCard(context);
+        public AddOrEdit(Context context){
+            super(context);
+            addEditFlashCard = new AddFlashCard(context);
+            addViewToRoot();
+        }
+        public void addViewToRoot(){
             this.addView(addEditFlashCard);
-
-        }else if (currMode == FlashCardEnum.PRACTICE_MODE){
-            practiceFC = new PracticeFlashCard(context);
-            this.addView(practiceFC);
-
-        }else if (currMode == FlashCardEnum.QUIZ_MODE){
-
+        }
+        public void removeViewFromRoot(){
+            this.removeView(addEditFlashCard);
         }
     }
 
-    public void setQuestion(String question){
-        if (currMode == FlashCardEnum.PRACTICE_MODE){
+    protected static class Practice extends FrameLayout{
+        private PracticeFlashCard practiceFC;
+
+        public Practice(Context context){
+            super(context);
+            practiceFC = new PracticeFlashCard(context);
+            addViewToRoot();
+        }
+        public void setQuestion(String question){
             practiceFC.setQuestion(question);
         }
-    }
 
-    public void setAnswer(String answer){
-        if (currMode == FlashCardEnum.PRACTICE_MODE){
+        public void setAnswer(String answer){
             practiceFC.setAnswer(answer);
         }
+
+        public void addViewToRoot(){
+            this.addView(practiceFC);
+        }
+        public void removeViewFromRoot(){
+            this.removeView(practiceFC);
+        }
     }
+
+    protected static class Quiz extends FrameLayout{
+        private QuizFlashCard quizFC;
+
+        public Quiz(Context context, ParseObject object){
+            super(context);
+
+            quizFC = new QuizFlashCard(context, object);
+            addViewToRoot();
+        }
+
+        public void setAllFields(){
+            quizFC.setAllFields();
+        }
+
+        public void updateParseObject(ParseObject object){
+            quizFC.updateParseObject(object);
+        }
+        private void addViewToRoot(){
+            this.addView(quizFC);
+        }
+        public void removeViewFromRoot(){
+            this.removeView(quizFC);
+        }
+
+    }
+
 }
