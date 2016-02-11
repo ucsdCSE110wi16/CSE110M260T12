@@ -1,18 +1,11 @@
 package com.cards.flash.testez;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.PixelFormat;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.parse.ParseObject;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by gurkiratsingh on 2/5/16.
@@ -22,18 +15,28 @@ public class FlashCard{
     //only one of these classes can be instantiated; everything else will be null
 
     protected static class AddOrEdit extends FrameLayout{
-        private AddFlashCard addEditFlashCard;
+        private AddEditFlashCard addEditFlashCard;
 
-        public AddOrEdit(Context context){
+        public AddOrEdit(Context context, FlashCardEnum mode){
             super(context);
-            addEditFlashCard = new AddFlashCard(context);
+            addEditFlashCard = new AddEditFlashCard(context, mode);
             addViewToRoot();
         }
         public void addViewToRoot(){
             this.addView(addEditFlashCard);
         }
+        public void setTrueFalseSettings(String answer){
+            addEditFlashCard.setTrueFalseSettings(answer);
+        }
+        public void setMultiChoiceSettings(String answer, ArrayList<String> choicesArray){
+            addEditFlashCard.setMultiChoiceSettings(answer, choicesArray);
+        }
+        public void setQuestion(String question){
+            addEditFlashCard.setQuestion(question);
+        }
         public void removeViewFromRoot(){
             this.removeView(addEditFlashCard);
+            addEditFlashCard = null;
         }
     }
 
@@ -58,6 +61,7 @@ public class FlashCard{
         }
         public void removeViewFromRoot(){
             this.removeView(practiceFC);
+            practiceFC = null;
         }
     }
 
@@ -71,18 +75,12 @@ public class FlashCard{
             addViewToRoot();
         }
 
-        public void setAllFields(){
-            quizFC.setAllFields();
-        }
-
-        public void updateParseObject(ParseObject object){
-            quizFC.updateParseObject(object);
-        }
         private void addViewToRoot(){
             this.addView(quizFC);
         }
         public void removeViewFromRoot(){
             this.removeView(quizFC);
+            quizFC = null;
         }
 
     }

@@ -82,6 +82,8 @@ public class MultipleChoice extends LinearLayout{
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.wrong,
                                 relLayout, radioGroup);
                     }
+                }else{
+                    setAnswer(curr_answer);
                 }
             }
         });
@@ -171,6 +173,12 @@ public class MultipleChoice extends LinearLayout{
         }
         radioGroup.clearCheck();
     }
+    public void setAnswerAndCheckedState(String answer, ArrayList<String> choicesArray){
+        if (currEnum == FlashCardEnum.EDIT_MODE){
+            setAnswer(answer);
+            fillMultiChoices(choicesArray);
+        }
+    }
     public boolean choicesEdited(){
         for (int i = 0; i < radioGroup.getChildCount(); i++){
             RadioButton rb = (RadioButton)radioGroup.getChildAt(i);
@@ -184,7 +192,14 @@ public class MultipleChoice extends LinearLayout{
         choicesArray = randomizeArray(choicesArray);
         for (int i = 0; i < radioGroup.getChildCount(); i++){
             RadioButton tempRB = (RadioButton)radioGroup.getChildAt(i);
-            tempRB.setText(choicesArray.get(i));
+            String ans = choicesArray.get(i);
+            tempRB.setText(ans);
+            if (currEnum == FlashCardEnum.EDIT_MODE){
+                if (ans.equals(getAnswer())){
+                    tempRB.setTextColor(context.getResources().getColor(R.color.corrGreen));
+                    tempRB.setChecked(true);
+                }
+            }
         }
     }
 
@@ -218,9 +233,9 @@ public class MultipleChoice extends LinearLayout{
         return mult_choice_answer;
     }
     public void setAnswer(String answer){
-        mult_choice_answer = answer;
+        mult_choice_answer = answer.trim();
     }
-    public ArrayList<String> randomizeArray(ArrayList<String> array){
+    private ArrayList<String> randomizeArray(ArrayList<String> array){
 
         for (int iters = 0; iters < array.size(); iters++){
             int idx = randInt(0,3);

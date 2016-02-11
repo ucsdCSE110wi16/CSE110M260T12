@@ -33,7 +33,7 @@ public class TrueFalse extends LinearLayout{
         super(context);
         this.context = context;
         this.currEnum = currEnum;
-        tf_answer = answer;
+        setAnswer(answer);
         createTFLayout();
     }
 
@@ -86,7 +86,7 @@ public class TrueFalse extends LinearLayout{
     public void showLayout(){
         tf_layout.setVisibility(View.VISIBLE);
     }
-    public void setAnswer(String answer){
+    public void setDefaultAnswerAndChangeButtonColor(String answer){
         if (currEnum == FlashCardEnum.EDIT_MODE){
             Boolean ans = answer.trim().equals("true");
             if (ans) tf_answer = "true";
@@ -94,9 +94,10 @@ public class TrueFalse extends LinearLayout{
 
             Button button = (Button)tf_layout.getChildAt((ans)?0:1);
             changeButtonToGreen(button);
-        }else{
-            tf_answer = answer.trim();
         }
+    }
+    public void setAnswer(String answer){
+        tf_answer = answer.trim();
     }
     public String getAnswer(){
         return tf_answer;
@@ -136,6 +137,8 @@ public class TrueFalse extends LinearLayout{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //change color of the buttons
                 Button button = (Button)v;
                 String buttonStr = button.getText().toString().toLowerCase().trim();
                 changeButtonToGreen(button);
@@ -153,6 +156,8 @@ public class TrueFalse extends LinearLayout{
                         //wrong answer
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.wrong, tf_layout);
                     }
+                }else{
+                    setAnswer(buttonStr);
                 }
             }
         });

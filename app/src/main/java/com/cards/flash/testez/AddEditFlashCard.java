@@ -60,7 +60,7 @@ import java.util.HashMap;
 /**
  * Created by gurkiratsingh on 2/1/16.
  */
-public class AddFlashCard extends FlashCardFlip {
+public class AddEditFlashCard extends FlashCardFlip {
 
     private Context context;
     private EditText editText;
@@ -69,22 +69,16 @@ public class AddFlashCard extends FlashCardFlip {
     private FlashCardEnum currTab;
     private TrueFalse trueFalse;
     private MultipleChoice multipleChoice;
+    private FlashCardEnum currMode;
 
-    public AddFlashCard(Context context) {
+    public AddEditFlashCard(Context context, FlashCardEnum mode) {
         super(context);
-        initialize(context);
-    }
-    public AddFlashCard(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize(context);
+        this.currMode = mode;
+        this.context = context;
+        initialize();
     }
 
-    public AddFlashCard(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        initialize(context);
-    }
-    private void initialize(Context context){
-        this.context = context;
+    private void initialize(){
         currTab = FlashCardEnum.UNSET;
         configureQuestionSide();
         configureAnswerSide();
@@ -137,7 +131,7 @@ public class AddFlashCard extends FlashCardFlip {
             @Override
             public void onClick(View v) {
 
-                String question = editText.getText().toString().trim();
+                String question = getQuestion();
                 if (!question.equals("")) {
 
                     if (currTab == FlashCardEnum.UNSET)
@@ -218,14 +212,33 @@ public class AddFlashCard extends FlashCardFlip {
         });
         backSide.addView(tf_button);
 
-        trueFalse = new TrueFalse(context, FlashCardEnum.ADD_MODE);
-        backSide.addView(trueFalse);
-
-        multipleChoice = new MultipleChoice(context, FlashCardEnum.ADD_MODE);
-        backSide.addView(multipleChoice);
-
+        createAddBasicView();
     }
 
+    public void setTrueFalseSettings(String answer){
+        if (currMode == FlashCardEnum.EDIT_MODE){
+            trueFalse.setDefaultAnswerAndChangeButtonColor(answer);
+            changeInterfaceOfMultiChoice();
+        }
+    }
+    public void setMultiChoiceSettings(String answer, ArrayList<String> choicesArray){
+        if (currMode == FlashCardEnum.EDIT_MODE){
+            multipleChoice.setAnswerAndCheckedState(answer, choicesArray);
+            changeInterfaceOfTrueFalse();
+        }
+    }
+    public String getQuestion(){
+        return editText.getText().toString().trim();
+    }
+    public void setQuestion(String question){
+        editText.setText(question.trim());
+    }
+    private void createAddBasicView(){
+        trueFalse = new TrueFalse(context, currMode);
+        multipleChoice = new MultipleChoice(context, currMode);
+        backSide.addView(trueFalse);
+        backSide.addView(multipleChoice);
+    }
     private void setTopButtonSettingsOnSelect(Button buttonOn, Button buttonOf){
         buttonOn.setEnabled(true);
         buttonOn.getBackground().setAlpha(190);

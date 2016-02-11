@@ -42,7 +42,6 @@ public class QuizFlashCard extends FlashCardFlip{
 
         //Answer Side
         if (parseObject.getBoolean("isTF")){
-            Log.d("DD", "here");
             trueFalse = new TrueFalse(context, FlashCardEnum.QUIZ_MODE, parseObject.getString("answer"));
             backSide.addView(trueFalse, params);
         }else{
@@ -51,7 +50,7 @@ public class QuizFlashCard extends FlashCardFlip{
         }
         setAllFields();
     }
-    public void setAllFields(){
+    private void setAllFields(){
         questionTxtView.setText(parseObject.getString("question"));
 
         if (parseObject.getBoolean("isTF")){
@@ -62,7 +61,7 @@ public class QuizFlashCard extends FlashCardFlip{
         }
 
     }
-    public void updateParseObject(ParseObject object){
+    private void updateParseObject(ParseObject object){
         parseObject = object;
     }
 }

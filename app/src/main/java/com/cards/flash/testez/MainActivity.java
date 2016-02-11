@@ -143,8 +143,12 @@ public class MainActivity extends ActionBarActivity
             array.add("true");
             object.addAll("multi_choice", array);
             object.put("answer", "true");
-            //FlashCard.Quiz flashCard = new FlashCard.Quiz(getContext(), object);
-            FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext());
+            FlashCard.Quiz flashCard = new FlashCard.Quiz(getContext(), object);
+
+            /*FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext(), FlashCardEnum.EDIT_MODE);
+            flashCard.setMultiChoiceSettings(object.getString("answer"), array);
+            flashCard.setQuestion(object.getString("question"));*/
+
             rootView.addView(flashCard);
             return rootView;
         }
