@@ -22,7 +22,7 @@ public class FlashCard{
             addEditFlashCard = new AddEditFlashCard(context, mode);
             addViewToRoot();
         }
-        public void addViewToRoot(){
+        private void addViewToRoot(){
             this.addView(addEditFlashCard);
         }
         public void setTrueFalseSettings(String answer){
@@ -56,7 +56,7 @@ public class FlashCard{
             practiceFC.setAnswer(answer);
         }
 
-        public void addViewToRoot(){
+        private void addViewToRoot(){
             this.addView(practiceFC);
         }
         public void removeViewFromRoot(){
