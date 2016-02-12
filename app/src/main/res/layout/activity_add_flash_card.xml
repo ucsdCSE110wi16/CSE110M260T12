@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#284b9e"
-    tools:context="com.cards.flash.testez.AddFlashCard">
+    >
 
     <com.cards.flash.testez.FlashCardFlip
         android:id="@+id/flip"

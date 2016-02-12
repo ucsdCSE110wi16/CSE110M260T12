@@ -23,4 +23,5 @@
         android:maxLines="9"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -3,6 +3,8 @@ package com.cards.flash.testez;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+
+import android.util.Base64;
+import android.util.Log;
 
 import android.view.Display;
 import android.view.Gravity;
@@ -24,9 +29,19 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.parse.ParseObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
 
 import java.util.ArrayList;
 
@@ -77,15 +92,16 @@ public class MainActivity extends ActionBarActivity
 
         };
         mDrawlayout.setDrawerListener(mDrawerToggle);
-        ListView lView = (ListView) findViewById(R.id.card_list);
-        imAdapter = new ImageAdapter(this);
-        lView.setAdapter(imAdapter);
+//        ListView lView = (ListView) findViewById(R.id.card_list);
+//        imAdapter = new ImageAdapter(this);
+//        lView.setAdapter(imAdapter);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+
     }
 
     @Override
@@ -99,7 +115,7 @@ public class MainActivity extends ActionBarActivity
 
         switch (item.getItemId()) {
             case R.id.add_flashcards:
-                imAdapter.addCards("dd");
+                //imAdapter.addCards("dd");
                 return true;
 
             default:
@@ -127,7 +143,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-      //  FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction()
 //                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
 //                .commit();
@@ -221,7 +237,25 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
+
+            ParseObject object = new ParseObject("FlashCards");
+            object.put("question", "This is queston?");
+            object.put("isTF", true);
+            ArrayList<String> array = new ArrayList<>();
+            array.add("baby");
+            array.add("dad");
+            array.add("uncle");
+            array.add("true");
+            object.addAll("multi_choice", array);
+            object.put("answer", "true");
+            FlashCard.Quiz flashCard = new FlashCard.Quiz(getContext(), object);
+
+            /*FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext(), FlashCardEnum.EDIT_MODE);
+            flashCard.setMultiChoiceSettings(object.getString("answer"), array);
+            flashCard.setQuestion(object.getString("question"));*/
+
+            rootView.addView(flashCard);
             return rootView;
         }
 
