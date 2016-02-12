@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flashcard"
+    android:scaleType="fitXY">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Multiple Choice"
+        android:id="@+id/mult_choice_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#2f6eef"
+        android:textSize="14sp"
+        android:enabled="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="True/False"
+        android:id="@+id/true_false_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="#2f6eef"
+        android:textSize="14sp" />
+</RelativeLayout>

@@ -3,13 +3,19 @@ package com.cards.flash.testez;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -18,83 +24,103 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.cards.flash.testez.MainActivity;
+import com.parse.ParseUser;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class RegisterUser extends Activity{
-
-    CallbackManager callBackManager;
+public class RegisterUser extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        ParseFacebookUtils.initialize(this);
 
-        setContentView(R.layout.register_user_activity);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/Decker.ttf");
-        TextView titleTextView = (TextView) findViewById(R.id.title);
-        titleTextView.setTypeface(titleFont);
+        ParseUser user = ParseUser.getCurrentUser();
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        List<String> permissions = Arrays.asList("email","public_profile");
-        loginButton.setReadPermissions(permissions);
-        callBackManager = CallbackManager.Factory.create();
-        Intent intent = new Intent(RegisterUser.this, MainActivity.class);
-        startActivity(intent);
-        loginButton.registerCallback(callBackManager, new FacebookCallback<LoginResult>(){
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Intent intent = new Intent(RegisterUser.this, MainActivity.class);
-                startActivity(intent);
-                /*GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONArrayCallback(){
+        if (user != null && ParseFacebookUtils.isLinked(user)){
+            MainActivity.userName = (String)user.get("name");
+            MainActivity.userEmail = user.getEmail();
+            MainActivity.userId = (String)user.get("id");
+            goToMainPage();
+        }else {
+            setContentView(R.layout.register_user_activity);
+            Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/Decker.ttf");
+            TextView titleTextView = (TextView) findViewById(R.id.title);
+            titleTextView.setTypeface(titleFont);
 
-                            @Override
-                            public void onCompleted(JSONArray objects, GraphResponse response) {
-                                try{
-                                    JSONObject jsonObject = response.getJSONObject();
-                                    MainActivity.userEmail = jsonObject.getString("email");
-                                    MainActivity.userName = jsonObject.getString("name");
-                                    MainActivity.userPicLink = jsonObject.getString("link");
+            Button loginButton = (Button) findViewById(R.id.login_button);
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                                    //Intent
-                                }catch (Exception e){
-                                    Toast.makeText(RegisterUser.this, "Unable to fetch all data from Facebook",
-                                            Toast.LENGTH_LONG).show();
-                                }
+                    List<String> permissions = Arrays.asList("email");
+                    ParseFacebookUtils.logInWithReadPermissionsInBackground(RegisterUser.this, permissions, new LogInCallback() {
+                        @Override
+                        public void done(final ParseUser parseUser, ParseException e) {
+                            System.out.println(parseUser);
+                            if (parseUser == null){
+                                Toast.makeText(RegisterUser.this, e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }else {
+                                GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            public void onCompleted(JSONObject json, GraphResponse response) {
+                                                try {
+                                                    JSONObject jsonObject = response.getJSONObject();
+                                                    MainActivity.userId = jsonObject.getString("id");
+                                                    MainActivity.userEmail = jsonObject.getString("email");
+                                                    MainActivity.userName = jsonObject.getString("name");
+
+                                                    if (parseUser.isNew()) {
+                                                        parseUser.put("name", MainActivity.userName);
+                                                        parseUser.setEmail(MainActivity.userEmail);
+                                                        parseUser.put("id", MainActivity.userId);
+                                                        parseUser.save();
+                                                    }
+                                                    goToMainPage();
+
+                                                } catch (Exception e) {
+                                                    ParseFacebookUtils.unlinkInBackground(parseUser);
+                                                    Toast.makeText(RegisterUser.this, e.getMessage(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                Bundle parameters = new Bundle();
+                                parameters.putString("fields", "name,email,id");
+                                graphRequest.setParameters(parameters);
+                                graphRequest.executeAsync();
                             }
-                        });*/
 
-            }
+                        }
+                    });
+                }
+            });
 
-            @Override
-            public void onCancel() {
-                //do nothing
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(RegisterUser.this, "Unable to login. Please try again.",
-                        Toast.LENGTH_LONG).show();
-
-            }
-        });
+        }
     }
 
+    private void goToMainPage(){
+        Intent intent = new Intent(RegisterUser.this, MainActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callBackManager.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
+
 }
