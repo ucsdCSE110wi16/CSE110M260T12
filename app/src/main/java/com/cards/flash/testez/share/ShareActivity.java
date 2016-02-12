@@ -24,6 +24,7 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
     private List<ParseUser> userList;
     private List<ParseObject> shareList;
     private ParseObject category;
+    private ShareAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +56,17 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
         * startActivity(intent);
         */
 
-        //loadCategory(getIntent().getExtras().getString(CATEGORY_ID));
+        loadCategory("Iawx9ab6e8");
 
-        //ToDo remove when category will be done. this function must start in  83 line
-        loadUserList();
     }
 
     private void loadCategoryShareList() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-        query.whereEqualTo("category_id",category.getObjectId());
+        query.whereEqualTo("category_id", category.getObjectId());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
+                shareList = list;
                 loadUserList();
             }
         });
@@ -121,15 +121,18 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
     }
 
     @Override
-    public void onShare(ParseObject user) {
+    public void onShare(ParseObject user, final View view) {
         ParseObject shareObject = new ParseObject("Share");
-        shareObject.put("user_id", user.get("id"));
-        shareObject.put("category_id", category.get("id"));
+        shareObject.put("user_id", user.getObjectId());
+        shareObject.put("category_id", category.getObjectId());
         shareObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
                     // something went wrong
+                } else {
+                    view.findViewById(R.id.share_button).setVisibility(View.GONE);
+                    loadCategory(category.getObjectId());
                 }
             }
         });
@@ -141,7 +144,8 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((ListView) findViewById(R.id.listView)).setAdapter(new ShareAdapter(getApplicationContext(), userQueryResult,shareList, ShareActivity.this));
+                adapter = new ShareAdapter(getApplicationContext(), userQueryResult, shareList, ShareActivity.this);
+                ((ListView) findViewById(R.id.listView)).setAdapter(adapter);
                 userList = userQueryResult;
                 cancelLoading();
             }

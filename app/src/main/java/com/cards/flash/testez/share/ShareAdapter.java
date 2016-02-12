@@ -16,17 +16,18 @@ import java.util.List;
 public class ShareAdapter extends ArrayAdapter<ParseUser> {
     private OnShareListener listener;
     private List<ParseObject> sharedList;
-    public ShareAdapter(Context context, List<ParseUser> contentList, List<ParseObject> sharedList,OnShareListener listener) {
-        super(context, R.layout.item_share,contentList);
+
+    public ShareAdapter(Context context, List<ParseUser> contentList, List<ParseObject> sharedList, OnShareListener listener) {
+        super(context, R.layout.item_share, contentList);
         this.listener = listener;
         this.sharedList = sharedList;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             //creating new view if view already exist - reusing old view
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_share,null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_share, null);
             convertView.setTag(new ViewHolder(convertView));
         }
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
@@ -34,23 +35,30 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
         viewHolder.email.setText(user.getString("email"));
         viewHolder.name.setText(user.getString("name"));
         viewHolder.shareButton.setVisibility(View.VISIBLE);
-        for(int i = 0; i<sharedList.size(); i++){
-            if(sharedList.get(i).getString("user_id").equals(getItem(position).getObjectId()))
-                viewHolder.shareButton.setVisibility(View.GONE);
-        }
+        if (sharedList != null)
+            for (int i = 0; i < sharedList.size(); i++) {
+                if (sharedList.get(i).getString("user_id").equalsIgnoreCase(getItem(position).getObjectId()))
+                    viewHolder.shareButton.setVisibility(View.GONE);
+            }
+        final View finalConvertView = convertView;
         viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onShare(getItem(position));
+                listener.onShare(getItem(position), finalConvertView);
             }
         });
         return convertView;
     }
 
-    private static class ViewHolder{
+    public void updateShareList(List<ParseObject> sharedList) {
+        this.sharedList = sharedList;
+    }
+
+    private static class ViewHolder {
         TextView name, email;
         View shareButton;
-        public ViewHolder(View view){
+
+        public ViewHolder(View view) {
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
             shareButton = view.findViewById(R.id.share_button);
@@ -58,6 +66,6 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
     }
 
     public interface OnShareListener {
-        public void onShare(ParseObject user);
+        public void onShare(ParseObject user, View view);
     }
 }
