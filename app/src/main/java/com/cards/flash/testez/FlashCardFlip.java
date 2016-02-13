@@ -106,9 +106,11 @@ public class FlashCardFlip extends FrameLayout{
         });
 
     }
+
     private class GestureListener extends GestureDetector.SimpleOnGestureListener{
         static final int SWIPE_MIN_DISTANCE = 120;
         static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
@@ -125,7 +127,12 @@ public class FlashCardFlip extends FrameLayout{
             return super.onFling(e1, e2, velocityX, velocityY);
 
         }
+
+
     }
+
+
+
     private void animateTheCard(int id, final View targetView,final View newView){
         Animator left_in = AnimatorInflater.loadAnimator(context, id);
         left_in.setTarget(targetView);

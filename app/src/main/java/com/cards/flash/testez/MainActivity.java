@@ -19,11 +19,13 @@ import android.util.Base64;
 import android.util.Log;
 
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +33,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,7 +65,8 @@ public class MainActivity extends ActionBarActivity
     static String userId;
     static int screenWidth;
     static int screenHeight;
-    private ImageAdapter imAdapter;
+    private EditCardFragment editCard;
+
     private DrawerLayout mDrawlayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -79,14 +83,14 @@ public class MainActivity extends ActionBarActivity
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,mDrawlayout);
+                R.id.navigation_drawer, mDrawlayout);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawlayout,R.drawable.ic_drawer,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawlayout, R.drawable.ic_drawer,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
-            public void onDrawerOpened(View view){                       //close keyboard when opening drawer
+            public void onDrawerOpened(View view) {                       //close keyboard when opening drawer
                 super.onDrawerOpened(view);
-                InputMethodManager im = (InputMethodManager)getCurrentFocus().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager im = (InputMethodManager) getCurrentFocus().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
 
@@ -109,25 +113,15 @@ public class MainActivity extends ActionBarActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
-        switch (item.getItemId()) {
-            case R.id.add_flashcards:
-                //imAdapter.addCards("dd");
-                return true;
-
-            default:
-                if(mDrawerToggle.onOptionsItemSelected(item)){
-                    return true;
-                }
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
-        }
+
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -140,13 +134,18 @@ public class MainActivity extends ActionBarActivity
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-//                .commit();
+        editCard = new EditCardFragment();
+        Bundle p = new Bundle();
+        p.putInt("position",position);
+        editCard.setArguments(p);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, editCard)
+                .commit();
     }
 
     public void onSectionAttached(int number) {
@@ -169,102 +168,6 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
-    }
-
-    public class ImageAdapter extends BaseAdapter{
-        private ArrayList<String> qs = new ArrayList<String>();
-        private Context mContext;
-
-        public ImageAdapter(Context c){
-            mContext = c;
-        }
-        public void addCards(String q){
-            qs.add(q);
-            this.notifyDataSetChanged();
-
-        }
-        @Override
-        public int getCount() {
-            return qs.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            FlashCardFlip view;
-            if(convertView == null){
-                view = new FlashCardFlip(mContext);
-            }else{
-                view = (FlashCardFlip) convertView;
-            }
-            return view;
-        }
-    }
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
-
-            ParseObject object = new ParseObject("FlashCards");
-            object.put("question", "This is queston?");
-            object.put("isTF", true);
-            ArrayList<String> array = new ArrayList<>();
-            array.add("baby");
-            array.add("dad");
-            array.add("uncle");
-            array.add("true");
-            object.addAll("multi_choice", array);
-            object.put("answer", "true");
-            FlashCard.Quiz flashCard = new FlashCard.Quiz(getContext(), object);
-
-            /*FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext(), FlashCardEnum.EDIT_MODE);
-            flashCard.setMultiChoiceSettings(object.getString("answer"), array);
-            flashCard.setQuestion(object.getString("question"));*/
-
-            rootView.addView(flashCard);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }
