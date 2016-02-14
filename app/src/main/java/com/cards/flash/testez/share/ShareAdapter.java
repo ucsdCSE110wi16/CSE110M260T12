@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cards.flash.testez.R;
@@ -34,19 +35,32 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
         ParseObject user = getItem(position);
         viewHolder.email.setText(user.getString("email"));
         viewHolder.name.setText(user.getString("name"));
-        viewHolder.shareButton.setVisibility(View.VISIBLE);
+        ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_share));
+        boolean breaked = false;
         if (sharedList != null)
             for (int i = 0; i < sharedList.size(); i++) {
-                if (sharedList.get(i).getString("user_id").equalsIgnoreCase(getItem(position).getObjectId()))
-                    viewHolder.shareButton.setVisibility(View.GONE);
+                if (sharedList.get(i).getString("user_id").equalsIgnoreCase(getItem(position).getObjectId())) {
+                    ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_unshare));
+                    breaked = true;
+                    break;
+                }
             }
         final View finalConvertView = convertView;
-        viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onShare(getItem(position), finalConvertView);
-            }
-        });
+        if (breaked) {
+            viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onUnshare(getItem(position), finalConvertView);
+                }
+            });
+        } else {
+            viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onShare(getItem(position), finalConvertView);
+                }
+            });
+        }
         return convertView;
     }
 
@@ -67,5 +81,7 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
 
     public interface OnShareListener {
         public void onShare(ParseObject user, View view);
+
+        public void onUnshare(ParseObject user, View view);
     }
 }

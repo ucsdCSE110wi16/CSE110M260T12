@@ -6,9 +6,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.cards.flash.testez.R;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -17,6 +19,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnShareListener {
@@ -131,12 +134,51 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
                 if (e != null) {
                     // something went wrong
                 } else {
-                    view.findViewById(R.id.share_button).setVisibility(View.GONE);
                     loadCategory(category.getObjectId());
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onUnshare(ParseObject user, final View view) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
+        query.whereEqualTo("user_id", user.getObjectId());
+        query.whereEqualTo("category_id", category.getObjectId());
+        query.findInBackground(new FindCallback() {
+            @Override
+            public void done(Object obj, Throwable throwable) {
+                ParseObject object;
+                if (obj instanceof ArrayList) {
+                    if (((ArrayList) obj).size() > 0) {
+                        object = (ParseObject) ((ArrayList) obj).get(0);
+                    } else {
+                        loadCategory(category.getObjectId());
+                        return;
+                    }
+                } else {
+                    object = (ParseObject) obj;
+                }
+                try {
+                    object.delete();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        loadCategory(category.getObjectId());
+                    }
+                });
+            }
+
+            @Override
+            public void done(List list, ParseException e) {
+                done(list.get(0), e);
+            }
+
+        });
     }
 
     public void onLoaded(final List<ParseUser> userQueryResult) {
