@@ -3,6 +3,8 @@ package com.cards.flash.testez;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+
 import android.content.DialogInterface;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -31,6 +33,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -42,9 +46,11 @@ import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Handler;
 
 import static android.R.color.holo_blue_bright;
@@ -86,6 +92,9 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = -1;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private List<ParseObject> refreshList;
+    private PullToRefreshLayout mPullToRefreshLayout;
     //private SwipeRefreshLayout refresh;
 
 
@@ -96,9 +105,11 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
 
         MainActivity.categories = new ArrayList<String>();
         MainActivity.categories.add("Add Category");
+        MainActivity.categories.add("Retrieve Categories");
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -138,9 +149,38 @@ public class NavigationDrawerFragment extends Fragment {
             // set dialog message
             alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+
+                    final String toRemove = MainActivity.categories.get(position);
                     MainActivity.categories.remove(position);
+
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Categories");
+                    query.whereEqualTo("name", toRemove);
+
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if(e==null) {
+                                for (ParseObject delete : parseObjects) {
+                                    delete.deleteInBackground();
+                                    Toast.makeText(getContext(), "Category Deleted", Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getContext(), "error in deleting", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
                 }
             });
+
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+
 
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
@@ -154,6 +194,9 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        //mDrawerListView = (ListView) getView().findViewById(R.id.categoryList);
+        //mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
+
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.drawer_main, container, false);
 
@@ -277,9 +320,6 @@ public class NavigationDrawerFragment extends Fragment {
         final String theAddedCategory;
 
 
-
-
-
         //Add Category Button
         if(mCurrentSelectedPosition == 0)
         {
@@ -347,7 +387,39 @@ public class NavigationDrawerFragment extends Fragment {
 
         }
 
-        else if(mCurrentSelectedPosition > 0)
+        if (mCurrentSelectedPosition == 1)
+        {
+            ParseUser user = ParseUser.getCurrentUser();
+            ParseRelation<ParseObject> relation = user.getRelation("category");
+            ParseQuery<ParseObject> query = relation.getQuery();
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if(e == null)
+                    {
+                        refreshList = list;
+                        Toast.makeText(getContext(), "Retreive Success", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Retreive Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+            ParseObject yes = refreshList.get(0);
+            String theName = (String)yes.get("aH9akVy2Nc");
+            MainActivity.categories.add(theName);
+
+
+
+
+
+        }
+
+        else if(mCurrentSelectedPosition > 1)
         {
             actionBar.setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
         }
