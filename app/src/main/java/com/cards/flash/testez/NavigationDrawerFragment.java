@@ -105,8 +105,6 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
-
         MainActivity.categories = new ArrayList<String>();
         MainActivity.categories.add("Add Category");
         MainActivity.categories.add("Retrieve Categories");
@@ -194,8 +192,6 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        //mDrawerListView = (ListView) getView().findViewById(R.id.categoryList);
-        //mPullToRefreshLayout = (PullToRefreshLayout) getView().findViewById(R.id.ptr_layout);
 
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.drawer_main, container, false);
@@ -224,11 +220,6 @@ public class NavigationDrawerFragment extends Fragment {
                 MainActivity.categories
 
         ));
-
-        //refresh = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefresh);
-        //refresh.setOnRefreshListener(this);
-
-        // refresh = (SwipeRefreshLayout) mDrawerListView.findViewById(R.id.swipeRefresh);
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -389,33 +380,22 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (mCurrentSelectedPosition == 1)
         {
-            ParseUser user = ParseUser.getCurrentUser();
-            ParseRelation<ParseObject> relation = user.getRelation("category");
-            ParseQuery<ParseObject> query = relation.getQuery();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Categories");
+
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    if(e == null)
-                    {
-                        refreshList = list;
-                        Toast.makeText(getContext(), "Retreive Success", Toast.LENGTH_SHORT).show();
-
-                    }
-                    else
-                    {
-                        Toast.makeText(getContext(), "Retreive Failed", Toast.LENGTH_SHORT).show();
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if (e == null) {
+                        for (ParseObject category : parseObjects) {
+                            String toRetrieve = (String) category.get("name");
+                            MainActivity.categories.add(toRetrieve);
+                        }
+                        Toast.makeText(getContext(), "Categories retrieved!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "error in deleting", Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
-
-            ParseObject yes = refreshList.get(0);
-            String theName = (String)yes.get("aH9akVy2Nc");
-            MainActivity.categories.add(theName);
-
-
-
-
 
         }
 
