@@ -191,7 +191,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.setGroupVisible(R.id.main_group,true);
         super.onPrepareOptionsMenu(menu);
     }
 

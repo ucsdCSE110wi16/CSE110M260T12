@@ -4,37 +4,35 @@ package com.cards.flash.testez;
  * Created by Vincent on 2/11/2016.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
+import android.support.v7.app.ActionBar;
+
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.parse.ParseObject;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EditCardFragment extends Fragment {
+public class EditCardFragment extends ListFragment {
 
-    private FlashCard.AddOrEdit flashCard;
+
     private ImageAdapter imAdapter;
     public ListView lView;
+    public Button quizButton, practiceButton, editButton, addButton;
+
 
     /**
      * The fragment argument representing the section number for this
@@ -45,7 +43,6 @@ public class EditCardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
 
@@ -53,41 +50,51 @@ public class EditCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LinearLayout rootView = (LinearLayout)inflater.inflate(R.layout.fragment_main, container, false);
-        flashCard = new FlashCard.AddOrEdit(getContext(),FlashCardEnum.ADD_MODE);
+        imAdapter = new ImageAdapter(getActivity());
 
-        rootView.addView(flashCard,0);
-
-
-        // Add listview to frame
-        ListView lView = (ListView)rootView.findViewById(R.id.listView);
-        imAdapter = new ImageAdapter(rootView.getContext());
-        lView.setAdapter(imAdapter);
+        this.setListAdapter(imAdapter);
+        RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        //'rootView.addView(flashCard);
-            /*FlashCard.AddOrEdit flashCard = new FlashCard.AddOrEdit(getContext(), FlashCardEnum.EDIT_MODE);
-            flashCard.setMultiChoiceSettings(object.getString("answer"), array);
-            flashCard.setQuestion(object.getString("quetion"));*/
 
+        quizButton = (Button) rootView.findViewById(R.id.quiz_button);
+        practiceButton = (Button) rootView.findViewById(R.id.practice_button);
+        editButton = (Button) rootView.findViewById(R.id.edit_button);
+        addButton = (Button) rootView.findViewById(R.id.add_button);
 
+        setUpButtons();
         return rootView;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    // set on click listeners for buttons
+    private void setUpButtons(){
+        quizButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        practiceButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
 
-        switch (item.getItemId()) {
-            case R.id.add_flashcards:
-                return true;
+            }
+        });
 
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                imAdapter.addCard();
+                imAdapter.notifyDataSetChanged();
+            }
+        });
 
-        }
+
     }
     @Override
     public void onAttach(Activity activity) {
@@ -98,11 +105,17 @@ public class EditCardFragment extends Fragment {
 
 
     class ImageAdapter extends BaseAdapter {
-        private ArrayList<String> qs = new ArrayList<String>();
-        private Context mContext;
+        private ArrayList<AddEditFlashCard> qs = new ArrayList<>();
+
 
     public ImageAdapter(Context c) {
-        mContext = c;
+    }
+    public void addCard(){
+       qs.add(new AddEditFlashCard(getContext(),FlashCardEnum.ADD_MODE));
+    }
+    public void changeMode(FlashCardEnum mode){
+
+
     }
     @Override
     public int getCount() {
@@ -121,8 +134,7 @@ public class EditCardFragment extends Fragment {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        FlashCard.AddOrEdit view = new FlashCard.AddOrEdit(mContext,FlashCardEnum.ADD_MODE);
-        return view;
+        return qs.get(position);
     }
 }
 }

@@ -1,15 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context="com.cards.flash.testez.MainActivity$EditCardFragment"
-    android:background="#d9d8d8"
-    android:gravity="top">
+    android:background="#d9d8d8">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_margin="0dp"
+        android:padding="-5dp"
+        android:showDividers="none"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:id="@+id/linearLayout">
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/quiz_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Quiz"
+            android:layout_margin="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/practice_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Practice"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Edit"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/add_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
 
-    <ListView
+    </LinearLayout>
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:elevation="10dp"
+       >
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:dividerHeight="8dp"
+        android:divider="#d9d8d8" />
+    <TextView
+        android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:text="No Cards"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:layout_below="@+id/linearLayout"
+        android:padding="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp" />
+    </FrameLayout>
+
+</RelativeLayout>

@@ -30,23 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.parse.ParseObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
-
-import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -96,16 +80,12 @@ public class MainActivity extends ActionBarActivity
 
         };
         mDrawlayout.setDrawerListener(mDrawerToggle);
-//        ListView lView = (ListView) findViewById(R.id.card_list);
-//        imAdapter = new ImageAdapter(this);
-//        lView.setAdapter(imAdapter);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-
     }
 
     @Override
@@ -113,15 +93,28 @@ public class MainActivity extends ActionBarActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-                return super.onOptionsItemSelected(item);
-
+    /** Called when the user touches the Quiz button */
+    public void setQuiz(View view) {
 
     }
+    /** Called when the user touches the Practice button */
+    public void setPractice(View view) {
 
+    }
+    /** Called when the user touches the Edit button */
+    public void setEdit(View view) {
+
+    }
+    /** Called when the user touches the Add button */
+    public void setAdd(View view) {
+
+    }
+    private void resetButtonPress(){
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+                return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
