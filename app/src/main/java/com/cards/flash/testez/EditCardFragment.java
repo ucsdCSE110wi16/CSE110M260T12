@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -89,6 +90,8 @@ public class EditCardFragment extends ListFragment {
 
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                InputMethodManager im = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 imAdapter.addCard();
                 imAdapter.notifyDataSetChanged();
             }
