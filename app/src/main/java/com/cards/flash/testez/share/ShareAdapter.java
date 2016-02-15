@@ -16,12 +16,14 @@ import java.util.List;
 
 public class ShareAdapter extends ArrayAdapter<ParseUser> {
     private OnShareListener listener;
-    private List<ParseObject> sharedList;
+    private ParseObject category;
+    private List<Boolean> isShared;
 
-    public ShareAdapter(Context context, List<ParseUser> contentList, List<ParseObject> sharedList, OnShareListener listener) {
+    public ShareAdapter(Context context, List<ParseUser> contentList, ParseObject category, OnShareListener listener, List<Boolean> isShared) {
         super(context, R.layout.item_share, contentList);
         this.listener = listener;
-        this.sharedList = sharedList;
+        this.category = category;
+        this.isShared = isShared;
     }
 
     @Override
@@ -31,22 +33,14 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_share, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+        final ViewHolder viewHolder = (ViewHolder) convertView.getTag();
         ParseObject user = getItem(position);
         viewHolder.email.setText(user.getString("email"));
         viewHolder.name.setText(user.getString("name"));
-        ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_share));
         boolean breaked = false;
-        if (sharedList != null)
-            for (int i = 0; i < sharedList.size(); i++) {
-                if (sharedList.get(i).getString("user_id").equalsIgnoreCase(getItem(position).getObjectId())) {
-                    ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_unshare));
-                    breaked = true;
-                    break;
-                }
-            }
-        final View finalConvertView = convertView;
-        if (breaked) {
+        if (isShared.get(position)) {
+            ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_unshare));
+            final View finalConvertView = convertView;
             viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,18 +48,16 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
                 }
             });
         } else {
+            ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().getResources().getDrawable(R.mipmap.ic_share));
+            final View finalConvertView1 = convertView;
             viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onShare(getItem(position), finalConvertView);
+                    listener.onShare(getItem(position), finalConvertView1);
                 }
             });
         }
         return convertView;
-    }
-
-    public void updateShareList(List<ParseObject> sharedList) {
-        this.sharedList = sharedList;
     }
 
     private static class ViewHolder {
@@ -80,8 +72,8 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
     }
 
     public interface OnShareListener {
-        public void onShare(ParseObject user, View view);
+        public void onShare(ParseUser user, View view);
 
-        public void onUnshare(ParseObject user, View view);
+        public void onUnshare(ParseUser user, View view);
     }
 }

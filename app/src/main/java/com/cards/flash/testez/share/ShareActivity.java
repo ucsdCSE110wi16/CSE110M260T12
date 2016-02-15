@@ -6,11 +6,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.cards.flash.testez.R;
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -21,11 +19,14 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import bolts.Task;
 
 public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnShareListener {
     public static final String CATEGORY_ID = "category_ID";
+    private List<Boolean> shareList;
     private List<ParseUser> userList;
-    private List<ParseObject> shareList;
     private ParseObject category;
     private ShareAdapter adapter;
 
@@ -59,18 +60,29 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
         * startActivity(intent);
         */
 
-        loadCategory("Iawx9ab6e8");
+        loadCategory("Abf4PacSTj");
 
     }
 
     private void loadCategoryShareList() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-        query.whereEqualTo("category_id", category.getObjectId());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                shareList = list;
-                loadUserList();
+                shareList = new ArrayList<Boolean>();
+                for (ParseUser user : userList) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
+                    query.whereEqualTo("user", user.getObjectId());
+                    query.whereEqualTo("category", category.getObjectId());
+                    Task<List<ParseObject>> result = query.findInBackground();
+                    try {
+                        result.waitForCompletion();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    shareList.add(result.getResult().size()>0);
+                }
+                onLoaded(userList);
             }
         });
     }
@@ -97,7 +109,7 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     category = object;
-                    loadCategoryShareList();
+                    loadUserList();
                 } else {
                     // something went wrong
                     e.printStackTrace();
@@ -115,7 +127,8 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> objects, ParseException e) {
                 if (e == null) {
-                    onLoaded(objects);
+                    userList = objects;
+                    loadCategoryShareList();
                 } else {
                     e.printStackTrace();
                 }
@@ -124,60 +137,44 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
     }
 
     @Override
-    public void onShare(ParseObject user, final View view) {
-        ParseObject shareObject = new ParseObject("Share");
-        shareObject.put("user_id", user.getObjectId());
-        shareObject.put("category_id", category.getObjectId());
+    public void onShare(final ParseUser user, final View view) {
+        final ParseObject shareObject = new ParseObject("Share");
         shareObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e != null) {
-                    // something went wrong
-                } else {
-                    loadCategory(category.getObjectId());
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void onUnshare(ParseObject user, final View view) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-        query.whereEqualTo("user_id", user.getObjectId());
-        query.whereEqualTo("category_id", category.getObjectId());
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(Object obj, Throwable throwable) {
-                ParseObject object;
-                if (obj instanceof ArrayList) {
-                    if (((ArrayList) obj).size() > 0) {
-                        object = (ParseObject) ((ArrayList) obj).get(0);
-                    } else {
-                        loadCategory(category.getObjectId());
-                        return;
-                    }
-                } else {
-                    object = (ParseObject) obj;
-                }
-                try {
-                    object.delete();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                object.saveInBackground(new SaveCallback() {
+                shareObject.getRelation("user").add(user);
+                shareObject.getRelation("category").add(category);
+                shareObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        loadCategory(category.getObjectId());
+                        user.getRelation("share").add(shareObject);
+                        user.saveInBackground();
+                        category.getRelation("share").add(shareObject);
+                        category.saveInBackground();
+                        loadUserList();
                     }
                 });
             }
+        });
+    }
 
+    @Override
+    public void onUnshare(ParseUser user, final View view) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
+        query.whereEqualTo("user", user.getObjectId());
+        query.whereEqualTo("category", category.getObjectId());
+        query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List list, ParseException e) {
-                done(list.get(0), e);
+            public void done(List<ParseObject> list, ParseException e) {
+                for (ParseObject obj : list) {
+                    try {
+                        obj.delete();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                loadUserList();
             }
-
         });
     }
 
@@ -186,7 +183,7 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter = new ShareAdapter(getApplicationContext(), userQueryResult, shareList, ShareActivity.this);
+                adapter = new ShareAdapter(getApplicationContext(), userQueryResult, category, ShareActivity.this,shareList);
                 ((ListView) findViewById(R.id.listView)).setAdapter(adapter);
                 userList = userQueryResult;
                 cancelLoading();

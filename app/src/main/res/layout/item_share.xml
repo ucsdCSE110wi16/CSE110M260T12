@@ -6,7 +6,6 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@mipmap/ic_share"
         android:id="@+id/share_button"
         android:layout_gravity="right|center_vertical"
         android:padding="5dp" />
