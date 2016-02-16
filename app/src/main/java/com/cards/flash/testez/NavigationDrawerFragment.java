@@ -3,7 +3,6 @@ package com.cards.flash.testez;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 import android.content.DialogInterface;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -94,7 +93,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
     private List<ParseObject> refreshList;
-    private PullToRefreshLayout mPullToRefreshLayout;
+   // private PullToRefreshLayout mPullToRefreshLayout;
     //private SwipeRefreshLayout refresh;
 
 
@@ -387,8 +386,12 @@ public class NavigationDrawerFragment extends Fragment {
                 public void done(List<ParseObject> parseObjects, ParseException e) {
                     if (e == null) {
                         for (ParseObject category : parseObjects) {
+
                             String toRetrieve = (String) category.get("name");
-                            MainActivity.categories.add(toRetrieve);
+                            if(!MainActivity.categories.contains(toRetrieve))
+                            {
+                                MainActivity.categories.add(toRetrieve);
+                            }
                         }
                         Toast.makeText(getContext(), "Categories retrieved!", Toast.LENGTH_LONG).show();
                     } else {

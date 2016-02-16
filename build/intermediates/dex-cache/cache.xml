@@ -1,2 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-8.1.0_02ed102279dc6922010941075236d8f12e3289e6.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-applinks/1.3.0/bc535105332645408ef5f1380215cc954b842178/bolts-applinks-1.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bc535105332645408ef5f1380215cc954b842178">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/bolts-applinks-1.3.0_81f61d5f52b5ce31acf1847f0627f913ce11d3bd.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/libs/Parse-1.13.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="aeb59f6d2e1abe79bb4d1342eb14bb628c2c5f03">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/Parse-1.13.0_82583a08218f403b65f9d41ccc3af1ad662883cd.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-23.1.1_2dfac8fe5d2352304bbc0293253f84e27138e503.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.10.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bcb4a50f5e2c67b3e84441b1b2a239856776c9b8">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.facebook.android-facebook-android-sdk-4.10.0_81a5e762b9bd34c9462c1f791425f6516dfeadb1.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_190716199eff8588956001894e3141c311eb31b8.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/libs/ParseFacebookUtilsV4-1.10.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dc1ec3e0961d2ffef7486cc47b17fe60b9591635">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/ParseFacebookUtilsV4-1.10.4_0e275bb6a1f3c2f1dfb4daaaba9bbff41440651f.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-21.0.3_7741ec70469c8c99bb200ec38d29e9c198e1703a.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-appindexing-8.1.0_aea4c76cd223f4411e04b0cbe3be09a6523594a1.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_00e3ffaf3b4ae0e8982e9869ac634eda852edcbd.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_7d66ef3ae05e9e5137d250e6110872c7e6c954af.jar" />
+    </item>
+    <item
+        jar="/Users/erictran/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.3.0/8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c/bolts-tasks-1.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c">
+        <dex dex="/Users/erictran/Documents/AndroidStudioProjects/TestEZ/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.3.0_591b9464d495de6c950e070c42c04b415cee47a3.jar" />
+    </item>
+
+</items>
