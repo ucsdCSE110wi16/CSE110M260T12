@@ -91,8 +91,6 @@ public class FlashCardFlip extends FrameLayout{
 
             public boolean onTouch(View v, MotionEvent event) {
                 gestureDetector.onTouchEvent(event);
-                InputMethodManager im = (InputMethodManager)v.getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
-                im.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 return true;
 
             }
@@ -127,8 +125,6 @@ public class FlashCardFlip extends FrameLayout{
             return super.onFling(e1, e2, velocityX, velocityY);
 
         }
-
-
     }
 
 

@@ -67,17 +67,6 @@
             android:layout_marginBottom="-5dp"
             android:textColor="#04c6fc" />
     </LinearLayout>
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:dividerHeight="8dp"
-        android:divider="#d9d8d8"
-        android:descendantFocusability="afterDescendants"
-        android:layout_below="@+id/linearLayout" />
     <TextView
         android:id="@id/android:empty"
         android:layout_width="match_parent"
@@ -92,4 +81,15 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp" />
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#d9d8d8"
+        android:descendantFocusability="afterDescendants"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp" />
 </RelativeLayout>

@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 public final class BaseFunction {
 
     private static FrameLayout infinityLayout;
+    private static int listviewMargin = 8;
 
     public static void hideKeyboard(Context context, EditText tempET){
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -79,6 +80,7 @@ public final class BaseFunction {
         layout.addView(frameLayout);
         setStartAnimation(layout, frameLayout);
     }
+
     public static void setStartAnimation(final ViewGroup baseLayout, final View viewToAnimate){
         Animation scale = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 1.0f);
