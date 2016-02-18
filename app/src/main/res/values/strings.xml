@@ -4,10 +4,14 @@
     <string name="parse_app_id">imOTprWVlxMbKhJnp6PC1Y91YSVRDKSwbarzOqri</string>
     <string name="parse_client_key">KMmVudM2zeQ30P4wcMYhBVSTqMhJeL13DobIGhk7</string>
     <string name="facebook_app_id">1072209529498691</string>
+
     <string name="title_activity_main">TestEZ</string>
 
 
     <string name="title_section1">Add New Category</string>
+
+    <string name="title_share_activity">Share</string>
+
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 

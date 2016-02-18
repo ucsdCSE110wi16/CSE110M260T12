@@ -2,11 +2,15 @@ package com.cards.flash.testez;
 
 import android.app.Activity;
 import android.content.Intent;
+
 import android.content.res.Configuration;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.support.v4.app.ActionBarDrawerToggle;
+
+import android.graphics.Point;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -15,11 +19,13 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
+
 import android.util.Base64;
 import android.util.Log;
 
 import android.view.Display;
 import android.view.GestureDetector;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +39,8 @@ import android.view.inputmethod.InputMethodManager;
 
 
 import java.util.ArrayList;
+
+import com.cards.flash.testez.share.ShareActivity;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -51,6 +59,7 @@ public class MainActivity extends ActionBarActivity
     static String userId;
     static int screenWidth;
     static int screenHeight;
+
 
     private EditCardFragment editCard;
 
@@ -94,6 +103,7 @@ public class MainActivity extends ActionBarActivity
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+
     }
 
     @Override
@@ -134,6 +144,7 @@ public class MainActivity extends ActionBarActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+
     }
 
     @Override
@@ -147,6 +158,10 @@ public class MainActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, editCard)
                 .commit();
+        if (position == 3) {
+            Intent intent = new Intent(MainActivity.this, ShareActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onSectionAttached(int number) {

@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:background="#a01313">
 
+
     </FrameLayout>
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->

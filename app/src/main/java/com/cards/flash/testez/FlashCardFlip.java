@@ -18,6 +18,11 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -25,6 +30,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,9 +132,6 @@ public class FlashCardFlip extends FrameLayout{
 
         }
     }
-
-
-
     private void animateTheCard(int id, final View targetView,final View newView){
         Animator left_in = AnimatorInflater.loadAnimator(context, id);
         left_in.setTarget(targetView);

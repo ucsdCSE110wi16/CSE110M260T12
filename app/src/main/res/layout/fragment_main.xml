@@ -77,19 +77,22 @@
         android:background="#ffffff"
         android:layout_below="@+id/linearLayout"
         android:padding="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        />
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#d9d8d8"
         android:descendantFocusability="afterDescendants"
         android:layout_below="@+id/linearLayout"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:dividerHeight="8dp"
+        android:divider="#d9d8d8"
+        />
 </RelativeLayout>
