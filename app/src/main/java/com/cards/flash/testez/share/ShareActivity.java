@@ -65,26 +65,47 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
     }
 
     private void loadCategoryShareList() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
+            public void done(List<ParseUser> list, ParseException e) {
                 shareList = new ArrayList<Boolean>();
                 for (ParseUser user : userList) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-                    query.whereEqualTo("user", user.getObjectId());
-                    query.whereEqualTo("category", category.getObjectId());
-                    Task<List<ParseObject>> result = query.findInBackground();
+                    Task<List<ParseObject>> result = category.getRelation("users").getQuery().findInBackground();
                     try {
                         result.waitForCompletion();
                     } catch (InterruptedException e1) {
                         e1.printStackTrace();
                     }
-                    shareList.add(result.getResult().size()>0);
+                    boolean shared = false;
+                    for(ParseObject object : result.getResult()){
+                        if(object.getObjectId().equals(user.getObjectId()))
+                            shared = true;
+                    }
+                    shareList.add(shared);
                 }
                 onLoaded(userList);
             }
         });
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> list, ParseException e) {
+//                shareList = new ArrayList<Boolean>();
+//                for (ParseUser user : userList) {
+//                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
+//                    query.whereEqualTo("user", user.getObjectId());
+//                    query.whereEqualTo("category", category.getObjectId());
+//                    Task<List<ParseObject>> result = query.findInBackground();
+//                    try {
+//                        result.waitForCompletion();
+//                    } catch (InterruptedException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    shareList.add(result.getResult().size()>0);
+//                }
+//                onLoaded(userList);
+//            }
+//        });
     }
 
     //needs to be runnned only on the main thread
@@ -138,41 +159,21 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
 
     @Override
     public void onShare(final ParseUser user, final View view) {
-        final ParseObject shareObject = new ParseObject("Share");
-        shareObject.saveInBackground(new SaveCallback() {
+        category.getRelation("users").add(user);
+        category.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                shareObject.getRelation("user").add(user);
-                shareObject.getRelation("category").add(category);
-                shareObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        user.getRelation("share").add(shareObject);
-                        user.saveInBackground();
-                        category.getRelation("share").add(shareObject);
-                        category.saveInBackground();
-                        loadUserList();
-                    }
-                });
+                loadUserList();
             }
         });
     }
 
     @Override
     public void onUnshare(ParseUser user, final View view) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Share");
-        query.whereEqualTo("user", user.getObjectId());
-        query.whereEqualTo("category", category.getObjectId());
-        query.findInBackground(new FindCallback<ParseObject>() {
+        category.getRelation("users").remove(user);
+        category.saveInBackground(new SaveCallback() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                for (ParseObject obj : list) {
-                    try {
-                        obj.delete();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+            public void done(ParseException e) {
                 loadUserList();
             }
         });
