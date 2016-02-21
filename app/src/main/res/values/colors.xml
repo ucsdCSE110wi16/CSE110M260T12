@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mudBlue" >#359bfa</color>
+    <color name="brightBlue">#1e7dea</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF6F00</color>
+
+    <color name="corrGreen">#78AB46</color>
+    <color name="strokeGreen">#458B00</color>
+</resources>

@@ -47,9 +47,6 @@ public class RegisterUser extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        ParseFacebookUtils.initialize(this);
 
         ParseUser user = ParseUser.getCurrentUser();
 

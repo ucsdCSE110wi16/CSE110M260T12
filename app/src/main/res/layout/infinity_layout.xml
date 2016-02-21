@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#9a242323">
+    <com.cards.flash.testez.InfinityLoading
+        android:id="@+id/infinity_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:infl_backColor="@color/colorPrimary"
+        app:infl_drawBack="true"
+        app:infl_progressColor="@color/colorAccent"
+        app:infl_strokeWidth="8dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancelButton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@android:color/transparent"
+        android:textSize="18dp"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="20dp" />
+</FrameLayout>

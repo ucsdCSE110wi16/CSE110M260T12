@@ -2,32 +2,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.cards.flash.testez.MainActivity$PlaceholderFragment"
-    android:background="#284b9e">
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-
-
-
+    android:orientation="vertical"
+    tools:context="com.cards.flash.testez.MainActivity$EditCardFragment"
+    android:background="#d9d8d8">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_margin="0dp"
+        android:padding="-5dp"
+        android:showDividers="none"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:id="@+id/linearLayout">
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/quiz_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Quiz"
+            android:layout_margin="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/practice_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Practice"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Edit"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+        <Button
+            style="@style/DefaultButton"
+            android:id="@+id/add_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:layout_margin="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginRight="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:textColor="#04c6fc" />
+    </LinearLayout>
     <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Testing fragment"
-        android:textSize="22dp"
-        android:textIsSelectable="false" />
-        -->
-    <!--<FrameLayout
-        android:id="@+id/container"
+        android:id="@id/android:empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-        -->
-    <com.cards.flash.testez.FlashCardFlip
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:text="No Cards"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:layout_below="@+id/linearLayout"
+        android:padding="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        />
+    <ListView
+        android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false" />
-
-
+        android:layout_height="match_parent"
+        android:descendantFocusability="afterDescendants"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:dividerHeight="8dp"
+        android:divider="#d9d8d8"
+        />
 </RelativeLayout>

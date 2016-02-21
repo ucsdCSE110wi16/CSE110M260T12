@@ -1,5 +1,11 @@
 package com.cards.flash.testez;
 
+
+import android.app.AlertDialog;
+import android.content.Context;
+
+import android.content.DialogInterface;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +17,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +27,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Handler;
+
+import static android.R.color.holo_blue_bright;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -29,6 +61,8 @@ import android.widget.Toast;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+
+    private static ArrayAdapter<String> arrayAdapter;
     /**
      * Remember the position of the selected item.
      */
@@ -54,9 +88,14 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentSelectedPosition = -1;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private List<ParseObject> refreshList;
+   // private PullToRefreshLayout mPullToRefreshLayout;
+    //private SwipeRefreshLayout refresh;
+
 
     public NavigationDrawerFragment() {
     }
@@ -64,6 +103,10 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MainActivity.categories = new ArrayList<String>();
+        MainActivity.categories.add("Add Category");
+        MainActivity.categories.add("Retrieve Categories");
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -79,6 +122,7 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -86,27 +130,96 @@ public class NavigationDrawerFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    private void selectItemLong(final int position)
+    {
+        if(position != 0)
+        {
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("Delete Category?");
+
+            final TextView et = new TextView(getContext());
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(et);
+
+            // set dialog message
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    final String toRemove = MainActivity.categories.get(position);
+                    MainActivity.categories.remove(position);
+
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Categories");
+                    query.whereEqualTo("name", toRemove);
+
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if(e==null) {
+                                for (ParseObject delete : parseObjects) {
+                                    delete.deleteInBackground();
+                                    Toast.makeText(getContext(), "Category Deleted", Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getContext(), "error in deleting", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // show it
+            alertDialog.show();
+
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
+
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.drawer_main, container, false);
+
+        mDrawerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+
+                selectItemLong(pos);
+                return true;
+            }
+        });
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+
+        mDrawerListView.setAdapter(arrayAdapter = new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        "hi",
-                }));
+                MainActivity.categories
+
+        ));
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -190,7 +303,109 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
+
         mCurrentSelectedPosition = position;
+        final ActionBar actionBar = getActionBar();
+        final String theAddedCategory;
+
+
+        //Add Category Button
+        if(mCurrentSelectedPosition == 0)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Add New Category");
+
+            // Set up the input
+            final EditText input = new EditText(getActivity());
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            // Set up the buttons
+            builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final String categoryName = input.getText().toString();
+
+
+                    MainActivity.categories.add(categoryName);
+
+                    final ParseObject newCategory = new ParseObject("Categories");
+                    newCategory.put("name", categoryName);
+                    newCategory.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                ParseUser user = ParseUser.getCurrentUser();
+                                ParseRelation<ParseObject> relation = user.getRelation("category");
+                                relation.add(newCategory);
+                                user.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Toast.makeText(getContext(), "Success added to database!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    Toast.makeText(getActivity(), "Category Added!",
+                            Toast.LENGTH_LONG).show();
+
+                    actionBar.setTitle(categoryName);
+
+
+                }
+
+            });
+
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+
+        }
+
+        if (mCurrentSelectedPosition == 1)
+        {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Categories");
+
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if (e == null) {
+                        for (ParseObject category : parseObjects) {
+
+                            String toRetrieve = (String) category.get("name");
+                            if(!MainActivity.categories.contains(toRetrieve))
+                            {
+                                MainActivity.categories.add(toRetrieve);
+                            }
+                        }
+                        Toast.makeText(getContext(), "Categories retrieved!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "error in deleting", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+        }
+
+        else if(mCurrentSelectedPosition > 1)
+        {
+            actionBar.setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
+        }
+
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
@@ -200,6 +415,41 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
+
+    }
+
+    /**
+     *
+     * @return String the current Category
+     */
+    private String getCategoryTitle()
+    {
+        return getActionBar().getTitle().toString();
+    }
+
+    /**
+     * Helper method to find the category to be deleted
+     * @param toDelete
+     * @param theList
+     * @return
+     */
+    private int findCategoryDelete(String toDelete, ArrayList<String> theList)
+    {
+        int i = 0;
+        int toReturn = -1;
+
+
+        while(i < theList.size())
+        {
+            if(theList.get(i) == toDelete)
+            {
+                toReturn = i;
+            }
+            else
+                i++;
+        }
+
+        return toReturn;
     }
 
     @Override
@@ -231,16 +481,16 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // If the drawer is open, show the global app actions in the action bar. See also
-        // showGlobalContextActionBar, which controls the top-left area of the action bar.
-        if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
-            showGlobalContextActionBar();
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        // If the drawer is open, show the global app actions in the action bar. See also
+//        // showGlobalContextActionBar, which controls the top-left area of the action bar.
+//        if (mDrawerLayout != null && isDrawerOpen()) {
+//            inflater.inflate(R.menu.global, menu);
+//            showGlobalContextActionBar();
+//        }
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -248,10 +498,10 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (item.getItemId() == R.id.action_example) {
+//            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -270,6 +520,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
+
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

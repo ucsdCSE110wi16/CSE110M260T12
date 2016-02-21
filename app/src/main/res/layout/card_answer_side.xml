@@ -4,17 +4,26 @@
     android:layout_height="match_parent"
     android:background="@drawable/flashcard"
     android:scaleType="fitXY">
-
+    <!--<Button
+=======
     <Button
+>>>>>>> origin/Faress
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Multiple Choice"
         android:id="@+id/mult_choice_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+<<<<<<< HEAD
+        android:background="#063aa5"
+        android:textSize="14sp"
+        android:enabled="true"
+        android:textColor="#ffffff" />
+=======
         android:background="#2f6eef"
         android:textSize="14sp"
         android:enabled="true" />
+>>>>>>> origin/Faress
 
     <Button
         android:layout_width="wrap_content"
@@ -23,6 +32,10 @@
         android:id="@+id/true_false_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="#2f6eef"
-        android:textSize="14sp" />
+<<<<<<< HEAD
+        android:background="#063aa5"
+        android:textSize="14sp"
+        android:textColor="#ffffff" />
+        -->
+
 </RelativeLayout>
