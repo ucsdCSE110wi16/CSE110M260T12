@@ -120,10 +120,12 @@ public class AddEditFlashCard extends FlashCardFlip {
         doneButton.setBackground(getResources().getDrawable(R.drawable.circular_button));
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(widHeight,
                 widHeight);
-        params.setMargins(5, 5, 5, 5);
-        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        int margin = 5 + BaseFunction.LISTVIEWMARGIN;
+        params.setMargins(margin, margin, margin, margin);
+
         doneButton.setText("Done");
-        doneButton.setPadding(5, 5, 5, 5);
+
+        doneButton.setX(BaseFunction.getFCWidth() - (4 * margin + widHeight));
         doneButton.setTextSize(12.f);
         frontSide.addView(doneButton, params);
 

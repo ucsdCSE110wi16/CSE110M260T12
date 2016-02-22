@@ -72,7 +72,7 @@ public class FlashCardFlip extends FrameLayout{
         frontSide = (RelativeLayout) View.inflate(context,R.layout.card_question_side,null);
         backSide = (RelativeLayout) View.inflate(context, R.layout.card_answer_side, null);
 
-        setParams(MainActivity.screenWidth, (int) (MainActivity.screenWidth - (MainActivity.screenWidth * 0.2)));
+        setParams(BaseFunction.getFCWidth(), BaseFunction.getFCHeight());
 
         this.addView(frontSide);
         this.addView(backSide);

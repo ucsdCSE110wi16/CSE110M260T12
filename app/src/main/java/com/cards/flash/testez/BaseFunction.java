@@ -28,7 +28,7 @@ import android.widget.RelativeLayout;
 public final class BaseFunction {
 
     private static FrameLayout infinityLayout;
-    private static int listviewMargin = 8;
+    public static int LISTVIEWMARGIN = 8;
 
     public static void hideKeyboard(Context context, EditText tempET){
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -168,7 +168,7 @@ public final class BaseFunction {
         return (int) (MainActivity.screenWidth - (MainActivity.screenWidth * 0.2));
     }
     public static int getFCWidth(){
-        return MainActivity.screenWidth;
+        return MainActivity.screenWidth - (2 * BaseFunction.LISTVIEWMARGIN);
     }
     public static int getYPosTF(){
         int height_avail = (BaseFunction.getFCHeight()) - (int) (MainActivity.screenWidth * 0.094);

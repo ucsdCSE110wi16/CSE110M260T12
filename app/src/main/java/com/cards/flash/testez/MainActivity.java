@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 
 import android.graphics.Point;
@@ -20,6 +22,10 @@ import android.os.Build;
 import android.os.Bundle;
 
 
+import android.support.v7.internal.widget.ActionBarContainer;
+import android.support.v7.internal.widget.ActionBarContextView;
+import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 
@@ -36,6 +42,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -80,7 +89,8 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         mDrawlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2a4989")));
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -88,8 +98,8 @@ public class MainActivity extends ActionBarActivity
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawlayout, R.drawable.ic_drawer,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-
-            public void onDrawerOpened(View view) {                       //close keyboard when opening drawer
+            //close keyboard when opening drawer
+            public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
                 InputMethodManager im = (InputMethodManager) getCurrentFocus().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -98,6 +108,7 @@ public class MainActivity extends ActionBarActivity
         };
         mDrawlayout.setDrawerListener(mDrawerToggle);
 
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -105,6 +116,7 @@ public class MainActivity extends ActionBarActivity
         screenHeight = size.y;
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

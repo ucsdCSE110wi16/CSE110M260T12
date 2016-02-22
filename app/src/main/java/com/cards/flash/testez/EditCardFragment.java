@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.CardView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -54,9 +56,18 @@ public class EditCardFragment extends ListFragment {
         imAdapter = new ImageAdapter(getActivity());
 
         this.setListAdapter(imAdapter);
+
         RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
-
-
+        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.linearLayout);
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = R.integer.action_bar_height;
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MainActivity.screenWidth,
+              actionBarHeight);
+        linearLayout.setLayoutParams(params);
 
         quizButton = (Button) rootView.findViewById(R.id.quiz_button);
         practiceButton = (Button) rootView.findViewById(R.id.practice_button);
@@ -108,36 +119,33 @@ public class EditCardFragment extends ListFragment {
 
 
     class ImageAdapter extends BaseAdapter {
-        private ArrayList<AddEditFlashCard> qs = new ArrayList<>();
+        private ArrayList<AddEditFlashCard> cardsList = new ArrayList<>();
 
 
-    public ImageAdapter(Context c) {
-    }
-    public void addCard(){
-       qs.add(new AddEditFlashCard(getContext(),FlashCardEnum.ADD_MODE));
-    }
-    public void changeMode(FlashCardEnum mode){
+        public ImageAdapter(Context c) {}
+        public void addCard(){
+            cardsList.add(new AddEditFlashCard(getContext(), FlashCardEnum.ADD_MODE));
+        }
+        public void changeMode(FlashCardEnum mode){}
 
-
-    }
-    @Override
-    public int getCount() {
-        return qs.size();
+        @Override
+        public int getCount() {
+        return cardsList.size();
     }
 
-    @Override
-    public Object getItem(int position) {
+        @Override
+        public Object getItem(int position) {
         return null;
     }
 
-    @Override
-    public long getItemId(int position) {
+        @Override
+        public long getItemId(int position) {
         return 0;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return qs.get(position);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return cardsList.get(position);
+        }
     }
-}
 }
