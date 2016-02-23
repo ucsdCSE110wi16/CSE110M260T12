@@ -62,7 +62,7 @@ import static android.R.color.holo_blue_bright;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends SwipeRefreshListFragment {
+public class NavigationDrawerFragment extends Fragment {
 
 
     private static ArrayAdapter<String> arrayAdapter;
@@ -218,7 +218,7 @@ public class NavigationDrawerFragment extends SwipeRefreshListFragment {
         });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        mSwipeRefreshLayout.setColorScheme(
+        mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.color_scheme_1_1, R.color.color_scheme_1_2,
                 R.color.color_scheme_1_3, R.color.color_scheme_1_4);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -231,7 +231,7 @@ public class NavigationDrawerFragment extends SwipeRefreshListFragment {
 
 
         mDrawerListView = (ListView) view.findViewById(android.R.id.list);
-
+        System.out.println(getClass().getEnclosingClass());
         mDrawerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -253,8 +253,8 @@ public class NavigationDrawerFragment extends SwipeRefreshListFragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Clicked at positon = " + position, Toast.LENGTH_SHORT).show();
                 selectItem(position);
+                closeDrawer();
             }
         });
         fetchAllCategories();
@@ -438,13 +438,13 @@ public class NavigationDrawerFragment extends SwipeRefreshListFragment {
     private void selectItem(int position) {
 
         mCurrentSelectedPosition = position;
-        //if (MainActivity.categories.size() != 0)
+        if (MainActivity.categories.size() != 0)
             getActionBar().setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
 
 
         mDrawerListView.setItemChecked(position, true);
         mCallbacks.onNavigationDrawerItemSelected(position);
-        closeDrawer();
+
     }
 
     private void closeDrawer(){
