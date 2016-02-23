@@ -30,11 +30,11 @@ public final class BaseFunction {
     private static FrameLayout infinityLayout;
     public static int LISTVIEWMARGIN = 8;
 
-    public static void hideKeyboard(Context context, EditText tempET){
+    public static void hideKeyboard(Context context, View tempET){
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(tempET.getWindowToken(), 0);
     }
-    public static void showKeyboard(Context context, EditText tempET){
+    public static void showKeyboard(Context context, View tempET){
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         tempET.requestFocus();
         imm.showSoftInput(tempET, InputMethodManager.SHOW_IMPLICIT);

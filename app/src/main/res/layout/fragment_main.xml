@@ -34,20 +34,20 @@
             android:background="#00ffffff" />
         <Button
             style="@style/DefaultButton"
-            android:id="@+id/edit_button"
+            android:id="@+id/invite_button"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Edit"
+            android:text="Invite"
             android:textColor="#ffffff"
             android:background="#00ffffff" />
         <Button
             style="@style/DefaultButton"
-            android:id="@+id/add_button"
+            android:id="@+id/scores_button"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Add"
+            android:text="Scores"
             android:textColor="#ffffff"
             android:background="#00ffffff" />
     </LinearLayout>
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
-        android:text="No Cards"
+        android:text="NO CARDS"
         android:gravity="center"
 
         android:layout_below="@+id/linearLayout"
@@ -65,7 +65,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textSize="28dp"
+        android:typeface="sans" />
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"

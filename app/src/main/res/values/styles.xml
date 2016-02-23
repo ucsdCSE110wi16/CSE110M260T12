@@ -12,4 +12,5 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/default_button_selector</item>
     </style>
+
 </resources>

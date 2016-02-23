@@ -1,14 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#59aded">
 
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Add Category"
+		android:id="@+id/cateButton"
+		android:background="#00ffffff"
+		android:textColor="#ffffff"
+        android:focusable="false"
+		android:textAlignment="center" />
+
+	<android.support.v4.widget.SwipeRefreshLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/swiperefresh"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+        android:focusable="false">
 
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#59aded"
-    android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    tools:context="com.cards.flash.testez.NavigationDrawerFragment" />
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:choiceMode="singleChoice"
+	android:divider="@android:color/transparent"
+	android:dividerHeight="0dp"
+	android:id="@android:id/list"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+	tools:context="com.cards.flash.testez.NavigationDrawerFragment" />
 
+</android.support.v4.widget.SwipeRefreshLayout>
 
-
+</LinearLayout>

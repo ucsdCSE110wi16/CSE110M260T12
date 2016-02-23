@@ -34,7 +34,7 @@ public class EditCardFragment extends ListFragment {
 
     private ImageAdapter imAdapter;
     public ListView lView;
-    public Button quizButton, practiceButton, editButton, addButton;
+    public Button quizButton, practiceButton, inviteButton, scoresButton;
 
 
     /**
@@ -71,8 +71,8 @@ public class EditCardFragment extends ListFragment {
 
         quizButton = (Button) rootView.findViewById(R.id.quiz_button);
         practiceButton = (Button) rootView.findViewById(R.id.practice_button);
-        editButton = (Button) rootView.findViewById(R.id.edit_button);
-        addButton = (Button) rootView.findViewById(R.id.add_button);
+        inviteButton = (Button) rootView.findViewById(R.id.invite_button);
+        scoresButton = (Button) rootView.findViewById(R.id.scores_button);
 
         setUpButtons();
         return rootView;
@@ -92,23 +92,27 @@ public class EditCardFragment extends ListFragment {
             }
         });
 
-        editButton.setOnClickListener(new View.OnClickListener() {
+        inviteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
 
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        scoresButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 InputMethodManager im = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                imAdapter.addCard();
-                imAdapter.notifyDataSetChanged();
+
+
             }
         });
 
 
+    }
+    public void addCard(){
+        imAdapter.addCard();
+        imAdapter.notifyDataSetChanged();
     }
     @Override
     public void onAttach(Activity activity) {
@@ -119,13 +123,17 @@ public class EditCardFragment extends ListFragment {
 
 
     class ImageAdapter extends BaseAdapter {
-        private ArrayList<AddEditFlashCard> cardsList = new ArrayList<>();
+        private ArrayList<FlashCard> cardsList = new ArrayList<>();
 
 
         public ImageAdapter(Context c) {}
+
         public void addCard(){
-            cardsList.add(new AddEditFlashCard(getContext(), FlashCardEnum.ADD_MODE));
+            if (cardsList.get(0).currMode != FlashCardEnum.ADD_MODE ){
+                cardsList.add(0, new FlashCard(getContext(), FlashCardEnum.ADD_MODE, null));
+            }
         }
+
         public void changeMode(FlashCardEnum mode){}
 
         @Override

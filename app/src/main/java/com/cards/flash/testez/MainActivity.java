@@ -1,55 +1,39 @@
 package com.cards.flash.testez;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 
 import android.content.res.Configuration;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
-
-import android.graphics.Point;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 
-import android.support.v7.internal.widget.ActionBarContainer;
-import android.support.v7.internal.widget.ActionBarContextView;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
-
 import android.view.Display;
-import android.view.GestureDetector;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
-
-import com.cards.flash.testez.share.ShareActivity;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -68,9 +52,11 @@ public class MainActivity extends ActionBarActivity
     static String userId;
     static int screenWidth;
     static int screenHeight;
+    static ArrayList<ParseObject> cateList;
 
+    private ArrayList<EditCardFragment> fragments;
 
-    private EditCardFragment editCard;
+    private EditCardFragment currFrag;
 
     private DrawerLayout mDrawlayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -84,13 +70,16 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
+        fragments = new ArrayList<>();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         mDrawlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2a4989")));
+
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -116,12 +105,45 @@ public class MainActivity extends ActionBarActivity
         screenHeight = size.y;
 
     }
+    private Bitmap resizeBitmapImageFn(
+            Bitmap bmpSource, int maxResolution){
+        int iWidth = bmpSource.getWidth();
+        int iHeight = bmpSource.getHeight();
+        int newWidth = iWidth ;
+        int newHeight = iHeight ;
+        float rate = 0.0f;
 
+        if(iWidth > iHeight ){
+            if(maxResolution < iWidth ){
+                rate = maxResolution / (float) iWidth ;
+                newHeight = (int) (iHeight * rate);
+                newWidth = maxResolution;
+            }
+        }else{
+            if(maxResolution < iHeight ){
+                rate = maxResolution / (float) iHeight ;
+                newWidth = (int) (iWidth * rate);
+                newHeight = maxResolution;
+            }
+        }
+
+        return Bitmap.createScaledBitmap(
+                bmpSource, newWidth, newHeight, true);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+        Bitmap add_icon = BitmapFactory.decodeResource(getResources(), R.drawable.addbutton); //Converting drawable into bitmap
+        Bitmap new_add_icon = resizeBitmapImageFn(add_icon, 80); //resizing the bitmap
+        Drawable d = new BitmapDrawable(getResources(),new_add_icon); //Converting bitmap into drawable
+        menu.getItem(1).setIcon(d);
+
+        Bitmap edit_icon = BitmapFactory.decodeResource(getResources(), R.drawable.editbutton); //Converting drawable into bitmap
+        Bitmap new_edit_icon = resizeBitmapImageFn(edit_icon, 80); //resizing the bitmap
+        Drawable edit_d = new BitmapDrawable(getResources(),new_edit_icon); //Converting bitmap into drawable
+        menu.getItem(0).setIcon(edit_d);
+        return true;
     }
     /** Called when the user touches the Quiz button */
     public void setQuiz(View view) {
@@ -143,7 +165,13 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-                return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_addbutton:
+                currFrag.addCard();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -162,18 +190,33 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        editCard = new EditCardFragment();
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseRelation relation = user.getRelation("category");
+        try {
+            List<ParseObject> contactList = relation.getQuery().find();
+            for (ParseObject p: contactList){
+                System.out.println(p);
+            }
+        }catch (Exception e){
+
+        }
+
+       /* EditCardFragment frag = fragments.get(position);
+        if (frag == null){
+            frag = new EditCardFragment();
+            fragments.add(position, frag);
+        }
+        currFrag = frag;*/
+
+        EditCardFragment frag = new EditCardFragment();
         Bundle p = new Bundle();
         p.putInt("position",position);
-        editCard.setArguments(p);
+        frag.setArguments(p);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, editCard)
+                .replace(R.id.container, frag)
                 .commit();
-        if (position == 3) {
-            Intent intent = new Intent(MainActivity.this, ShareActivity.class);
-            startActivity(intent);
-        }
+
     }
 
     public void onSectionAttached(int number) {
@@ -185,7 +228,7 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                mTitle = "test";
+                mTitle = getString(R.string.title_section3);;
                 break;
 
         }
