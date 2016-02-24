@@ -24,9 +24,9 @@ public class FlashCard extends FrameLayout{
 
     public FlashCard(Context context, FlashCardEnum mode, ParseObject object){
         super(context);
-        views.add(addEditFlashCard);
-        views.add(practiceFC);
-        views.add(quizFC);
+        views = new ArrayList<>();
+        for (int i = 0; i < 3; i++)
+            views.add(null);
 
         this.object = object;
         this.currMode = mode;
@@ -38,16 +38,19 @@ public class FlashCard extends FrameLayout{
                 currPos = 0;
                 currMode = FlashCardEnum.ADD_MODE;
                 addEditFlashCard = new AddEditFlashCard(getContext(), FlashCardEnum.ADD_MODE);
+                views.set(currPos, addEditFlashCard);
                 break;
             case PRACTICE_MODE:
                 currPos = 1;
                 currMode = FlashCardEnum.PRACTICE_MODE;
                 practiceFC = new PracticeFlashCard(getContext());
+                views.set(currPos, practiceFC);
                 break;
             case QUIZ_MODE:
                 currPos = 2;
                 currMode = FlashCardEnum.QUIZ_MODE;
                 quizFC = new QuizFlashCard(getContext(), object);
+                views.set(currPos, quizFC);
                 break;
             default:
                 break;
@@ -82,7 +85,7 @@ public class FlashCard extends FrameLayout{
         ((PracticeFlashCard) practiceFC).setAnswer(answer);
     }
 
-    public void removeViewFromRoot(View view){
+    private void removeViewFromRoot(View view){
         this.removeView(view);
         view = null;
     }

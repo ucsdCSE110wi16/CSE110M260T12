@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.cards.flash.testez.MainActivity;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.Arrays;
@@ -89,6 +90,10 @@ public class RegisterUser extends Activity {
                                                         parseUser.setEmail(MainActivity.userEmail);
                                                         parseUser.put("id", MainActivity.userId);
                                                         parseUser.save();
+
+                                                        ParseObject object = new ParseObject("UserToCategory");
+                                                        object.put("userId", parseUser.getObjectId());
+                                                        object.save();
                                                     }
                                                     goToMainPage();
 

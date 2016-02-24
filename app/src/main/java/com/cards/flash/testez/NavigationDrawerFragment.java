@@ -52,6 +52,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Handler;
 
@@ -93,7 +94,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private int mCurrentSelectedPosition = -1;
+    private static int mCurrentSelectedPosition = -1;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
@@ -113,7 +114,7 @@ public class NavigationDrawerFragment extends Fragment {
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, true);
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -128,6 +129,9 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void onRefreshComplete(String cateName, int pos) {
+
+        MainActivity.initFragmentList();
+        arrayAdapter.notifyDataSetChanged();
         if (cateName != null){
             selectItem(pos);
         }else if (MainActivity.categories.size() != 0){
@@ -149,9 +153,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItemLong(final int position)
     {
-        if(position != 0)
-        {
-
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext(),AlertDialog.THEME_DEVICE_DEFAULT_DARK);
             alertDialogBuilder.setTitle("Delete Category?");
 
@@ -162,25 +163,48 @@ public class NavigationDrawerFragment extends Fragment {
             alertDialogBuilder.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
-                    final String toRemove = MainActivity.categories.get(position);
-                    MainActivity.categories.remove(position);
+                    final ParseObject object = MainActivity.cateList.get(position);
+                    ParseRelation<ParseUser> rel = object.getRelation("users");
+                    try {
+                        List<ParseUser> parseUsers = rel.getQuery().find();
+                        if (parseUsers.size() == 1){
+                            object.deleteInBackground();
+                            deleteCategory(0);
+                        }else{
+                            rel.remove(ParseUser.getCurrentUser());
 
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Categories");
-                    query.whereEqualTo("name", toRemove);
+                            object.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
 
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if(e==null) {
-                                for (ParseObject delete : parseObjects) {
-                                    delete.deleteInBackground();
-                                    Toast.makeText(getContext(), "Category Deleted", Toast.LENGTH_LONG).show();
+                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
+                                        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                                        query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject o, ParseException e) {
+                                                if (e == null) {
+                                                    ParseRelation<ParseObject> obj = o.getRelation("category");
+                                                    obj.remove(object);
+                                                    o.saveInBackground();
+
+                                                    deleteCategory(position);
+
+                                                } else {
+                                                    Toast.makeText(getContext(), "Error in deleting", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+
+                                    } else {
+                                        Toast.makeText(getContext(), "Error in deleting", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }else{
-                                Toast.makeText(getContext(), "error in deleting", Toast.LENGTH_LONG).show();
-                            }
+                            });
                         }
-                    });
+                    }catch (Exception ex){
+
+                    }
 
                 }
             });
@@ -199,9 +223,21 @@ public class NavigationDrawerFragment extends Fragment {
             // show it
             alertDialog.show();
 
-        }
     }
 
+    private void deleteCategory(int position){
+        MainActivity.cateList.remove(position);
+        MainActivity.categories.remove(position);
+        arrayAdapter.notifyDataSetChanged();
+        MainActivity.removeFragment(position);
+        if (MainActivity.getCurrFrag() == null) {
+            if (MainActivity.categories.size() != 0)
+                selectItem(0);
+            else
+                selectItem(-1);
+        }
+        Toast.makeText(getContext(), "Category Deleted", Toast.LENGTH_LONG).show();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -236,7 +272,6 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-
                 selectItemLong(pos);
                 return true;
             }
@@ -283,26 +318,42 @@ public class NavigationDrawerFragment extends Fragment {
 
                 final ParseObject newCategory = new ParseObject("Categories");
                 newCategory.put("name", categoryName);
+                ParseRelation<ParseObject> rel = newCategory.getRelation("users");
+                rel.add(ParseUser.getCurrentUser());
                 newCategory.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            ParseUser user = ParseUser.getCurrentUser();
-                            ParseRelation<ParseObject> relation = user.getRelation("category");
-                            relation.add(newCategory);
-                            user.saveInBackground(new SaveCallback() {
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
+                            query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                            query.getFirstInBackground(new GetCallback<ParseObject>() {
                                 @Override
-                                public void done(ParseException e) {
-                                    if (e != null) {
-                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Category Added!",
-                                                Toast.LENGTH_SHORT).show();
-                                        MainActivity.categories.add(categoryName);
-                                        Collections.sort(MainActivity.categories);
-                                        int pos = MainActivity.categories.indexOf(categoryName);
-                                        selectItem(pos);
+                                public void done(final ParseObject parseObject, ParseException e) {
+                                    if (e == null) {
+                                        ParseRelation<ParseObject> relation = parseObject.getRelation("category");
+                                        relation.add(newCategory);
+                                        parseObject.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e != null) {
+                                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                                } else {
 
+                                                    Toast.makeText(getActivity(), "Category Added!",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    MainActivity.categories.add(categoryName);
+                                                    MainActivity.cateList.add(parseObject);
+                                                    Collections.sort(MainActivity.categories);
+                                                    Collections.sort(MainActivity.cateList, new CustomComparator());
+
+                                                    int pos = MainActivity.categories.indexOf(categoryName);
+                                                    arrayAdapter.notifyDataSetChanged();
+                                                    MainActivity.initFragmentList();
+                                                    selectItem(pos);
+
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                             });
@@ -327,29 +378,39 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void fetchAllCategories(){
 
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseRelation<ParseObject> relation = user.getRelation("category");
-        ParseQuery query = relation.getQuery();
-        query.addAscendingOrder("name");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
+        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-                    String cateName = null;
-                    if (MainActivity.categories.size() != 0)
-                        cateName = MainActivity.categories.get(mCurrentSelectedPosition);
+                    ParseRelation<ParseObject> relation = parseObject.getRelation("category");
+                    ParseQuery query = relation.getQuery();
+                    query.addAscendingOrder("name");
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            if (e == null) {
+                                String cateName = null;
+                                if (MainActivity.categories.size() != 0)
+                                    cateName = MainActivity.categories.get(mCurrentSelectedPosition);
 
-                    MainActivity.categories.clear();
-                    MainActivity.cateList.clear();
-                    for (ParseObject category : parseObjects) {
-                        String toRetrieve = (String) category.get("name");
-                        MainActivity.categories.add(toRetrieve);
-                    }
-                    MainActivity.cateList.addAll(parseObjects);
-                    int pos = MainActivity.categories.indexOf(cateName);
-                    if (pos == -1){
-                        cateName = null;
-                    }
-                    onRefreshComplete(cateName, pos);
+                                MainActivity.categories.clear();
+                                MainActivity.cateList.clear();
+                                for (ParseObject category : parseObjects) {
+                                    String toRetrieve = (String) category.get("name");
+                                    MainActivity.categories.add(toRetrieve);
+                                }
+                                MainActivity.cateList.addAll(parseObjects);
+                                int pos = MainActivity.categories.indexOf(cateName);
+                                if (pos == -1) {
+                                    cateName = null;
+                                }
+                                onRefreshComplete(cateName, pos);
+                            } else {
+                                Toast.makeText(getContext(), "Retrieval failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "Retrieval failed", Toast.LENGTH_LONG).show();
                 }
@@ -440,10 +501,13 @@ public class NavigationDrawerFragment extends Fragment {
         mCurrentSelectedPosition = position;
         if (MainActivity.categories.size() != 0)
             getActionBar().setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
+        else
+            getActionBar().setTitle("TestEZ");
 
-
-        mDrawerListView.setItemChecked(position, true);
-        mCallbacks.onNavigationDrawerItemSelected(position);
+        if (position != -1){
+            mDrawerListView.setItemChecked(position, true);
+            mCallbacks.onNavigationDrawerItemSelected(position);
+        }
 
     }
 
@@ -454,6 +518,12 @@ public class NavigationDrawerFragment extends Fragment {
      *
      * @return String the current Category
      */
+    public static int getCurrentSelectedPos(){
+        return mCurrentSelectedPosition;
+    }
+    public static ParseObject getCurrCateObject(){
+        return MainActivity.cateList.get(mCurrentSelectedPosition);
+    }
     private String getCategoryTitle()
     {
         return getActionBar().getTitle().toString();
@@ -536,7 +606,12 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
-
+    public class CustomComparator implements Comparator<ParseObject> {
+        @Override
+        public int compare(ParseObject o1, ParseObject o2) {
+            return o1.getString("name").compareTo(o2.getString("name"));
+        }
+    }
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

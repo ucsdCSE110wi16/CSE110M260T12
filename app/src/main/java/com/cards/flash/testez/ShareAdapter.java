@@ -7,76 +7,84 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.cards.flash.testez.R;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
 import java.util.List;
 
 public class ShareAdapter extends ArrayAdapter<ParseUser> {
     private OnShareListener listener;
-    private ParseObject category;
-    private List<Boolean> isShared;
+    private List<ParseUser> contentList;
 
-    public ShareAdapter(Context context, List<ParseUser> contentList, ParseObject category,
-                        OnShareListener listener, List<Boolean> isShared) {
+    public ShareAdapter(Context context, List<ParseUser> contentList, OnShareListener listener) {
         super(context, R.layout.item_share, contentList);
         this.listener = listener;
-        this.category = category;
-        this.isShared = isShared;
+        this.contentList = contentList;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         if (convertView == null) {
             //creating new view if view already exist - reusing old view
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_share, null);
             convertView.setTag(new ViewHolder(convertView));
         }
+
         final ViewHolder viewHolder = (ViewHolder) convertView.getTag();
         ParseObject user = getItem(position);
         viewHolder.email.setText(user.getString("email"));
         viewHolder.name.setText(user.getString("name"));
-        boolean breaked = false;
-        if (isShared.get(position)) {
-            ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().
-                    getResources().getDrawable(R.drawable.ic_unshare));
-            final View finalConvertView = convertView;
+
+        ParseUser userInVariableList = getItem(position);
+        if (ShareActivity.getBaseUserList().contains(userInVariableList)){
+            viewHolder.shareButton.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_unshare));
             viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onUnshare(getItem(position), finalConvertView);
+                    listener.onUnshare(getItem(position));
                 }
             });
-        } else {
-            ((ImageView) viewHolder.shareButton.findViewById(R.id.share_button)).setImageDrawable(getContext().
-                    getResources().getDrawable(R.drawable.ic_share));
-            final View finalConvertView1 = convertView;
+        }else{
+            viewHolder.shareButton.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_share));
             viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onShare(getItem(position), finalConvertView1);
+                    listener.onShare(getItem(position));
                 }
             });
         }
         return convertView;
     }
+    public void updateData(List<ParseUser> data){
+        contentList = data;
+    }
+    @Override
+    public int getCount() {
+        return contentList.size();
+    }
 
+    @Override
+    public ParseUser getItem(int position) {
+        return contentList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     private static class ViewHolder {
         TextView name, email;
-        View shareButton;
+        ImageView shareButton;
 
         public ViewHolder(View view) {
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
-            shareButton = view.findViewById(R.id.share_button);
+            shareButton = (ImageView) view.findViewById(R.id.share_button);
         }
     }
 
     public interface OnShareListener {
-        public void onShare(ParseUser user, View view);
-
-        public void onUnshare(ParseUser user, View view);
+        void onShare(ParseUser user);
+        void onUnshare(ParseUser user);
     }
 }

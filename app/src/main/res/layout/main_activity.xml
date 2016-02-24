@@ -12,9 +12,21 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#a01313">
+        android:background="#d9d8d8">
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="TestEZ"
+            android:id="@+id/textView2"
+            android:layout_gravity="center"
+            android:textSize="80dp"
+            android:textColor="#4a4ba1"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:textAlignment="center" />
     </FrameLayout>
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->

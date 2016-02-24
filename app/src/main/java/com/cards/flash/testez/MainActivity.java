@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 
 import com.parse.ParseObject;
@@ -54,9 +56,9 @@ public class MainActivity extends ActionBarActivity
     static int screenHeight;
     static ArrayList<ParseObject> cateList;
 
-    private ArrayList<EditCardFragment> fragments;
-
-    private EditCardFragment currFrag;
+    private static ArrayList<EditCardFragment> fragments;
+    private static FragmentManager fragmentManager;
+    private static EditCardFragment currFrag;
 
     private DrawerLayout mDrawlayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -70,7 +72,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        fragments = new ArrayList<>();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -96,7 +98,7 @@ public class MainActivity extends ActionBarActivity
 
         };
         mDrawlayout.setDrawerListener(mDrawerToggle);
-
+        fragmentManager = getSupportFragmentManager();
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -104,6 +106,32 @@ public class MainActivity extends ActionBarActivity
         screenWidth = size.x;
         screenHeight = size.y;
 
+
+    }
+    public static void initFragmentList(){
+        if (currFrag != null){
+            fragmentManager.beginTransaction().remove(currFrag).commit();
+            currFrag = null;
+        }
+        fragments = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++){
+            fragments.add(null);
+        }
+    }
+    public static void removeFragment(int pos){
+        if (fragments != null){
+            System.out.println("hd1");
+            if (currFrag ==  fragments.get(pos)){
+                System.out.println("hd2");
+                fragmentManager.beginTransaction().remove(fragmentManager.
+                        findFragmentById(R.id.container)).commit();
+                currFrag = null;
+            }
+            fragments.remove(pos);
+        }
+    }
+    public static EditCardFragment getCurrFrag(){
+        return currFrag;
     }
     private Bitmap resizeBitmapImageFn(
             Bitmap bmpSource, int maxResolution){
@@ -167,9 +195,17 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_addbutton:
-                currFrag.addCard();
+                if (currFrag == null)
+                    Toast.makeText(getApplicationContext(), "Create a category first.", Toast.LENGTH_SHORT).show();
+                else
+                    currFrag.addCard();
                 break;
-
+            case R.id.action_editbutton:
+                if (currFrag == null)
+                    Toast.makeText(getApplicationContext(), "Create a category first.", Toast.LENGTH_SHORT).show();
+                else
+                    currFrag.editCard();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,32 +226,29 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseRelation relation = user.getRelation("category");
-        try {
-            List<ParseObject> contactList = relation.getQuery().find();
-            for (ParseObject p: contactList){
-                System.out.println(p);
-            }
-        }catch (Exception e){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction tf = fragmentManager.beginTransaction();
 
+        if (currFrag != null){
+            tf.hide(currFrag);
         }
 
-       /* EditCardFragment frag = fragments.get(position);
+        EditCardFragment frag = fragments.get(position);
+
+
         if (frag == null){
             frag = new EditCardFragment();
             fragments.add(position, frag);
+            tf.add(R.id.container, frag);
+            Bundle p = new Bundle();
+            p.putInt("position", position);
+            frag.setArguments(p);
+        }else{
+            tf.show(frag);
         }
-        currFrag = frag;*/
+        currFrag = frag;
 
-        EditCardFragment frag = new EditCardFragment();
-        Bundle p = new Bundle();
-        p.putInt("position",position);
-        frag.setArguments(p);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, frag)
-                .commit();
+        tf.commit();
 
     }
 

@@ -143,6 +143,7 @@ public final class BaseFunction {
 
     }
     public static void showInfLoading(Context context){
+        configureInfinityLoading(context);
         WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams winParams=new WindowManager.LayoutParams(
                 MainActivity.screenWidth,
