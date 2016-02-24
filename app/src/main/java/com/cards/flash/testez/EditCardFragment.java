@@ -48,7 +48,6 @@ public class EditCardFragment extends ListFragment {
     private ImageAdapter imAdapter;
     private ListView listView;
     private Button quizButton, practiceButton, inviteButton, scoresButton;
-    public static ParseObject cateObject;
 
     /**
      * The fragment argument representing the section number for this
@@ -60,43 +59,42 @@ public class EditCardFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
-    }
 
+        imAdapter = new ImageAdapter(getActivity());
+        this.setListAdapter(imAdapter);
+
+        //Default is practice mode
+        if(MainActivity.cateList.size() != 0){
+            imAdapter.cardsQuery(FlashCardEnum.PRACTICE_MODE);
+            imAdapter.notifyDataSetChanged();
+        }
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        imAdapter = new ImageAdapter(getActivity());
-        this.setListAdapter(imAdapter);
 
-        RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
-        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.linearLayout);
-        TypedValue tv = new TypedValue();
-        int actionBarHeight = R.integer.action_bar_height;
-        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MainActivity.screenWidth,
-              actionBarHeight);
-        linearLayout.setLayoutParams(params);
+            RelativeLayout rootView = (RelativeLayout)inflater.inflate(R.layout.fragment_main, container, false);
+            LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.linearLayout);
+            TypedValue tv = new TypedValue();
+            int actionBarHeight = R.integer.action_bar_height;
+            if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+            {
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+            }
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MainActivity.screenWidth,
+                    actionBarHeight);
+            linearLayout.setLayoutParams(params);
 
-        quizButton = (Button) rootView.findViewById(R.id.quiz_button);
-        practiceButton = (Button) rootView.findViewById(R.id.practice_button);
-        inviteButton = (Button) rootView.findViewById(R.id.invite_button);
-        scoresButton = (Button) rootView.findViewById(R.id.scores_button);
+            quizButton = (Button) rootView.findViewById(R.id.quiz_button);
+            practiceButton = (Button) rootView.findViewById(R.id.practice_button);
+            inviteButton = (Button) rootView.findViewById(R.id.invite_button);
+            scoresButton = (Button) rootView.findViewById(R.id.scores_button);
 
-        setUpButtons();
-        listView = (ListView)rootView.findViewById(android.R.id.list);
-
-        //Default is practice mode
-        if(MainActivity.cateList.size() != 0){
-            imAdapter.cardsQuery(FlashCardEnum.PRACTICE_MODE);
-            imAdapter.notifyDataSetChanged();
-            listView.smoothScrollToPosition(0);
-        }
+            setUpButtons();
+            listView = (ListView)rootView.findViewById(android.R.id.list);
 
         return rootView;
     }
@@ -106,7 +104,6 @@ public class EditCardFragment extends ListFragment {
 
         inviteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                cateObject = NavigationDrawerFragment.getCurrCateObject();
                 Intent intent = new Intent(getContext(), ShareActivity.class);
                 startActivity(intent);
 

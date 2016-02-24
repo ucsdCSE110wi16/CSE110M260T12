@@ -67,7 +67,6 @@ public class MainActivity extends ActionBarActivity
      */
     public static ArrayList<String> categories;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,9 +104,18 @@ public class MainActivity extends ActionBarActivity
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+        System.out.println("here");
 
+        mNavigationDrawerFragment.fetchAllCategories();
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("destro");
+    }
+
     public static void initFragmentList(){
         if (currFrag != null){
             fragmentManager.beginTransaction().remove(currFrag).commit();

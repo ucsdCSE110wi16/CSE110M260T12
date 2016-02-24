@@ -99,8 +99,6 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
 
-
-
     public NavigationDrawerFragment() {
     }
 
@@ -110,7 +108,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         MainActivity.categories = new ArrayList<>();
         MainActivity.cateList = new ArrayList<>();
-
+        this.setRetainInstance(true);
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -238,61 +236,63 @@ public class NavigationDrawerFragment extends Fragment {
         }
         Toast.makeText(getContext(), "Category Deleted", Toast.LENGTH_LONG).show();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.drawer_main, container, false);
+            View view = inflater.inflate(R.layout.drawer_main, container, false);
 
-        Button cateButton = (Button)view.findViewById(R.id.cateButton);
-        cateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeDrawer();
-                configureAddCategoryButton();
-            }
-        });
+            Button cateButton = (Button)view.findViewById(R.id.cateButton);
+            cateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    closeDrawer();
+                    configureAddCategoryButton();
+                }
+            });
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.color_scheme_1_1, R.color.color_scheme_1_2,
-                R.color.color_scheme_1_3, R.color.color_scheme_1_4);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initiateRefresh();
-            }
-        });
-
-
-
-        mDrawerListView = (ListView) view.findViewById(android.R.id.list);
-        System.out.println(getClass().getEnclosingClass());
-        mDrawerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
-                selectItemLong(pos);
-                return true;
-            }
-        });
+            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    R.color.color_scheme_1_1, R.color.color_scheme_1_2,
+                    R.color.color_scheme_1_3, R.color.color_scheme_1_4);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    initiateRefresh();
+                }
+            });
 
 
-        mDrawerListView.setAdapter(arrayAdapter = new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                MainActivity.categories
 
-        ));
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-                closeDrawer();
-            }
-        });
-        fetchAllCategories();
+            mDrawerListView = (ListView) view.findViewById(android.R.id.list);
+
+            mDrawerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                               int pos, long id) {
+                    selectItemLong(pos);
+                    return true;
+                }
+            });
+
+
+            mDrawerListView.setAdapter(arrayAdapter = new ArrayAdapter<String>(
+                    getActionBar().getThemedContext(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    MainActivity.categories
+
+            ));
+            mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    selectItem(position);
+                    closeDrawer();
+                }
+            });
+
+
         return view;
     }
 
@@ -342,7 +342,7 @@ public class NavigationDrawerFragment extends Fragment {
                                                     Toast.makeText(getActivity(), "Category Added!",
                                                             Toast.LENGTH_SHORT).show();
                                                     MainActivity.categories.add(categoryName);
-                                                    MainActivity.cateList.add(parseObject);
+                                                    MainActivity.cateList.add(newCategory);
                                                     Collections.sort(MainActivity.categories);
                                                     Collections.sort(MainActivity.cateList, new CustomComparator());
 
@@ -376,8 +376,8 @@ public class NavigationDrawerFragment extends Fragment {
         builder.show();
     }
 
-    private void fetchAllCategories(){
-
+    public void fetchAllCategories(){
+        System.out.println("fetching");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
         query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
         query.getFirstInBackground(new GetCallback<ParseObject>() {

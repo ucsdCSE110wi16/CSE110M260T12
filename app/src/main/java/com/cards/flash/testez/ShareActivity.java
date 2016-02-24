@@ -1,5 +1,7 @@
 package com.cards.flash.testez;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -76,8 +79,21 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
             }
         });
 
-        cateObject = EditCardFragment.cateObject;
+        cateObject = NavigationDrawerFragment.getCurrCateObject();
         loadAddedUsersList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BaseFunction.hideKeyboard(getApplicationContext(), searchText);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        ShareActivity.this.finish();
+
     }
 
     private void showLoading() {
@@ -97,9 +113,10 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
     private void loadAddedUsersList(){
         try{
             ParseObject category = cateObject.fetch();
-            ParseRelation<ParseUser> users = category.getRelation("users");
+            ParseRelation users = category.getRelation("users");
             List<ParseUser> res = users.getQuery().find();
             userList = res;
+
             determineNotFound(res);
             adapter.updateData(res);
             adapter.notifyDataSetChanged();
