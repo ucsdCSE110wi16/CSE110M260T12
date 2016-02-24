@@ -73,7 +73,7 @@ public class MultipleChoice extends LinearLayout{
 
                 if (currEnum == FlashCardEnum.QUIZ_MODE){
 
-                    if (mult_choice_answer.equals(curr_answer.toLowerCase())) {
+                    if (mult_choice_answer.equals(curr_answer)) {
                         //correct answer TODO
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.checkmark,
                                 relLayout, radioGroup);
@@ -154,6 +154,7 @@ public class MultipleChoice extends LinearLayout{
         for (int i = 0; i < radioGroup.getChildCount(); i++){
             RadioButton rb = (RadioButton)radioGroup.getChildAt(i);
             String val = rb.getText().toString().trim();
+            System.out.println("Val is: " + val);
             if (!val.equals("")) answerArray.add(val);
         }
         return answerArray;

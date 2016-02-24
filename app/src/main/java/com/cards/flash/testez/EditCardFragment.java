@@ -66,7 +66,6 @@ public class EditCardFragment extends ListFragment {
         //Default is practice mode
         if(MainActivity.cateList.size() != 0){
             imAdapter.cardsQuery(FlashCardEnum.PRACTICE_MODE);
-            imAdapter.notifyDataSetChanged();
         }
     }
 
@@ -120,13 +119,13 @@ public class EditCardFragment extends ListFragment {
         });
         quizButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                imAdapter.cardsQuery(FlashCardEnum.QUIZ_MODE);
             }
         });
 
         practiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                imAdapter.cardsQuery(FlashCardEnum.PRACTICE_MODE);
             }
         });
 
@@ -141,7 +140,6 @@ public class EditCardFragment extends ListFragment {
     public void editCard(){
         if (listView.getChildCount() > 0){
             imAdapter.editCard();
-            imAdapter.notifyDataSetChanged();
             listView.smoothScrollToPosition(0);
         }else{
             Toast.makeText(getActivity(), "No cards to edit.", Toast.LENGTH_SHORT).show();
@@ -184,10 +182,12 @@ public class EditCardFragment extends ListFragment {
                     if (e == null) {
                         if (cardMode == FlashCardEnum.EDIT_MODE){
                             for (int i = 0; i < cardsList.size(); i++){
-                                FlashCard card = cardsList.get(i);
-                                card.changeMode(FlashCardEnum.EDIT_MODE);
-
                                 ParseObject databaseObject = cardsObjects.get(i);
+
+                                FlashCard card = cardsList.get(i);
+                                card.changeMode(FlashCardEnum.EDIT_MODE, databaseObject);
+
+
                                 card.setQuestion(databaseObject.getString("question"));
 
                                 if (databaseObject.getBoolean("isTF")){
@@ -198,6 +198,7 @@ public class EditCardFragment extends ListFragment {
                                     card.setMultiChoiceSettings(databaseObject.getString("answer"), list);
                                 }
                             }
+                            notifyDataSetChanged();
                         }else if (cardMode == FlashCardEnum.PRACTICE_MODE){
                             if (cardsList.size() == 0){
                                 for(ParseObject object : cardsObjects){
@@ -216,6 +217,17 @@ public class EditCardFragment extends ListFragment {
                                     card.setAnswer(databaseObject.getString("answer"));
                                 }
                             }
+                            notifyDataSetChanged();
+                        }else if (cardMode == FlashCardEnum.QUIZ_MODE){
+
+                            for (int i = 0; i < cardsList.size(); i++){
+                                ParseObject databaseObject = cardsObjects.get(i);
+
+                                FlashCard card = cardsList.get(i);
+                                card.changeMode(FlashCardEnum.QUIZ_MODE, databaseObject);
+
+                            }
+                            notifyDataSetChanged();
                         }
 
                     } else {

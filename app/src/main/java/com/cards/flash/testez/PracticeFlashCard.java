@@ -46,6 +46,7 @@ public class PracticeFlashCard extends FlashCardFlip{
 
         answerAnswerView = (TextView)frameAnswerSide.findViewById(R.id.textView);
         answerAnswerView.setTextColor(getResources().getColor(R.color.brightBlue));
+        answerAnswerView.setTextSize(40.f);
 
     }
     public void setQuestion(String text){
@@ -53,6 +54,6 @@ public class PracticeFlashCard extends FlashCardFlip{
     }
 
     public void setAnswer(String text){
-        answerAnswerView.setText(text);
+        answerAnswerView.setText(text.toUpperCase());
     }
 }

@@ -49,8 +49,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.SaveCallback;
 
 import java.lang.reflect.Field;
@@ -70,14 +73,21 @@ public class AddEditFlashCard extends FlashCardFlip {
     private TrueFalse trueFalse;
     private MultipleChoice multipleChoice;
     private FlashCardEnum currMode;
+    private ParseObject parseObject;
 
-    public AddEditFlashCard(Context context, FlashCardEnum mode) {
+    public AddEditFlashCard(Context context, FlashCardEnum mode, ParseObject object) {
+        super(context);
+        this.currMode = mode;
+        this.context = context;
+        this.parseObject= object;
+        initialize();
+    }
+    public AddEditFlashCard(Context context, FlashCardEnum mode){
         super(context);
         this.currMode = mode;
         this.context = context;
         initialize();
     }
-
     private void initialize(){
         currTab = FlashCardEnum.UNSET;
         configureQuestionSide();
@@ -133,33 +143,31 @@ public class AddEditFlashCard extends FlashCardFlip {
             @Override
             public void onClick(View v) {
 
-                String question = getQuestion();
+                final String question = getQuestion();
                 if (!question.equals("")) {
 
                     if (currTab == FlashCardEnum.UNSET)
                         createAlertDialogSendingToDatabase("Answer");
                     else {
-                        ParseObject parseObject = new ParseObject("FlashCards");
-                        Boolean isTF = (currTab == FlashCardEnum.MULTI_CHOICE) ? false : true;
-                        parseObject.put("question", question);
-                        parseObject.put("isTF", isTF);
-                        if (isTF) {
-                            if (trueFalse.getAnswer().equals("")) {
-                                createAlertDialogSendingToDatabase("True/False");
-                            } else {
-                                parseObject.put("answer", trueFalse.getAnswer());
-                                saveParseObject(parseObject);
-                            }
-                        } else {
-                            ArrayList<String> allMultiValues = multipleChoice.getAllValues();
-                            if (allMultiValues.size() < 4) {
-                                createAlertDialogSendingToDatabase("Multiple choice answer");
-                            } else {
-                                parseObject.addAll("multi_choice", allMultiValues);
-                                parseObject.put("answer", multipleChoice.getAnswer());
-                                saveParseObject(parseObject);
-                            }
+
+                        if (currMode == FlashCardEnum.ADD_MODE){
+                            addValues(question, true);
+
+                        }else if (currMode == FlashCardEnum.EDIT_MODE){
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("FlashCards");
+                            query.getInBackground(parseObject.getObjectId(), new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject updatedObj, ParseException e) {
+                                    if (e== null){
+                                        parseObject = updatedObj;
+                                        addValues(question, false);
+                                    }else{
+                                        Toast.makeText(getContext(), "Error updating flashcard", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
+
                     }
                 } else {
                     createAlertDialogSendingToDatabase("Question");
@@ -169,7 +177,32 @@ public class AddEditFlashCard extends FlashCardFlip {
         });
 
     }
+    private void addValues(String question, Boolean updateFCRelations){
+        if (updateFCRelations)
+            parseObject = new ParseObject("FlashCards");
 
+        Boolean isTF = (currTab == FlashCardEnum.MULTI_CHOICE) ? false : true;
+        parseObject.put("question", question);
+        parseObject.put("isTF", isTF);
+        if (isTF) {
+            if (trueFalse.getAnswer().equals("")) {
+                createAlertDialogSendingToDatabase("True/False");
+            } else {
+                parseObject.put("answer", trueFalse.getAnswer());
+                saveParseObject(parseObject, updateFCRelations);
+            }
+        } else {
+            ArrayList<String> allMultiValues = multipleChoice.getAllValues();
+            System.out.println(allMultiValues);
+            if (allMultiValues.size() < 4) {
+                createAlertDialogSendingToDatabase("Multiple choice answer");
+            } else {
+                parseObject.addAll("multi_choice", allMultiValues);
+                parseObject.put("answer", multipleChoice.getAnswer());
+                saveParseObject(parseObject, updateFCRelations);
+            }
+        }
+    }
     private void configureAnswerSide() {
 
         RelativeLayout.LayoutParams top_buttons_params = new RelativeLayout.LayoutParams(
@@ -262,7 +295,7 @@ public class AddEditFlashCard extends FlashCardFlip {
     }
 
     private void createAlertDialogSwitchTab(final Boolean fromTF){
-        new AlertDialog.Builder(context)
+        new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                 .setTitle("Delete Data?")
                 .setMessage("Your data will be deleted upon choosing a different answer interface. " +
                         "Do you wish to proceed?")
@@ -287,7 +320,7 @@ public class AddEditFlashCard extends FlashCardFlip {
                 .show();
     }
     private void createAlertDialogSendingToDatabase(String missingVal){
-        new AlertDialog.Builder(context)
+        new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                 .setTitle("Values Missing")
                 .setMessage(missingVal + " is missing.")
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -297,17 +330,39 @@ public class AddEditFlashCard extends FlashCardFlip {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-    private void saveParseObject(ParseObject parseObject){
+    private void saveParseObject(final ParseObject parseObject, final Boolean updateFCRelations){
         BaseFunction.showInfLoading(context);
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                BaseFunction.destroyInfLoading(context);
-                if (e != null) {
+                if (e == null){
+                    if (updateFCRelations){
+                        System.out.println("in relations");
+                        ParseObject category = MainActivity.cateList.get(NavigationDrawerFragment.
+                                getCurrentSelectedPos());
+                        ParseRelation<ParseObject> relation = category.getRelation("flashcards");
+                        relation.add(parseObject);
+                        category.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                BaseFunction.destroyInfLoading(context);
+                                if (e == null) {
+                                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }else{
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                        BaseFunction.destroyInfLoading(context);
+                    }
+
+                }else{
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                    BaseFunction.destroyInfLoading(context);
                 }
+
             }
         });
     }

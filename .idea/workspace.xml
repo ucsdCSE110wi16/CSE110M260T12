@@ -15,8 +15,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/PracticeFlashCard.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/PracticeFlashCard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/multi_choice_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/multi_choice_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CSE110M260T12.iws" />
@@ -50,145 +54,97 @@
       <file leaf-file-name="EditCardFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="26.296297">
-              <caret line="73" column="13" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
+            <state vertical-scroll-proportion="-10.296296">
+              <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2425#2452#0" expanded="true" />
-                <element signature="e#3463#3676#0" expanded="true" />
-                <element signature="e#3675#3676#0" expanded="true" />
-                <element signature="e#3720#4006#0" expanded="true" />
-                <element signature="e#4005#4006#0" expanded="true" />
-                <element signature="e#5301#5302#0" expanded="true" />
-                <element signature="e#5360#5361#0" expanded="true" />
-                <element signature="e#5844#8441#0" expanded="true" />
-                <element signature="e#8440#8441#0" expanded="true" />
-                <element signature="e#8528#8529#0" expanded="true" />
-                <element signature="e#8567#8568#0" expanded="true" />
-                <element signature="e#8632#8633#0" expanded="true" />
-                <element signature="e#8686#8687#0" expanded="true" />
-                <element signature="e#8751#8752#0" expanded="true" />
-                <element signature="e#8783#8784#0" expanded="true" />
+                <element signature="e#2379#2406#0" expanded="true" />
+                <element signature="e#3417#3630#0" expanded="true" />
+                <element signature="e#3629#3630#0" expanded="true" />
+                <element signature="e#3674#3960#0" expanded="true" />
+                <element signature="e#3959#3960#0" expanded="true" />
+                <element signature="e#4001#4158#0" expanded="true" />
+                <element signature="e#4157#4158#0" expanded="true" />
+                <element signature="e#4204#4365#0" expanded="true" />
+                <element signature="e#4364#4365#0" expanded="true" />
+                <element signature="e#5337#5338#0" expanded="true" />
+                <element signature="e#5396#5397#0" expanded="true" />
+                <element signature="e#5880#9067#0" expanded="true" />
+                <element signature="e#9066#9067#0" expanded="true" />
+                <element signature="e#9154#9155#0" expanded="true" />
+                <element signature="e#9193#9194#0" expanded="true" />
+                <element signature="e#9258#9259#0" expanded="true" />
+                <element signature="e#9312#9313#0" expanded="true" />
+                <element signature="e#9377#9378#0" expanded="true" />
+                <element signature="e#9409#9410#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <file leaf-file-name="QuizFlashCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/QuizFlashCard.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="95" selection-start-line="36" selection-start-column="95" selection-end-line="36" selection-end-column="95" />
+              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlashCardFlip.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardFlip.java">
+      <file leaf-file-name="TrueFalse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/TrueFalse.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShareActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ShareActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="13.333333">
-              <caret line="98" column="32" selection-start-line="98" selection-start-column="32" selection-end-line="98" selection-end-column="32" />
+              <caret line="104" column="33" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
               <folding>
-                <element signature="e#2514#2515#0" expanded="true" />
-                <element signature="e#2578#2579#0" expanded="true" />
-                <element signature="e#3305#3306#0" expanded="true" />
-                <element signature="e#3336#3337#0" expanded="true" />
-                <element signature="e#4408#4915#0" expanded="true" />
-                <element signature="e#4914#4915#0" expanded="true" />
-                <element signature="e#5587#7267#0" expanded="true" />
-                <element signature="e#6115#7021#0" expanded="true" />
-                <element signature="e#7020#7021#0" expanded="true" />
-                <element signature="e#7266#7267#0" expanded="true" />
-                <element signature="e#7576#9263#0" expanded="true" />
-                <element signature="e#8109#9018#0" expanded="true" />
-                <element signature="e#9017#9018#0" expanded="true" />
-                <element signature="e#9262#9263#0" expanded="true" />
+                <element signature="e#3516#3517#0" expanded="true" />
+                <element signature="e#3557#3558#0" expanded="true" />
+                <element signature="e#3588#3589#0" expanded="true" />
+                <element signature="e#3620#3621#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavigationDrawerFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/NavigationDrawerFragment.java">
+      <file leaf-file-name="FlashCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.9259257">
-              <caret line="588" column="35" selection-start-line="588" selection-start-column="26" selection-end-line="588" selection-end-column="35" />
+            <state vertical-scroll-proportion="-5.4444447">
+              <caret line="57" column="101" selection-start-line="57" selection-start-column="101" selection-end-line="57" selection-end-column="101" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4026#4027#0" expanded="true" />
-                <element signature="e#4062#4063#0" expanded="true" />
-                <element signature="e#5222#7687#0" expanded="true" />
-                <element signature="e#5908#7560#0" expanded="true" />
-                <element signature="e#6384#7293#0" expanded="true" />
-                <element signature="e#7292#7293#0" expanded="true" />
-                <element signature="e#7559#7560#0" expanded="true" />
-                <element signature="e#7686#7687#0" expanded="true" />
-                <element signature="e#7750#7957#0" expanded="true" />
-                <element signature="e#7956#7957#0" expanded="true" />
-                <element signature="e#9001#9218#0" expanded="true" />
-                <element signature="e#9217#9218#0" expanded="true" />
-                <element signature="e#9570#9753#0" expanded="true" />
-                <element signature="e#9752#9753#0" expanded="true" />
-                <element signature="e#9894#10215#0" expanded="true" />
-                <element signature="e#10214#10215#0" expanded="true" />
-                <element signature="e#10574#10847#0" expanded="true" />
-                <element signature="e#10846#10847#0" expanded="true" />
-                <element signature="e#11500#14716#0" expanded="true" />
-                <element signature="e#12020#14689#0" expanded="true" />
-                <element signature="e#12423#14488#0" expanded="true" />
-                <element signature="e#12902#14384#0" expanded="true" />
-                <element signature="e#14383#14384#0" expanded="true" />
-                <element signature="e#14487#14488#0" expanded="true" />
-                <element signature="e#14688#14689#0" expanded="true" />
-                <element signature="e#14715#14716#0" expanded="true" />
-                <element signature="e#14765#14952#0" expanded="true" />
-                <element signature="e#14951#14952#0" expanded="true" />
-                <element signature="e#15258#17227#0" expanded="true" />
-                <element signature="e#15671#17062#0" expanded="true" />
-                <element signature="e#17061#17062#0" expanded="true" />
-                <element signature="e#17226#17227#0" expanded="true" />
-                <element signature="e#18671#18702#0" expanded="true" />
-                <element signature="e#18771#18803#0" expanded="true" />
-                <element signature="e#20411#20548#0" expanded="true" />
-                <element signature="e#20547#20548#0" expanded="true" />
-                <element signature="e#21102#21103#0" expanded="true" />
-                <element signature="e#21167#21168#0" expanded="true" />
-                <element signature="e#21280#21281#0" expanded="true" />
-                <element signature="e#21327#21328#0" expanded="true" />
-                <element signature="e#21496#21497#0" expanded="true" />
-                <element signature="e#21555#21556#0" expanded="true" />
-                <element signature="e#23584#23601#0" expanded="true" />
+                <element signature="e#2143#2144#0" expanded="true" />
+                <element signature="e#2191#2192#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Looper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-21/android/os/Looper.java">
+      <file leaf-file-name="AddEditFlashCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-32.666668">
+              <caret line="194" column="70" selection-start-line="194" selection-start-column="70" selection-end-line="194" selection-end-column="70" />
+              <folding>
+                <element signature="e#5133#6650#0" expanded="true" />
+                <element signature="e#5841#6463#0" expanded="true" />
+                <element signature="e#6462#6463#0" expanded="true" />
+                <element signature="e#6649#6650#0" expanded="true" />
+                <element signature="e#13233#14813#0" expanded="true" />
+                <element signature="e#13817#14395#0" expanded="true" />
+                <element signature="e#14394#14395#0" expanded="true" />
+                <element signature="e#14812#14813#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseFunction.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/BaseFunction.java">
+      <file leaf-file-name="MultipleChoice.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-63.88889">
-              <caret line="150" column="54" selection-start-line="150" selection-start-column="54" selection-end-line="150" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.7085427">
+              <caret line="79" column="19" selection-start-line="79" selection-start-column="19" selection-end-line="79" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -197,37 +153,23 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.888889">
-              <caret line="94" column="82" selection-start-line="93" selection-start-column="16" selection-end-line="94" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="215" column="22" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2874#2905#0" expanded="true" />
-                <element signature="e#2907#2939#0" expanded="true" />
-                <element signature="e#4689#4690#0" expanded="true" />
-                <element signature="e#4720#4721#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fragment_main.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="fragment_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4723618">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddEditFlashCard.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.4814815">
-              <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+            <state vertical-scroll-proportion="-4.3448277">
+              <caret line="74" column="57" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -1715,7 +1657,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/card_answer_side.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/deck_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardFlip.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/global.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardEnum.java" />
@@ -1723,18 +1664,22 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/SwipeRefreshListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/drawer_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/BaseFunction.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main_activity.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ShareAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_share.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/RegisterUser.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/NavigationDrawerFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ShareActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/PracticeFlashCard.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/multi_choice_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java" />
       </list>
     </option>
   </component>
@@ -1749,9 +1694,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2" />
+    <option name="x" value="48" />
     <option name="y" value="23" />
-    <option name="width" value="1520" />
+    <option name="width" value="1114" />
     <option name="height" value="809" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -2349,7 +2294,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="23" width="1520" height="809" extended-state="0" />
+    <frame x="48" y="23" width="1114" height="809" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2359,7 +2304,7 @@
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19097744" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34343433" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34632036" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2374,7 +2319,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19079837" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2630597" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24242425" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -2405,89 +2350,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/NavigationDrawerFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4026#4027#0" expanded="true" />
-            <element signature="e#4062#4063#0" expanded="true" />
-            <element signature="e#5222#7687#0" expanded="true" />
-            <element signature="e#5908#7560#0" expanded="true" />
-            <element signature="e#6384#7293#0" expanded="true" />
-            <element signature="e#7292#7293#0" expanded="true" />
-            <element signature="e#7559#7560#0" expanded="true" />
-            <element signature="e#7686#7687#0" expanded="true" />
-            <element signature="e#7750#7957#0" expanded="true" />
-            <element signature="e#7956#7957#0" expanded="true" />
-            <element signature="e#9001#9218#0" expanded="true" />
-            <element signature="e#9217#9218#0" expanded="true" />
-            <element signature="e#9570#9753#0" expanded="true" />
-            <element signature="e#9752#9753#0" expanded="true" />
-            <element signature="e#9894#10215#0" expanded="true" />
-            <element signature="e#10214#10215#0" expanded="true" />
-            <element signature="e#10574#10847#0" expanded="true" />
-            <element signature="e#10846#10847#0" expanded="true" />
-            <element signature="e#11500#14716#0" expanded="true" />
-            <element signature="e#12020#14689#0" expanded="true" />
-            <element signature="e#12423#14488#0" expanded="true" />
-            <element signature="e#12902#14384#0" expanded="true" />
-            <element signature="e#14383#14384#0" expanded="true" />
-            <element signature="e#14487#14488#0" expanded="true" />
-            <element signature="e#14688#14689#0" expanded="true" />
-            <element signature="e#14715#14716#0" expanded="true" />
-            <element signature="e#14765#14952#0" expanded="true" />
-            <element signature="e#14951#14952#0" expanded="true" />
-            <element signature="e#15258#17227#0" expanded="true" />
-            <element signature="e#15671#17062#0" expanded="true" />
-            <element signature="e#17061#17062#0" expanded="true" />
-            <element signature="e#17226#17227#0" expanded="true" />
-            <element signature="e#18671#18702#0" expanded="true" />
-            <element signature="e#18771#18803#0" expanded="true" />
-            <element signature="e#20411#20548#0" expanded="true" />
-            <element signature="e#20547#20548#0" expanded="true" />
-            <element signature="e#21102#21103#0" expanded="true" />
-            <element signature="e#21167#21168#0" expanded="true" />
-            <element signature="e#21280#21281#0" expanded="true" />
-            <element signature="e#21327#21328#0" expanded="true" />
-            <element signature="e#21496#21497#0" expanded="true" />
-            <element signature="e#21555#21556#0" expanded="true" />
-            <element signature="e#23584#23601#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="23" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="87" column="75" selection-start-line="87" selection-start-column="75" selection-end-line="87" selection-end-column="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2874#2905#0" expanded="true" />
-            <element signature="e#2907#2939#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4720#4721#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2622,10 +2484,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2874#2905#0" expanded="true" />
-            <element signature="e#2907#2939#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4720#4721#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2670,17 +2528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.586207">
           <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/multi_choice_layout.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2802,25 +2649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0570827">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.074074">
-          <caret line="40" column="47" selection-start-line="40" selection-start-column="47" selection-end-line="40" selection-end-column="47" />
-          <folding>
-            <element signature="e#1877#1878#0" expanded="true" />
-            <element signature="e#1925#1926#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_share.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -2895,31 +2723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="26.296297">
-          <caret line="73" column="13" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2425#2452#0" expanded="true" />
-            <element signature="e#3463#3676#0" expanded="true" />
-            <element signature="e#3675#3676#0" expanded="true" />
-            <element signature="e#3720#4006#0" expanded="true" />
-            <element signature="e#4005#4006#0" expanded="true" />
-            <element signature="e#5301#5302#0" expanded="true" />
-            <element signature="e#5360#5361#0" expanded="true" />
-            <element signature="e#5844#8441#0" expanded="true" />
-            <element signature="e#8440#8441#0" expanded="true" />
-            <element signature="e#8528#8529#0" expanded="true" />
-            <element signature="e#8567#8568#0" expanded="true" />
-            <element signature="e#8632#8633#0" expanded="true" />
-            <element signature="e#8686#8687#0" expanded="true" />
-            <element signature="e#8751#8752#0" expanded="true" />
-            <element signature="e#8783#8784#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-21/android/os/Looper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2928,10 +2731,92 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ShareActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="13.333333">
+          <caret line="98" column="32" selection-start-line="98" selection-start-column="32" selection-end-line="98" selection-end-column="32" />
+          <folding>
+            <element signature="e#2514#2515#0" expanded="true" />
+            <element signature="e#2578#2579#0" expanded="true" />
+            <element signature="e#3305#3306#0" expanded="true" />
+            <element signature="e#3336#3337#0" expanded="true" />
+            <element signature="e#4408#4915#0" expanded="true" />
+            <element signature="e#4914#4915#0" expanded="true" />
+            <element signature="e#5587#7267#0" expanded="true" />
+            <element signature="e#6115#7021#0" expanded="true" />
+            <element signature="e#7020#7021#0" expanded="true" />
+            <element signature="e#7266#7267#0" expanded="true" />
+            <element signature="e#7576#9263#0" expanded="true" />
+            <element signature="e#8109#9018#0" expanded="true" />
+            <element signature="e#9017#9018#0" expanded="true" />
+            <element signature="e#9262#9263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardFlip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="95" selection-start-line="36" selection-start-column="95" selection-end-line="36" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/TrueFalse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="104" column="33" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
+          <folding>
+            <element signature="e#3516#3517#0" expanded="true" />
+            <element signature="e#3557#3558#0" expanded="true" />
+            <element signature="e#3588#3589#0" expanded="true" />
+            <element signature="e#3620#3621#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/practice_mode_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/PracticeFlashCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="39" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+          <folding>
+            <element signature="e#1882#1883#0" expanded="true" />
+            <element signature="e#1942#1943#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/BaseFunction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8888888">
+          <caret line="150" column="54" selection-start-line="150" selection-start-column="54" selection-end-line="150" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/NavigationDrawerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.9259257">
-          <caret line="588" column="35" selection-start-line="588" selection-start-column="26" selection-end-line="588" selection-end-column="35" />
+        <state vertical-scroll-proportion="-3.7037036">
+          <caret line="300" column="114" selection-start-line="300" selection-start-column="77" selection-end-line="300" selection-end-column="114" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4026#4027#0" expanded="true" />
@@ -2981,72 +2866,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.888889">
-          <caret line="94" column="82" selection-start-line="93" selection-start-column="16" selection-end-line="94" selection-end-column="82" />
+        <state vertical-scroll-proportion="-5.4444447">
+          <caret line="57" column="101" selection-start-line="57" selection-start-column="101" selection-end-line="57" selection-end-column="101" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2874#2905#0" expanded="true" />
-            <element signature="e#2907#2939#0" expanded="true" />
-            <element signature="e#4689#4690#0" expanded="true" />
-            <element signature="e#4720#4721#0" expanded="true" />
+            <element signature="e#2143#2144#0" expanded="true" />
+            <element signature="e#2191#2192#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ShareActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="13.333333">
-          <caret line="98" column="32" selection-start-line="98" selection-start-column="32" selection-end-line="98" selection-end-column="32" />
-          <folding>
-            <element signature="e#2514#2515#0" expanded="true" />
-            <element signature="e#2578#2579#0" expanded="true" />
-            <element signature="e#3305#3306#0" expanded="true" />
-            <element signature="e#3336#3337#0" expanded="true" />
-            <element signature="e#4408#4915#0" expanded="true" />
-            <element signature="e#4914#4915#0" expanded="true" />
-            <element signature="e#5587#7267#0" expanded="true" />
-            <element signature="e#6115#7021#0" expanded="true" />
-            <element signature="e#7020#7021#0" expanded="true" />
-            <element signature="e#7266#7267#0" expanded="true" />
-            <element signature="e#7576#9263#0" expanded="true" />
-            <element signature="e#8109#9018#0" expanded="true" />
-            <element signature="e#9017#9018#0" expanded="true" />
-            <element signature="e#9262#9263#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardFlip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="128" column="12" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.4814815">
-          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="95" selection-start-line="36" selection-start-column="95" selection-end-line="36" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/BaseFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-63.88889">
-          <caret line="150" column="54" selection-start-line="150" selection-start-column="54" selection-end-line="150" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3055,8 +2883,91 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4723618">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+        <state vertical-scroll-proportion="-4.3448277">
+          <caret line="74" column="57" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="215" column="22" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.296296">
+          <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2379#2406#0" expanded="true" />
+            <element signature="e#3417#3630#0" expanded="true" />
+            <element signature="e#3629#3630#0" expanded="true" />
+            <element signature="e#3674#3960#0" expanded="true" />
+            <element signature="e#3959#3960#0" expanded="true" />
+            <element signature="e#4001#4158#0" expanded="true" />
+            <element signature="e#4157#4158#0" expanded="true" />
+            <element signature="e#4204#4365#0" expanded="true" />
+            <element signature="e#4364#4365#0" expanded="true" />
+            <element signature="e#5337#5338#0" expanded="true" />
+            <element signature="e#5396#5397#0" expanded="true" />
+            <element signature="e#5880#9067#0" expanded="true" />
+            <element signature="e#9066#9067#0" expanded="true" />
+            <element signature="e#9154#9155#0" expanded="true" />
+            <element signature="e#9193#9194#0" expanded="true" />
+            <element signature="e#9258#9259#0" expanded="true" />
+            <element signature="e#9312#9313#0" expanded="true" />
+            <element signature="e#9377#9378#0" expanded="true" />
+            <element signature="e#9409#9410#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/multi_choice_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3030303">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-32.666668">
+          <caret line="194" column="70" selection-start-line="194" selection-start-column="70" selection-end-line="194" selection-end-column="70" />
+          <folding>
+            <element signature="e#5133#6650#0" expanded="true" />
+            <element signature="e#5841#6463#0" expanded="true" />
+            <element signature="e#6462#6463#0" expanded="true" />
+            <element signature="e#6649#6650#0" expanded="true" />
+            <element signature="e#13233#14813#0" expanded="true" />
+            <element signature="e#13817#14395#0" expanded="true" />
+            <element signature="e#14394#14395#0" expanded="true" />
+            <element signature="e#14812#14813#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/QuizFlashCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/MultipleChoice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7085427">
+          <caret line="79" column="19" selection-start-line="79" selection-start-column="19" selection-end-line="79" selection-end-column="19" />
           <folding />
         </state>
       </provider>

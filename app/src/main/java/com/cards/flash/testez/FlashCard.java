@@ -52,6 +52,11 @@ public class FlashCard extends FrameLayout{
                 quizFC = new QuizFlashCard(getContext(), object);
                 views.set(currPos, quizFC);
                 break;
+            case EDIT_MODE:
+                currPos =0;
+                currMode = FlashCardEnum.EDIT_MODE;
+                addEditFlashCard = new AddEditFlashCard(getContext(), FlashCardEnum.EDIT_MODE, object);
+                views.set(currPos, addEditFlashCard);
             default:
                 break;
         }
@@ -66,6 +71,11 @@ public class FlashCard extends FrameLayout{
         configureLayout(mode);
     }
 
+    public void changeMode(FlashCardEnum mode, ParseObject parseObject){
+        removeViewFromRoot(views.get(currPos));
+        this.object = parseObject;
+        configureLayout(mode);
+    }
     public void setTrueFalseSettings(String answer){
         ((AddEditFlashCard) addEditFlashCard).setTrueFalseSettings(answer);
     }
