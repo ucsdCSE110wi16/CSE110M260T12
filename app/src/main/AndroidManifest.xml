@@ -41,7 +41,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden|"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 

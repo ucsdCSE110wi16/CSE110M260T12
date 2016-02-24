@@ -73,6 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="afterDescendants"
+        android:focusable="false"
+
         android:layout_below="@+id/linearLayout"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
