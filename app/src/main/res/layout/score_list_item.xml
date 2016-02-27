@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/score_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="test"
+        android:layout_weight="1"
+        android:textColor="#050505" />
+
+    <TextView
+        android:id="@+id/score_value"
+        android:text="5"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="#080808" />
+
+</LinearLayout>

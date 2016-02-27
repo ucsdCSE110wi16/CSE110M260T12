@@ -116,6 +116,8 @@ public class EditCardFragment extends ListFragment {
                 BaseFunction.hideKeyboard(getContext(), v);
                 updateScores();
                 Intent intent = new Intent(getContext(), ScoreBoard.class);
+                intent.putExtra("cat", MainActivity.cateList.get(NavigationDrawerFragment
+                        .getCurrentSelectedPos()).getObjectId());
                 startActivity(intent);
             }
         });
@@ -143,7 +145,7 @@ public class EditCardFragment extends ListFragment {
 
         System.out.println("updating Scores");
 
-        // Check we have a score the user already
+        // Check if we have a score for the user already
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
@@ -152,10 +154,17 @@ public class EditCardFragment extends ListFragment {
                     ParseObject userscore = new ParseObject("Scores");
                     userscore.put("userId", ParseUser.getCurrentUser().getObjectId());
                     userscore.put("score", TallyScore.getScore());
+                    userscore.put("username", ParseUser.getCurrentUser().get("name"));
                     saveScoreObject(userscore);
                     TallyScore.resetScore();
                 } else {
-                    // What do to if you retake quiz TODO
+                    // What to do if you retake quiz TODO
+
+                    parseObject.put("score", TallyScore.getScore());
+                    parseObject.saveInBackground();
+
+                    TallyScore.resetScore();
+
                 }
             }
         });

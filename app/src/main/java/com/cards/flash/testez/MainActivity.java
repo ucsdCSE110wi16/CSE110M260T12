@@ -181,24 +181,6 @@ public class MainActivity extends ActionBarActivity
         menu.getItem(0).setIcon(edit_d);
         return true;
     }
-    /** Called when the user touches the Quiz button */
-    public void setQuiz(View view) {
-
-    }
-    /** Called when the user touches the Practice button */
-    public void setPractice(View view) {
-
-    }
-    /** Called when the user touches the Edit button */
-    public void setEdit(View view) {
-
-    }
-    /** Called when the user touches the Add button */
-    public void setAdd(View view) {
-
-    }
-    private void resetButtonPress(){
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
