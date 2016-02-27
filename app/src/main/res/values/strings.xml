@@ -20,4 +20,8 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_add_flash_card">AddFlashCard</string>
+
+    <string name="title_activity_score_board">ScoreBoard</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

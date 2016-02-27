@@ -33,6 +33,7 @@ public class MultipleChoice extends LinearLayout{
     private String curr_answer;
     private Context context;
     private FlashCardEnum currEnum;
+    private boolean answerChoosen = false;
 
     public MultipleChoice(Context context, FlashCardEnum currEnum){
         super(context);
@@ -75,10 +76,18 @@ public class MultipleChoice extends LinearLayout{
 
                     if (mult_choice_answer.equals(curr_answer)) {
                         //correct answer TODO
+                        if(answerChoosen == false) {
+                            System.out.println("correct add to score");
+                            TallyScore.increaseScore();
+                            answerChoosen = true;
+                        }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.checkmark,
                                 relLayout, radioGroup);
                     } else {
                         //wrong answer
+                        if(answerChoosen == false) {
+                            answerChoosen = true;
+                        }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.wrong,
                                 relLayout, radioGroup);
                     }

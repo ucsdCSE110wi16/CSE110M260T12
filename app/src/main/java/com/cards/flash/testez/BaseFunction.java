@@ -107,7 +107,6 @@ public final class BaseFunction {
         });
         viewToAnimate.startAnimation(scale);
     }
-
     public static void showCorrWrongIndicators(Context context, int imgID,RelativeLayout relLayout,
                                                RadioGroup radioGroup){
         int imageWH = 120;

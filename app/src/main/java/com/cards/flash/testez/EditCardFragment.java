@@ -29,11 +29,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -111,10 +113,10 @@ public class EditCardFragment extends ListFragment {
 
         scoresButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                InputMethodManager im = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                im.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-
+                BaseFunction.hideKeyboard(getContext(), v);
+                updateScores();
+                Intent intent = new Intent(getContext(), ScoreBoard.class);
+                startActivity(intent);
             }
         });
         quizButton.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +133,62 @@ public class EditCardFragment extends ListFragment {
 
 
     }
+    public void updateScores(){
 
+        final ParseObject catObject = MainActivity.cateList.get(NavigationDrawerFragment.getCurrentSelectedPos());
+        final ParseRelation<ParseObject> relation = catObject.getRelation("userscores");
+
+        ParseQuery<ParseObject> query = relation.getQuery();
+        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+
+        System.out.println("updating Scores");
+
+        // Check we have a score the user already
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject == null) {
+                    System.out.println("null score");
+                    ParseObject userscore = new ParseObject("Scores");
+                    userscore.put("userId", ParseUser.getCurrentUser().getObjectId());
+                    userscore.put("score", TallyScore.getScore());
+                    saveScoreObject(userscore);
+                    TallyScore.resetScore();
+                } else {
+                    // What do to if you retake quiz TODO
+                }
+            }
+        });
+    }
+    public void saveScoreObject(final ParseObject parseObject){
+
+              parseObject.saveInBackground(new SaveCallback() {
+                  @Override
+                  public void done(ParseException e) {
+
+                      if(e == null){
+                          ParseObject category = MainActivity.cateList.get(NavigationDrawerFragment.
+                          getCurrentSelectedPos());
+
+                          ParseRelation<ParseObject> relation = category.getRelation("userscores");
+                          relation.add(parseObject);
+
+                          category.saveInBackground(new SaveCallback() {
+                              @Override
+                              public void done(ParseException e) {
+                                  if(e == null){
+                                      Toast.makeText(getContext(),"Score Updated", Toast.LENGTH_SHORT)
+                                              .show();
+                                  }else{
+                                      Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                                  }
+                              }
+                          });
+                      }
+
+                  }
+              });
+    }
     public void addCard(){
         imAdapter.addCard();
         imAdapter.notifyDataSetChanged();
@@ -180,8 +237,8 @@ public class EditCardFragment extends ListFragment {
             query.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> cardsObjects, ParseException e) {
                     if (e == null) {
-                        if (cardMode == FlashCardEnum.EDIT_MODE){
-                            for (int i = 0; i < cardsList.size(); i++){
+                        if (cardMode == FlashCardEnum.EDIT_MODE) {
+                            for (int i = 0; i < cardsList.size(); i++) {
                                 ParseObject databaseObject = cardsObjects.get(i);
 
                                 FlashCard card = cardsList.get(i);
@@ -190,25 +247,25 @@ public class EditCardFragment extends ListFragment {
 
                                 card.setQuestion(databaseObject.getString("question"));
 
-                                if (databaseObject.getBoolean("isTF")){
+                                if (databaseObject.getBoolean("isTF")) {
                                     card.setTrueFalseSettings(databaseObject.getString("answer"));
-                                }else{
+                                } else {
                                     ArrayList<String> list;
                                     list = (ArrayList<String>) databaseObject.get("multi_choice");
                                     card.setMultiChoiceSettings(databaseObject.getString("answer"), list);
                                 }
                             }
                             notifyDataSetChanged();
-                        }else if (cardMode == FlashCardEnum.PRACTICE_MODE){
-                            if (cardsList.size() == 0){
-                                for(ParseObject object : cardsObjects){
+                        } else if (cardMode == FlashCardEnum.PRACTICE_MODE) {
+                            if (cardsList.size() == 0) {
+                                for (ParseObject object : cardsObjects) {
                                     FlashCard card = new FlashCard(getContext(), FlashCardEnum.PRACTICE_MODE, null);
                                     card.setQuestion(object.getString("question"));
                                     card.setAnswer(object.getString("answer"));
                                     cardsList.add(card);
                                 }
-                            }else{
-                                for(int i = 0; i < cardsList.size();i++){
+                            } else {
+                                for (int i = 0; i < cardsList.size(); i++) {
                                     FlashCard card = cardsList.get(i);
                                     card.changeMode(FlashCardEnum.PRACTICE_MODE);
 
@@ -218,9 +275,9 @@ public class EditCardFragment extends ListFragment {
                                 }
                             }
                             notifyDataSetChanged();
-                        }else if (cardMode == FlashCardEnum.QUIZ_MODE){
+                        } else if (cardMode == FlashCardEnum.QUIZ_MODE) {
 
-                            for (int i = 0; i < cardsList.size(); i++){
+                            for (int i = 0; i < cardsList.size(); i++) {
                                 ParseObject databaseObject = cardsObjects.get(i);
 
                                 FlashCard card = cardsList.get(i);

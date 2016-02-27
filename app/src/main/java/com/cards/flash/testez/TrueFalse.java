@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
  */
 public class TrueFalse extends LinearLayout{
     private LinearLayout tf_layout;
+    private boolean answerChoosen = false;
     private String tf_answer;
     private Context context;
     private FlashCardEnum currEnum;
@@ -150,10 +151,17 @@ public class TrueFalse extends LinearLayout{
                 if (currEnum == FlashCardEnum.QUIZ_MODE){
                     if (buttonStr.equals(tf_answer.toLowerCase())) {
                         //correct answer TODO
+                        if(answerChoosen == false) {
+                            TallyScore.increaseScore();
+                            answerChoosen = true;
+                        }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.checkmark, tf_layout);
 
                     } else {
                         //wrong answer
+                        if(answerChoosen == false) {
+                            answerChoosen = true;
+                        }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.wrong, tf_layout);
                     }
                 }else{

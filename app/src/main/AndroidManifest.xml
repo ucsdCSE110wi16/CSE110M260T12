@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".FlashCardApplication"
@@ -31,7 +31,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -39,26 +40,36 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize|stateHidden|"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
-
+            android:windowSoftInputMode="adjustResize|stateHidden|" />
         <activity
             android:name=".ShareActivity"
-            android:label="@string/app_name"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName="com.cards.flash.testez.MainActivity" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cards.flash.testez.MainActivity" />
         </activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".ScoreBoard"
+            android:parentActivityName="com.cards.flash.testez.MainActivity" >
+
+            <meta-data
+                android:name="android.support.MainActivity"
+                android:value="com.cards.flash.testez.MainActivity "/>
+
+        </activity>
     </application>
 
 </manifest>
