@@ -50,6 +50,7 @@ public class EditCardFragment extends ListFragment {
     private ImageAdapter imAdapter;
     private ListView listView;
     private Button quizButton, practiceButton, inviteButton, scoresButton;
+    static boolean hasTakenQuiz = false;
 
     /**
      * The fragment argument representing the section number for this
@@ -114,7 +115,8 @@ public class EditCardFragment extends ListFragment {
         scoresButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BaseFunction.hideKeyboard(getContext(), v);
-                updateScores();
+                if(hasTakenQuiz)
+                  updateScores();
                 Intent intent = new Intent(getContext(), ScoreBoard.class);
                 intent.putExtra("cat", MainActivity.cateList.get(NavigationDrawerFragment
                         .getCurrentSelectedPos()).getObjectId());
@@ -124,6 +126,7 @@ public class EditCardFragment extends ListFragment {
         quizButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 imAdapter.cardsQuery(FlashCardEnum.QUIZ_MODE);
+                hasTakenQuiz = true;
             }
         });
 
@@ -141,8 +144,7 @@ public class EditCardFragment extends ListFragment {
         final ParseRelation<ParseObject> relation = catObject.getRelation("userscores");
 
         ParseQuery<ParseObject> query = relation.getQuery();
-        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
-
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
         System.out.println("updating Scores");
 
         // Check if we have a score for the user already
@@ -152,18 +154,13 @@ public class EditCardFragment extends ListFragment {
                 if (parseObject == null) {
                     System.out.println("null score");
                     ParseObject userscore = new ParseObject("Scores");
-                    userscore.put("userId", ParseUser.getCurrentUser().getObjectId());
                     userscore.put("score", TallyScore.getScore());
-                    userscore.put("username", ParseUser.getCurrentUser().get("name"));
+                    userscore.put("user", ParseUser.getCurrentUser());
                     saveScoreObject(userscore);
                     TallyScore.resetScore();
                 } else {
                     // What to do if you retake quiz TODO
-
-                    parseObject.put("score", TallyScore.getScore());
-                    parseObject.saveInBackground();
-
-                    TallyScore.resetScore();
+//
 
                 }
             }
@@ -252,8 +249,6 @@ public class EditCardFragment extends ListFragment {
 
                                 FlashCard card = cardsList.get(i);
                                 card.changeMode(FlashCardEnum.EDIT_MODE, databaseObject);
-
-
                                 card.setQuestion(databaseObject.getString("question"));
 
                                 if (databaseObject.getBoolean("isTF")) {
