@@ -149,8 +149,9 @@ public class AddEditFlashCard extends FlashCardFlip {
                     if (currTab == FlashCardEnum.UNSET)
                         createAlertDialogSendingToDatabase("Answer");
                     else {
-                        TallyScore.cardFinished();
+
                         if (currMode == FlashCardEnum.ADD_MODE){
+                            TallyScore.cardFinished();
                             addValues(question, true);
 
                         }else if (currMode == FlashCardEnum.EDIT_MODE){
