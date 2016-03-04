@@ -242,6 +242,8 @@ public class EditCardFragment extends ListFragment {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             int pos = getListView().pointToPosition((int) e1.getX(), (int) e1.getY());
+            if(pos < 0)
+                return false;
             FlashCard v = (FlashCard) getListView().getAdapter().getItem(pos);
             FlashCardFlip c ;
             switch(v.getCurrMode()){
@@ -306,20 +308,26 @@ public class EditCardFragment extends ListFragment {
     class ImageAdapter extends BaseAdapter {
         private ArrayList<FlashCard> cardsList = new ArrayList<>();
 
-
         public ImageAdapter(Context c) {
 
         }
 
         public void addCard(){
             cardsList.add(0, new FlashCard(getContext(), FlashCardEnum.ADD_MODE, null));
+            TallyScore.addNewCard();
         }
-
+        public void removeIncompletes(){
+            for(int i =0 ; i < TallyScore.getIncompleteCards(); i++)
+                cardsList.remove(0);
+            TallyScore.resetCardCount();
+        }
         public void editCard(){
+
             cardsQuery(FlashCardEnum.EDIT_MODE);
         }
 
         private List<ParseObject> cardsQuery(final FlashCardEnum cardMode){
+            removeIncompletes();
             BaseFunction.showInfLoading(getActivity());
 
             final ParseObject parseObject = MainActivity.cateList.get(NavigationDrawerFragment.getCurrentSelectedPos());

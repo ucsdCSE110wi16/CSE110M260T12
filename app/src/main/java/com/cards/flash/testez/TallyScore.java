@@ -6,6 +6,7 @@ package com.cards.flash.testez;
 public final class TallyScore {
 
     public static int score = 0;
+    public static int incompleteCards = 0;
 
     public TallyScore(){};
 
@@ -13,6 +14,18 @@ public final class TallyScore {
         score = 0;
     }
 
+    public static void addNewCard(){
+        ++incompleteCards;
+    }
+    public static void resetCardCount(){
+        incompleteCards = 0;
+    }
+    public static int getIncompleteCards(){
+        return incompleteCards;
+    }
+    public static void cardFinished(){
+        --incompleteCards;
+    }
     public static void increaseScore(){
         score++;
     }
