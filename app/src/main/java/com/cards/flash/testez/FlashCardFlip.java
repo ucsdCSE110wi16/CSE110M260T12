@@ -79,87 +79,93 @@ public class FlashCardFlip extends FrameLayout{
 
         backSide.setVisibility(INVISIBLE);
 
-        setAnimations();
+       // setAnimations();
     }
 
+    public RelativeLayout getFrontSide(){
+     return frontSide;
+    }
+    public RelativeLayout getBackSide(){
+        return backSide;
+    }
     public void setParams(int width, int height){
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,height);
         lp.gravity = Gravity.CENTER;
         this.setLayoutParams(lp);
     }
 
-    private void setAnimations(){
-        GestureListener listener = new GestureListener();
-        final GestureDetector gestureDetector = new GestureDetector(context,listener);
+//    private void setAnimations(){
+//        GestureListener listener = new GestureListener();
+//        final GestureDetector gestureDetector = new GestureDetector(context,listener);
+//
+//        frontSide.setOnTouchListener(new OnTouchListener() {
+//            @Override
+//
+//            public boolean onTouch(View v, MotionEvent event) {
+//                gestureDetector.onTouchEvent(event);
+//                return true;
+//
+//            }
+//        });
+//        backSide.setOnTouchListener(new OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                gestureDetector.onTouchEvent(event);
+//                return true;
+//            }
+//        });
+//
+//    }
 
-        frontSide.setOnTouchListener(new OnTouchListener() {
-            @Override
-
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return true;
-
-            }
-        });
-        backSide.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return true;
-            }
-        });
-
-    }
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener{
-        static final int SWIPE_MIN_DISTANCE = 120;
-        static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
-                return false;
-            }
-            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
-                //right to left
-                animateTheCard(R.animator.flash_card_in_right, frontSide,backSide);
-            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
-                //left to right
-                animateTheCard(R.animator.flash_card_in_left,backSide,frontSide);
-            }
-            return super.onFling(e1, e2, velocityX, velocityY);
-
-        }
-    }
-    private void animateTheCard(int id, final View targetView,final View newView){
-        Animator left_in = AnimatorInflater.loadAnimator(context, id);
-        left_in.setTarget(targetView);
-        AnimatorSet set = new AnimatorSet();
-        set.play(left_in);
-        set.start();
-        set.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                targetView.setVisibility(INVISIBLE);
-                newView.setVisibility(VISIBLE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
+//    private class GestureListener extends GestureDetector.SimpleOnGestureListener{
+//        static final int SWIPE_MIN_DISTANCE = 120;
+//        static final int SWIPE_THRESHOLD_VELOCITY = 200;
+//
+//        @Override
+//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+//
+//            if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
+//                return false;
+//            }
+//            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
+//                //right to left
+//                animateTheCard(R.animator.flash_card_in_right, frontSide,backSide);
+//            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
+//                //left to right
+//                animateTheCard(R.animator.flash_card_in_left,backSide,frontSide);
+//            }
+//            return super.onFling(e1, e2, velocityX, velocityY);
+//
+//        }
+//    }
+//    private void animateTheCard(int id, final View targetView,final View newView){
+//        Animator left_in = AnimatorInflater.loadAnimator(context, id);
+//        left_in.setTarget(targetView);
+//        AnimatorSet set = new AnimatorSet();
+//        set.play(left_in);
+//        set.start();
+//        set.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                targetView.setVisibility(INVISIBLE);
+//                newView.setVisibility(VISIBLE);
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//
+//            }
+//        });
+//    }
 
 }

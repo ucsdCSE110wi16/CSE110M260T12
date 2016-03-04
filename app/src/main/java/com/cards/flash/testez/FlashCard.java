@@ -14,9 +14,9 @@ import java.util.Collections;
  */
 public class FlashCard extends FrameLayout{
     //only one of these classes can be instantiated; everything else will be null
-    private View addEditFlashCard;
-    private View practiceFC;
-    private View quizFC;
+    protected View addEditFlashCard;
+    protected View practiceFC;
+    protected View quizFC;
     private int currPos;
     private ArrayList<View> views;
     private ParseObject object;
@@ -61,6 +61,20 @@ public class FlashCard extends FrameLayout{
                 break;
         }
         addViewToRoot();
+    }
+    FlashCardEnum getCurrMode(){
+        return currMode;
+    }
+    View getCardType(FlashCardEnum e){
+
+        switch (e){
+            case ADD_MODE: return addEditFlashCard;
+            case PRACTICE_MODE:return practiceFC;
+            case EDIT_MODE:return addEditFlashCard;
+            case QUIZ_MODE:return quizFC;
+
+            default:return addEditFlashCard;
+        }
     }
     private void addViewToRoot(){
         this.addView(views.get(currPos));

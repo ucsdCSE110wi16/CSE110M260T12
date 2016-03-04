@@ -4,6 +4,9 @@ package com.cards.flash.testez;
  * Created by Vincent on 2/11/2016.
  */
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,8 +18,10 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -70,6 +75,9 @@ public class EditCardFragment extends ListFragment {
         if(MainActivity.cateList.size() != 0){
             imAdapter.cardsQuery(FlashCardEnum.PRACTICE_MODE);
         }
+
+
+
     }
 
 
@@ -98,6 +106,16 @@ public class EditCardFragment extends ListFragment {
             setUpButtons();
             listView = (ListView)rootView.findViewById(android.R.id.list);
 
+
+        final GestureDetector gestureDetector = new GestureDetector(new FlipDetector());
+        View.OnTouchListener gestureListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        };
+
+        listView.setOnTouchListener(gestureListener);
         return rootView;
     }
 
@@ -115,8 +133,8 @@ public class EditCardFragment extends ListFragment {
         scoresButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BaseFunction.hideKeyboard(getContext(), v);
-                if(hasTakenQuiz)
-                  updateScores();
+                if (hasTakenQuiz)
+                    updateScores();
                 Intent intent = new Intent(getContext(), ScoreBoard.class);
                 intent.putExtra("cat", MainActivity.cateList.get(NavigationDrawerFragment
                         .getCurrentSelectedPos()).getObjectId());
@@ -172,9 +190,9 @@ public class EditCardFragment extends ListFragment {
                   @Override
                   public void done(ParseException e) {
 
-                      if(e == null){
+                      if (e == null) {
                           ParseObject category = MainActivity.cateList.get(NavigationDrawerFragment.
-                          getCurrentSelectedPos());
+                                  getCurrentSelectedPos());
 
                           ParseRelation<ParseObject> relation = category.getRelation("userscores");
                           relation.add(parseObject);
@@ -182,11 +200,11 @@ public class EditCardFragment extends ListFragment {
                           category.saveInBackground(new SaveCallback() {
                               @Override
                               public void done(ParseException e) {
-                                  if(e == null){
-                                      Toast.makeText(getContext(),"Score Updated", Toast.LENGTH_SHORT)
+                                  if (e == null) {
+                                      Toast.makeText(getContext(), "Score Updated", Toast.LENGTH_SHORT)
                                               .show();
-                                  }else{
-                                      Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                                  } else {
+                                      Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                                   }
                               }
                           });
@@ -216,6 +234,74 @@ public class EditCardFragment extends ListFragment {
                 getArguments().getInt("position"));
     }
 
+    class FlipDetector extends android.view.GestureDetector.SimpleOnGestureListener{
+
+        static final int SWIPE_MIN_DISTANCE = 120;
+        static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            int pos = getListView().pointToPosition((int) e1.getX(), (int) e1.getY());
+            FlashCard v = (FlashCard) getListView().getAdapter().getItem(pos);
+            FlashCardFlip c ;
+            switch(v.getCurrMode()){
+                case ADD_MODE: c = (FlashCardFlip) v.getCardType(FlashCardEnum.ADD_MODE);
+                    break;
+                case EDIT_MODE: c = (FlashCardFlip) v.getCardType(FlashCardEnum.EDIT_MODE);
+                    break;
+                case PRACTICE_MODE:c = (FlashCardFlip) v.getCardType(FlashCardEnum.PRACTICE_MODE);
+                    break;
+                case QUIZ_MODE: c = (FlashCardFlip) v.getCardType(FlashCardEnum.QUIZ_MODE);
+                    break;
+                default:
+                    c = new FlashCardFlip(getContext());
+
+            }
+
+            if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
+                return false;
+            }
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
+                //right to left
+                animateTheCard(R.animator.flash_card_in_right, c.getFrontSide(),c.getBackSide());
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
+                //left to right
+                animateTheCard(R.animator.flash_card_in_left, c.getBackSide(), c.getFrontSide());
+            }
+            return super.onFling(e1, e2, velocityX, velocityY);
+
+        }
+
+        private void animateTheCard(int id, final View targetView,final View newView){
+            Animator left_in = AnimatorInflater.loadAnimator(getContext(), id);
+            left_in.setTarget(targetView);
+            AnimatorSet set = new AnimatorSet();
+            set.play(left_in);
+            set.start();
+            set.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    targetView.setVisibility(View.INVISIBLE);
+                    newView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        }
+    }
 
     class ImageAdapter extends BaseAdapter {
         private ArrayList<FlashCard> cardsList = new ArrayList<>();
