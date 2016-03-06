@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.cards.flash.testez.ScoreBoard">
+    tools:context="com.cards.flash.testez.ScoreBoard"
+    android:background="@android:color/transparent">
 
 
     <TextView
@@ -25,7 +26,10 @@
         android:elevation="8dp"
         android:layout_marginTop="30dp"
         android:headerDividersEnabled="false"
-        android:footerDividersEnabled="false">
+        android:footerDividersEnabled="false"
+        android:dividerHeight="5dp"
+        android:divider="@android:color/transparent"
+        android:drawSelectorOnTop="false">
 
 
     </ListView>

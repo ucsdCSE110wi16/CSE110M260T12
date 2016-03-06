@@ -102,6 +102,9 @@ public class ScoreBoard extends ActionBarActivity {
                 if (e == null ) {
                     for (final ParseObject scores : list) {
                         user = scores.getParseObject("user");
+                        try {
+                            user.fetchIfNeeded();
+                        }catch(ParseException exc){exc.printStackTrace();}
                                 scoresList.add(new AbstractMap.SimpleEntry<String, Integer>
                                         (user.getString("name"), new Integer(scores.getInt("score"))));
                                 ids.add(user.getString("id"));
