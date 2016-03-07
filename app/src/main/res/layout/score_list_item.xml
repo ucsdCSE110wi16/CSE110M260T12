@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:elevation="4dp"
-    android:background="#fbf5f5">
+    android:elevation="0dp"
+    android:background="@android:color/transparent">
 
 
     <com.facebook.login.widget.ProfilePictureView
 
-        android:layout_width="wrap_content"
+        android:layout_width="0px"
         android:layout_height="match_parent"
         android:id="@+id/profile_pic"
-        android:layout_weight="1" />
+        android:layout_weight=".5"
+        android:background="@android:color/transparent"
+        android:elevation="2dp" />
 
     <TextView
         android:id="@+id/score_name"
@@ -23,7 +25,11 @@
         android:textColor="#000000"
         android:textSize="15dp"
         android:textIsSelectable="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp" />
 
     <TextView
         android:id="@+id/score_value"
@@ -34,6 +40,12 @@
         android:textColor="#000000"
         android:textSize="15dp"
         android:textIsSelectable="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:editable="false"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp" />
 
 </LinearLayout>

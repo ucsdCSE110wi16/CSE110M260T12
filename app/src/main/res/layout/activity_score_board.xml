@@ -29,7 +29,8 @@
         android:footerDividersEnabled="false"
         android:dividerHeight="5dp"
         android:divider="@android:color/transparent"
-        android:drawSelectorOnTop="false">
+        android:drawSelectorOnTop="false"
+        android:background="@android:color/transparent">
 
 
     </ListView>
