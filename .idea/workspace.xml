@@ -13,7 +13,8 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="System.out" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -22,8 +23,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_score_board.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_score_board.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/score_list_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/score_list_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CSE110M260T12.iws" />
@@ -70,12 +71,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditCardFragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EditCardFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8859416">
-              <caret line="351" column="98" selection-start-line="351" selection-start-column="98" selection-end-line="351" selection-end-column="98" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="186" column="24" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
+              <folding>
+                <element signature="e#4357#4914#0" expanded="true" />
+                <element signature="e#4913#4914#0" expanded="true" />
+                <element signature="e#4955#5149#0" expanded="true" />
+                <element signature="e#5148#5149#0" expanded="true" />
+                <element signature="e#5195#5356#0" expanded="true" />
+                <element signature="e#5355#5356#0" expanded="true" />
+                <element signature="e#5870#7308#0" expanded="true" />
+                <element signature="e#7307#7308#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -109,15 +119,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="72" column="51" selection-start-line="72" selection-start-column="51" selection-end-line="72" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2148#2149#0" expanded="false" />
-                <element signature="e#2179#2180#0" expanded="false" />
-                <element signature="e#2531#2532#0" expanded="false" />
-                <element signature="e#2579#2580#0" expanded="false" />
-                <element signature="e#3522#3523#0" expanded="false" />
-                <element signature="e#3588#3589#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -154,21 +156,28 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="160" column="92" selection-start-line="160" selection-start-column="92" selection-end-line="160" selection-end-column="92" />
-              <folding />
+              <folding>
+                <element signature="e#5896#6518#0" expanded="true" />
+                <element signature="e#6517#6518#0" expanded="true" />
+                <element signature="e#13288#14868#0" expanded="true" />
+                <element signature="e#13872#14450#0" expanded="true" />
+                <element signature="e#14449#14450#0" expanded="true" />
+                <element signature="e#14867#14868#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScoreBoard.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ScoreBoard.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="106" column="74" selection-start-line="106" selection-start-column="74" selection-end-line="106" selection-end-column="74" />
+            <state vertical-scroll-proportion="-0.8116711">
+              <caret line="113" column="56" selection-start-line="113" selection-start-column="56" selection-end-line="113" selection-end-column="56" />
               <folding>
                 <element signature="e#2265#2716#0" expanded="true" />
                 <element signature="e#2715#2716#0" expanded="true" />
-                <element signature="e#3142#4113#0" expanded="true" />
-                <element signature="e#4112#4113#0" expanded="true" />
+                <element signature="e#3142#4123#0" expanded="true" />
+                <element signature="e#4122#4123#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1825,11 +1834,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCardFlip.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/TallyScore.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_score_board.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/score_list_item.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java" />
       </list>
     </option>
   </component>
@@ -2218,7 +2227,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3263158" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3847185" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21715818" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24026696" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -2667,6 +2676,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="48" column="39" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2774,30 +2784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="51" selection-start-line="72" selection-start-column="51" selection-end-line="72" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2148#2149#0" expanded="false" />
-            <element signature="e#2179#2180#0" expanded="false" />
-            <element signature="e#2531#2532#0" expanded="false" />
-            <element signature="e#2579#2580#0" expanded="false" />
-            <element signature="e#3522#3523#0" expanded="false" />
-            <element signature="e#3588#3589#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="160" column="92" selection-start-line="160" selection-start-column="92" selection-end-line="160" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_score_board.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -2820,24 +2806,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/AddEditFlashCard.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="106" column="74" selection-start-line="106" selection-start-column="74" selection-end-line="106" selection-end-column="74" />
+          <caret line="160" column="92" selection-start-line="160" selection-start-column="92" selection-end-line="160" selection-end-column="92" />
           <folding>
-            <element signature="e#2265#2716#0" expanded="true" />
-            <element signature="e#2715#2716#0" expanded="true" />
-            <element signature="e#3142#4113#0" expanded="true" />
-            <element signature="e#4112#4113#0" expanded="true" />
+            <element signature="e#5896#6518#0" expanded="true" />
+            <element signature="e#6517#6518#0" expanded="true" />
+            <element signature="e#13288#14868#0" expanded="true" />
+            <element signature="e#13872#14450#0" expanded="true" />
+            <element signature="e#14449#14450#0" expanded="true" />
+            <element signature="e#14867#14868#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/EditCardFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8859416">
-          <caret line="351" column="98" selection-start-line="351" selection-start-column="98" selection-end-line="351" selection-end-column="98" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="186" column="24" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
+          <folding>
+            <element signature="e#4357#4914#0" expanded="true" />
+            <element signature="e#4913#4914#0" expanded="true" />
+            <element signature="e#4955#5149#0" expanded="true" />
+            <element signature="e#5148#5149#0" expanded="true" />
+            <element signature="e#5195#5356#0" expanded="true" />
+            <element signature="e#5355#5356#0" expanded="true" />
+            <element signature="e#5870#7308#0" expanded="true" />
+            <element signature="e#7307#7308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/FlashCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="51" selection-start-line="72" selection-start-column="51" selection-end-line="72" selection-end-column="51" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/cards/flash/testez/ScoreBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.8116711">
+          <caret line="113" column="56" selection-start-line="113" selection-start-column="56" selection-end-line="113" selection-end-column="56" />
+          <folding>
+            <element signature="e#2265#2716#0" expanded="true" />
+            <element signature="e#2715#2716#0" expanded="true" />
+            <element signature="e#3142#4123#0" expanded="true" />
+            <element signature="e#4122#4123#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -109,9 +109,11 @@ public class ScoreBoard extends ActionBarActivity {
                                         (user.getString("name"), new Integer(scores.getInt("score"))));
                                 ids.add(user.getString("id"));
                     }
+
+                    scoreAdapter.addScoreList(scoresList, ids);
+                    scoreAdapter.notifyDataSetChanged();
                 }
-                scoreAdapter.addScoreList(scoresList, ids);
-                scoreAdapter.notifyDataSetChanged();
+
                 System.out.println("done retrieving scores");
             }
         });

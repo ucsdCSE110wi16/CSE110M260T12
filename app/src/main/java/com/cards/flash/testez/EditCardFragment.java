@@ -133,8 +133,10 @@ public class EditCardFragment extends ListFragment {
         scoresButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BaseFunction.hideKeyboard(getContext(), v);
-                if (hasTakenQuiz)
+                if (hasTakenQuiz) {
+                    hasTakenQuiz = false;
                     updateScores();
+                }
                 Intent intent = new Intent(getContext(), ScoreBoard.class);
                 intent.putExtra("cat", MainActivity.cateList.get(NavigationDrawerFragment
                         .getCurrentSelectedPos()).getObjectId());
@@ -174,12 +176,23 @@ public class EditCardFragment extends ListFragment {
                     ParseObject userscore = new ParseObject("Scores");
                     userscore.put("score", TallyScore.getScore());
                     userscore.put("user", ParseUser.getCurrentUser());
+                    userscore.put("attempts", 0);
                     saveScoreObject(userscore);
                     TallyScore.resetScore();
                 } else {
-                    // What to do if you retake quiz TODO
-//
-
+                     //What to do if you retake quiz TODO
+                    try {
+                        parseObject.fetchIfNeeded();
+                        if(parseObject.getInt("score") < TallyScore.getScore()) {
+                            parseObject.put("score", TallyScore.getScore());
+                            System.out.println("new attemptscore");
+                            Toast.makeText(getContext(), "Score Updated", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                        parseObject.put("attempts", parseObject.getInt("attempts") + 1);
+                        parseObject.saveInBackground();
+                        TallyScore.resetScore();
+                    }catch(ParseException exc){exc.printStackTrace();}
                 }
             }
         });
