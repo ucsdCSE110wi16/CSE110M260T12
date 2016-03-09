@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 
 
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,16 +71,16 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("DD", "here");
         setContentView(R.layout.main_activity);
+        Log.d("DD", "here1");
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2a4989")));
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         mDrawlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2a4989")));
-
 
 
         // Set up the drawer.
@@ -122,15 +123,14 @@ public class MainActivity extends ActionBarActivity
             currFrag = null;
         }
         fragments = new ArrayList<>();
-        for (int i = 0; i < categories.size(); i++){
-            fragments.add(null);
-        }
+        if (categories != null)
+            for (int i = 0; i < categories.size(); i++){
+                fragments.add(null);
+            }
     }
     public static void removeFragment(int pos){
         if (fragments != null){
-            System.out.println("hd1");
             if (currFrag ==  fragments.get(pos)){
-                System.out.println("hd2");
                 fragmentManager.beginTransaction().remove(fragmentManager.
                         findFragmentById(R.id.container)).commit();
                 currFrag = null;
@@ -215,6 +215,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction tf = fragmentManager.beginTransaction();
@@ -223,6 +224,7 @@ public class MainActivity extends ActionBarActivity
             tf.hide(currFrag);
         }
 
+        System.out.println(position);
         EditCardFragment frag = fragments.get(position);
 
 

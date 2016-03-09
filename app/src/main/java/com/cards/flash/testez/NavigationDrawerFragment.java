@@ -106,6 +106,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d("DD", "in navi");
         MainActivity.categories = new ArrayList<>();
         MainActivity.cateList = new ArrayList<>();
         this.setRetainInstance(true);
