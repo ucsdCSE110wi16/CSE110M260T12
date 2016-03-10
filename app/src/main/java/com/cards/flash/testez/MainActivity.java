@@ -63,6 +63,8 @@ public class MainActivity extends ActionBarActivity
 
     private DrawerLayout mDrawlayout;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private static ActionBar bar;
     /**
      * Used to store the added categories from the "Add Category" button
      */
@@ -74,7 +76,7 @@ public class MainActivity extends ActionBarActivity
         Log.d("DD", "here");
         setContentView(R.layout.main_activity);
         Log.d("DD", "here1");
-        ActionBar bar = getSupportActionBar();
+        bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2a4989")));
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -264,6 +266,9 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+    }
+    public static ActionBar getMainActionBar(){
+        return bar;
     }
 
 }

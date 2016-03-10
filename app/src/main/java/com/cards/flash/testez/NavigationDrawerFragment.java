@@ -501,7 +501,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         mCurrentSelectedPosition = position;
         if (MainActivity.categories.size() != 0)
-            getActionBar().setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
+            MainActivity.getMainActionBar().setTitle(arrayAdapter.getItem(mCurrentSelectedPosition));
         else
             getActionBar().setTitle("TestEZ");
 
@@ -604,8 +604,9 @@ public class NavigationDrawerFragment extends Fragment {
         actionBar.setTitle(R.string.app_name);
     }
 
-    private ActionBar getActionBar() {
+    public ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
+
     }
     public class CustomComparator implements Comparator<ParseObject> {
         @Override
