@@ -1,26 +1,13 @@
 package com.cards.flash.testez;
 
-import android.app.Application;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingPolicies;
+
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.contrib.CountingIdlingResource;
-import android.support.test.espresso.contrib.DrawerActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.widget.DrawerLayout;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.ActivityTestCase;
-import android.test.ApplicationTestCase;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.view.ViewManager;
-import android.widget.Button;
+import android.widget.ListView;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -30,7 +17,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 import static android.support.test.espresso.contrib.DrawerActions.closeDrawer;
 import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
-import static com.cards.flash.testez.CustomMatchers.withResourceName;
 
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.allOf;
@@ -66,6 +52,7 @@ import java.util.regex.Matcher;
 public class EspressoTest {
 
     private String testCategoryName;
+    private String personToInvite;
     private int waitTime = 2;
 
     @Rule
@@ -74,35 +61,110 @@ public class EspressoTest {
     @Before
     public void initObjects(){
         testCategoryName = "Espresso";
-        //IdlingPolicies.setMasterPolicyTimeout(waitTime * 2, TimeUnit.SECONDS);
-        //IdlingPolicies.setIdlingResourceTimeout(waitTime * 2, TimeUnit.SECONDS);
+        personToInvite = "Airrick Train";
     }
 
     @Test
-    public void newCategoryCanBeAdded() {
+    public void categoryCanBeAdded() {
         openDrawer(R.id.drawer_layout);
         onView(withId(R.id.cateButton)).perform(click());
         onView(withClassName(endsWith("EditText"))).perform(typeText(testCategoryName), ViewActions.closeSoftKeyboard());
-        //onView(withClassName(endsWith("EditText"))).check(matches(isDisplayed()));
         onView(withText("Add")).perform(click());
 
-        //IdlingResource idlingResource = new ElapsedTimeIdlingResource(waitTime);
-        //registerIdlingResources(idlingResource);
+        long time = TimeUnit.SECONDS.toMillis(waitTime);
 
-        //onView(allOf(isDescendantOfA(withId(R.id.action_bar_container)), withText(testCategoryName))).check(matches(isDisplayed()));
-        //onView(withText(testCategoryName)).check(matches(isDisplayed()));
-        //unregisterIdlingResources(idlingResource);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(time);
+        registerIdlingResources(idlingResource);
+
+        onView(allOf(isDescendantOfA(withId(R.id.swiperefresh)), is(instanceOf(ListView.class)))).
+                check(matches(hasDescendant(withText(testCategoryName))));
+
+        unregisterIdlingResources(idlingResource);
     }
     @Test
-    public void navigationDrawerOpens(){
+    public void categoryNavigationDrawerOpens(){
         openDrawer(R.id.drawer_layout);
         onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
+        closeDrawer(R.id.drawer_layout);
     }
 
-    /*@Test
-    public void cardsAreAddedInEachCategory(){
-        //onView(withId(R.id.action_addbutton)).perform(click());
-    }*/
+    @Test
+    public void categoryNavigationFlashCardsAreAddedInEachCategory(){
 
+        //make sure we are in the right category
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        registerIdlingResources(idlingRes);
+
+        openDrawer(R.id.drawer_layout);
+        onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
+                withText(testCategoryName))).perform(click());
+
+        unregisterIdlingResources(idlingRes);
+
+        IdlingResource idlingResource = new DialogIdlingResource(BaseFunction.infinityLayout);
+        registerIdlingResources(idlingResource);
+
+        onView(withId(R.id.action_addbutton)).perform(click());
+        onView(allOf(withId(android.R.id.list), isDescendantOfA(withId(R.id.mainRelLayout)),
+                withChild(allOf(withClassName(endsWith("FlashCard")),
+                        hasDescendant(withClassName(endsWith("AddEditFlashCard")))))))
+                .check(matches(ListMatcher.withListSize(1)));
+
+        unregisterIdlingResources(idlingResource);
+    }
+
+    @Test
+    public void inviteAnotherMember(){
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        registerIdlingResources(idlingRes);
+
+        openDrawer(R.id.drawer_layout);
+        onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
+                withText(testCategoryName))).perform(click());
+
+        unregisterIdlingResources(idlingRes);
+        IdlingResource idlingResource1 = new DialogIdlingResource(BaseFunction.infinityLayout);
+        registerIdlingResources(idlingResource1);
+
+        onView(allOf(withId(R.id.invite_button), withTagValue(InviteMatcher.withStringMatching(testCategoryName))))
+                .perform(click());
+
+        unregisterIdlingResources(idlingResource1);
+
+        onView(withId(R.id.search_text)).perform(typeText(personToInvite), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.share_button)).perform(click());
+
+        IdlingResource idlingResource2 = new DialogIdlingResource(BaseFunction.infinityLayout);
+        registerIdlingResources(idlingResource2);
+
+        IdlingResource idlingRes2 = new ElapsedTimeIdlingResource(500);
+        registerIdlingResources(idlingRes2);
+
+        onView(allOf(withId(R.id.share_button), withTagValue(InviteMatcher.withStringMatching(personToInvite)))).
+                        check(matches(InviteMatcher.withDrawable(R.drawable.ic_unshare)));
+        unregisterIdlingResources(idlingResource2);
+
+        unregisterIdlingResources(idlingRes2);
+        Espresso.pressBack();
+    }
+
+    @Test
+    public void removeCategory(){
+        openDrawer(R.id.drawer_layout);
+        onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
+                withText(testCategoryName))).perform(longClick());
+        onView(withText(equalToIgnoringCase("YES"))).perform(click());
+
+        IdlingResource idlingResource = new DialogIdlingResource(BaseFunction.infinityLayout);
+        registerIdlingResources(idlingResource);
+
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        registerIdlingResources(idlingRes);
+        onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
+                withText(testCategoryName))).check(doesNotExist());
+
+        unregisterIdlingResources(idlingRes);
+        unregisterIdlingResources(idlingResource);
+    }
 
 }

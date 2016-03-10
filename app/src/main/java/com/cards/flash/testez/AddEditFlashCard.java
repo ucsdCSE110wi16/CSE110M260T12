@@ -151,7 +151,7 @@ public class AddEditFlashCard extends FlashCardFlip {
                     else {
 
                         if (currMode == FlashCardEnum.ADD_MODE){
-                            TallyScore.cardFinished();
+                            EditCardFragment.tallyScore.cardFinished();
                             addValues(question, true);
 
                         }else if (currMode == FlashCardEnum.EDIT_MODE){

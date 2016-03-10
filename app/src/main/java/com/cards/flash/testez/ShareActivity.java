@@ -200,13 +200,15 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
                             } else {
                                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                             }
+                            BaseFunction.destroyInfLoading(getApplicationContext());
                         }
                     });
 
                 } else {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    BaseFunction.destroyInfLoading(getApplicationContext());
                 }
-                BaseFunction.destroyInfLoading(getApplicationContext());
+
             }
         });
     }
@@ -244,12 +246,14 @@ public class ShareActivity extends ActionBarActivity implements ShareAdapter.OnS
                             } else {
                                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                             }
+                            BaseFunction.destroyInfLoading(getApplicationContext());
                         }
                     });
                 } else {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    BaseFunction.destroyInfLoading(getApplicationContext());
                 }
-                BaseFunction.destroyInfLoading(getApplicationContext());
+
             }
         });
     }

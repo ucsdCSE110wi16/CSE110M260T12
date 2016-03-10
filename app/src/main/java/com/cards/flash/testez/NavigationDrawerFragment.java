@@ -166,10 +166,10 @@ public class NavigationDrawerFragment extends Fragment {
                     ParseRelation<ParseUser> rel = object.getRelation("users");
                     try {
                         List<ParseUser> parseUsers = rel.getQuery().find();
-                        if (parseUsers.size() == 1){
+                        if (parseUsers.size() == 1) {
                             object.deleteInBackground();
-                            deleteCategory(0);
-                        }else{
+                            deleteCategory(position);
+                        } else {
                             rel.remove(ParseUser.getCurrentUser());
 
                             object.saveInBackground(new SaveCallback() {
@@ -201,7 +201,7 @@ public class NavigationDrawerFragment extends Fragment {
                                 }
                             });
                         }
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
 
                     }
 
@@ -227,6 +227,7 @@ public class NavigationDrawerFragment extends Fragment {
     private void deleteCategory(int position){
         MainActivity.cateList.remove(position);
         MainActivity.categories.remove(position);
+
         arrayAdapter.notifyDataSetChanged();
         MainActivity.removeFragment(position);
         if (MainActivity.getCurrFrag() == null) {
@@ -314,55 +315,59 @@ public class NavigationDrawerFragment extends Fragment {
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                final String categoryName = input.getText().toString();
+                final String categoryName = input.getText().toString().trim();
 
+                if (categoryName.equals(""))
+                    Toast.makeText(getContext(), "You must enter a name", Toast.LENGTH_SHORT).show();
+                else{
+                    final ParseObject newCategory = new ParseObject("Categories");
+                    newCategory.put("name", categoryName);
+                    ParseRelation<ParseObject> rel = newCategory.getRelation("users");
+                    rel.add(ParseUser.getCurrentUser());
+                    newCategory.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
+                                query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                    @Override
+                                    public void done(final ParseObject parseObject, ParseException e) {
+                                        if (e == null) {
+                                            ParseRelation<ParseObject> relation = parseObject.getRelation("category");
+                                            relation.add(newCategory);
+                                            parseObject.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null) {
+                                                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    } else {
 
-                final ParseObject newCategory = new ParseObject("Categories");
-                newCategory.put("name", categoryName);
-                ParseRelation<ParseObject> rel = newCategory.getRelation("users");
-                rel.add(ParseUser.getCurrentUser());
-                newCategory.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("UserToCategory");
-                            query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
-                            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                                @Override
-                                public void done(final ParseObject parseObject, ParseException e) {
-                                    if (e == null) {
-                                        ParseRelation<ParseObject> relation = parseObject.getRelation("category");
-                                        relation.add(newCategory);
-                                        parseObject.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e != null) {
-                                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                                } else {
+                                                        Toast.makeText(getContext(), "Category Added!",
+                                                                Toast.LENGTH_SHORT).show();
+                                                        MainActivity.categories.add(categoryName);
+                                                        MainActivity.cateList.add(newCategory);
+                                                        Collections.sort(MainActivity.categories);
+                                                        Collections.sort(MainActivity.cateList, new CustomComparator());
 
-                                                    Toast.makeText(getActivity(), "Category Added!",
-                                                            Toast.LENGTH_SHORT).show();
-                                                    MainActivity.categories.add(categoryName);
-                                                    MainActivity.cateList.add(newCategory);
-                                                    Collections.sort(MainActivity.categories);
-                                                    Collections.sort(MainActivity.cateList, new CustomComparator());
+                                                        int pos = MainActivity.categories.indexOf(categoryName);
+                                                        arrayAdapter.notifyDataSetChanged();
+                                                        MainActivity.initFragmentList();
+                                                        selectItem(pos);
 
-                                                    int pos = MainActivity.categories.indexOf(categoryName);
-                                                    arrayAdapter.notifyDataSetChanged();
-                                                    MainActivity.initFragmentList();
-                                                    selectItem(pos);
-
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                });
+                            } else {
+                                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
 
         });

@@ -152,7 +152,7 @@ public class TrueFalse extends LinearLayout{
                     if (buttonStr.equals(tf_answer.toLowerCase())) {
                         //correct answer TODO
                         if(answerChoosen == false) {
-                            TallyScore.increaseScore();
+                            EditCardFragment.tallyScore.increaseScore();
                             answerChoosen = true;
                         }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.checkmark, tf_layout);

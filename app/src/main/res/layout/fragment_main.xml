@@ -4,7 +4,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context="com.cards.flash.testez.MainActivity$EditCardFragment"
-    android:background="#d9d8d8">
+    android:background="#d9d8d8"
+    android:id="@+id/mainRelLayout">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -69,7 +70,7 @@
         android:textSize="28dp"
         android:typeface="sans" />
     <ListView
-        android:id="@id/android:list"
+        android:id="@+id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="afterDescendants"

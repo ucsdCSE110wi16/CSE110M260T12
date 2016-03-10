@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#59aded">
+	android:background="#59aded"
+	android:id="@+id/drawerLinearLayout">
 
 	<Button
 		android:layout_width="match_parent"
@@ -20,14 +21,14 @@
         android:focusable="false"
         android:descendantFocusability="blocksDescendants">
 
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:choiceMode="singleChoice"
-	android:divider="@android:color/transparent"
-	android:dividerHeight="0dp"
-	android:id="@android:id/list" />
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:choiceMode="singleChoice"
+			android:divider="@android:color/transparent"
+			android:dividerHeight="0dp"
+			android:id="@android:id/list" />
 
 </android.support.v4.widget.SwipeRefreshLayout>
 

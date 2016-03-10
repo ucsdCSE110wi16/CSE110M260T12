@@ -78,7 +78,7 @@ public class MultipleChoice extends LinearLayout{
                         //correct answer TODO
                         if(answerChoosen == false) {
                             System.out.println("correct add to score");
-                            TallyScore.increaseScore();
+                            EditCardFragment.tallyScore.increaseScore();
                             answerChoosen = true;
                         }
                         BaseFunction.showCorrWrongIndicators(context, R.drawable.checkmark,

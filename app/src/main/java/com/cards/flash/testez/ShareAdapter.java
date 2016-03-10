@@ -36,6 +36,7 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
         viewHolder.name.setText(user.getString("name"));
 
         ParseUser userInVariableList = getItem(position);
+        viewHolder.shareButton.setTag(user.getString("name"));
         if (ShareActivity.getBaseUserList().contains(userInVariableList)){
             viewHolder.shareButton.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_unshare));
             viewHolder.shareButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +54,7 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
                 }
             });
         }
+
         return convertView;
     }
     public void updateData(List<ParseUser> data){
@@ -80,6 +82,7 @@ public class ShareAdapter extends ArrayAdapter<ParseUser> {
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
             shareButton = (ImageView) view.findViewById(R.id.share_button);
+
         }
     }
 

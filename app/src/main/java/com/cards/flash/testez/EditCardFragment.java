@@ -56,7 +56,7 @@ public class EditCardFragment extends ListFragment {
     private ListView listView;
     private Button quizButton, practiceButton, inviteButton, scoresButton;
     static boolean hasTakenQuiz = false;
-
+    public static TallyScore tallyScore;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -67,7 +67,7 @@ public class EditCardFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRetainInstance(true);
-
+        tallyScore = new TallyScore();
         imAdapter = new ImageAdapter(getActivity());
         this.setListAdapter(imAdapter);
 
@@ -101,6 +101,8 @@ public class EditCardFragment extends ListFragment {
             quizButton = (Button) rootView.findViewById(R.id.quiz_button);
             practiceButton = (Button) rootView.findViewById(R.id.practice_button);
             inviteButton = (Button) rootView.findViewById(R.id.invite_button);
+            String cateName = MainActivity.categories.get(NavigationDrawerFragment.getCurrentSelectedPos());
+            inviteButton.setTag(cateName);
             scoresButton = (Button) rootView.findViewById(R.id.scores_button);
 
             setUpButtons();
@@ -174,24 +176,24 @@ public class EditCardFragment extends ListFragment {
                 if (parseObject == null) {
                     System.out.println("null score");
                     ParseObject userscore = new ParseObject("Scores");
-                    userscore.put("score", TallyScore.getScore());
+                    userscore.put("score", tallyScore.getScore());
                     userscore.put("user", ParseUser.getCurrentUser());
                     userscore.put("attempts", 0);
                     saveScoreObject(userscore);
-                    TallyScore.resetScore();
+                    tallyScore.resetScore();
                 } else {
-                     //What to do if you retake quiz TODO
+                     //What to do if you retake quiz
                     try {
                         parseObject.fetchIfNeeded();
-                        if(parseObject.getInt("score") < TallyScore.getScore()) {
-                            parseObject.put("score", TallyScore.getScore());
+                        if(parseObject.getInt("score") < tallyScore.getScore()) {
+                            parseObject.put("score", tallyScore.getScore());
                             System.out.println("new attemptscore");
                             Toast.makeText(getContext(), "Score Updated", Toast.LENGTH_SHORT)
                                     .show();
                         }
                         parseObject.put("attempts", parseObject.getInt("attempts") + 1);
                         parseObject.saveInBackground();
-                        TallyScore.resetScore();
+                        tallyScore.resetScore();
                     }catch(ParseException exc){exc.printStackTrace();}
                 }
             }
@@ -327,15 +329,19 @@ public class EditCardFragment extends ListFragment {
 
         public void addCard(){
             cardsList.add(0, new FlashCard(getContext(), FlashCardEnum.ADD_MODE, null));
-            TallyScore.addNewCard();
+            tallyScore.addNewCard();
         }
-        public void removeIncompletes(){
-            for(int i =0 ; i < TallyScore.getIncompleteCards(); i++)
-                cardsList.remove(0);
-            TallyScore.resetCardCount();
-        }
-        public void editCard(){
 
+        public void removeIncompletes(){
+            System.out.println("BEINGS");
+            System.out.println(cardsList);
+            System.out.println(tallyScore.getIncompleteCards());
+            for(int i =0 ; i < tallyScore.getIncompleteCards(); i++)
+                cardsList.remove(0);
+            tallyScore.resetCardCount();
+        }
+
+        public void editCard(){
             cardsQuery(FlashCardEnum.EDIT_MODE);
         }
 

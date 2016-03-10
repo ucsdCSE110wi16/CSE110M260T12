@@ -27,7 +27,7 @@ import android.widget.RelativeLayout;
  */
 public final class BaseFunction {
 
-    private static FrameLayout infinityLayout;
+    public static FrameLayout infinityLayout;
     public static int LISTVIEWMARGIN = 8;
 
     public static void hideKeyboard(Context context, View tempET){
