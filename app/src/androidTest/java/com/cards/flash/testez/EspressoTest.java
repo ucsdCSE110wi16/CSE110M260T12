@@ -53,7 +53,7 @@ public class EspressoTest {
 
     private String testCategoryName;
     private String personToInvite;
-    private int waitTime = 2;
+    private int waitTime = 5;
 
     @Rule
     public final ActivityTestRule<MainActivity> main = new ActivityTestRule<>(MainActivity.class);
@@ -73,13 +73,14 @@ public class EspressoTest {
 
         long time = TimeUnit.SECONDS.toMillis(waitTime);
 
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(time);
-        registerIdlingResources(idlingResource);
+
+        IdlingResource idlingResource2 = new ElapsedTimeIdlingResource(time);
+        registerIdlingResources(idlingResource2);
 
         onView(allOf(isDescendantOfA(withId(R.id.swiperefresh)), is(instanceOf(ListView.class)))).
                 check(matches(hasDescendant(withText(testCategoryName))));
 
-        unregisterIdlingResources(idlingResource);
+        unregisterIdlingResources(idlingResource2);
     }
     @Test
     public void categoryNavigationDrawerOpens(){
@@ -92,10 +93,15 @@ public class EspressoTest {
     public void categoryNavigationFlashCardsAreAddedInEachCategory(){
 
         //make sure we are in the right category
-        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(4000);
         registerIdlingResources(idlingRes);
 
         openDrawer(R.id.drawer_layout);
+
+        try{
+            Thread.sleep(8000);
+        }catch (InterruptedException e){}
+
         onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
                 withText(testCategoryName))).perform(click());
 
@@ -115,10 +121,14 @@ public class EspressoTest {
 
     @Test
     public void inviteAnotherMember(){
-        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(4000);
         registerIdlingResources(idlingRes);
 
         openDrawer(R.id.drawer_layout);
+        try{
+            Thread.sleep(6000);
+        }catch (InterruptedException e){}
+
         onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
                 withText(testCategoryName))).perform(click());
 
@@ -137,7 +147,7 @@ public class EspressoTest {
         IdlingResource idlingResource2 = new DialogIdlingResource(BaseFunction.infinityLayout);
         registerIdlingResources(idlingResource2);
 
-        IdlingResource idlingRes2 = new ElapsedTimeIdlingResource(500);
+        IdlingResource idlingRes2 = new ElapsedTimeIdlingResource(4000);
         registerIdlingResources(idlingRes2);
 
         onView(allOf(withId(R.id.share_button), withTagValue(InviteMatcher.withStringMatching(personToInvite)))).
@@ -151,6 +161,10 @@ public class EspressoTest {
     @Test
     public void removeCategory(){
         openDrawer(R.id.drawer_layout);
+        try{
+            Thread.sleep(6000);
+        }catch (InterruptedException e){}
+
         onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
                 withText(testCategoryName))).perform(longClick());
         onView(withText(equalToIgnoringCase("YES"))).perform(click());
@@ -158,7 +172,7 @@ public class EspressoTest {
         IdlingResource idlingResource = new DialogIdlingResource(BaseFunction.infinityLayout);
         registerIdlingResources(idlingResource);
 
-        IdlingResource idlingRes = new ElapsedTimeIdlingResource(500);
+        IdlingResource idlingRes = new ElapsedTimeIdlingResource(4000);
         registerIdlingResources(idlingRes);
         onView(allOf(isDescendantOfA(withId(android.R.id.list)), not(is(instanceOf(FlashCard.class))),
                 withText(testCategoryName))).check(doesNotExist());

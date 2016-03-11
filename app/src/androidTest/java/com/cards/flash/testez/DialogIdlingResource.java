@@ -21,7 +21,7 @@ public class DialogIdlingResource implements IdlingResource {
 
     @Override
     public boolean isIdleNow() {
-        boolean idle = (!frameLayout.isShown());
+        boolean idle = frameLayout == null || (!frameLayout.isShown());
         if (idle) {
             resourceCallback.onTransitionToIdle();
         }
